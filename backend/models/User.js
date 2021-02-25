@@ -28,8 +28,6 @@ const userSchema = new mongoose.Schema({
       primary: {
         type: Boolean,
         required: true,
-        min: 6,
-        max: 255,
       },
       type: {
         type: String,
