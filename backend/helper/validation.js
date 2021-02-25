@@ -13,6 +13,8 @@ const registerValidation = (data) => {
     email: Joi.string().min(6).required().email(),
     streetAddress: Joi.string().required(),
     locality: Joi.string().required(),
+    region: Joi.string(),
+    postalCode: Joi.string(),
     country: Joi.string().required(),
   });
 
