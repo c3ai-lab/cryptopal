@@ -1,10 +1,8 @@
 const express = require('express');
+const authorization = require('../controllers/authorization');
 
 const router = express.Router();
 
-router.post('/testRouting', (req, res) => {
-  console.log(req.body);
-  res.send('Routing works');
-});
+router.post('/register', authorization.register);
 
 module.exports = router;
