@@ -4,6 +4,9 @@ require('dotenv/config');
 
 const app = express();
 
+// use routes
+app.use('/authorization', require('./routes/authorization'));
+
 // connect to DB
 mongoose.connect(
   process.env.DB_CONNECTION,
