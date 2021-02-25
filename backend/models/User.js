@@ -3,17 +3,18 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
     min: 6,
     max: 255,
   },
   givenName: {
     type: String,
-    min: 6,
+    required: true,
     max: 255,
   },
   familyName: {
     type: String,
-    min: 6,
+    required: true,
     max: 255,
   },
   email: [
@@ -41,11 +42,13 @@ const userSchema = new mongoose.Schema({
   address: {
     streetAddress: {
       type: String,
+      required: true,
       min: 6,
       max: 255,
     },
     locality: {
       type: String,
+      required: true,
       min: 6,
       max: 255,
     },
@@ -61,6 +64,7 @@ const userSchema = new mongoose.Schema({
     },
     country: {
       type: String,
+      required: true,
       min: 6,
       max: 255,
     },
