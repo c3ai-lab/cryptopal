@@ -5,12 +5,6 @@ import {
 } from "reactstrap"
 import * as Icon from "react-feather"
 import { connect } from "react-redux"
-import {
-  loadSuggestions,
-  updateStarred
-} from "../../../redux/actions/navbar/Index"
-
-
 
 class NavbarBurgermenu extends React.PureComponent {
 
