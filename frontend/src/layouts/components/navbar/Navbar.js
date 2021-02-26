@@ -1,6 +1,7 @@
 import React from "react"
 import { Navbar } from "reactstrap"
 import classnames from "classnames"
+import NavbarBookmarks from "./NavbarBurgermenu"
 import NavbarUser from "./NavbarUser"
 import userImg from "../../../assets/img/portrait/small/avatar-s-11.jpg"
 
@@ -44,10 +45,15 @@ const ThemeNavbar = props => {
         <div className="navbar-wrapper">
           <div className="navbar-container content">
             <div
-              className="navbar-collapse justify-content-between align-items-center"
+              className="navbar-collapse d-flex justify-content-between align-items-center"
               id="navbar-mobile"
             >
-              <div className="bookmark-wrapper"/>
+              <div className="bookmark-wrapper">
+                <NavbarBookmarks
+                  sidebarVisibility={props.sidebarVisibility}
+                  handleAppOverlay={props.handleAppOverlay}
+                />
+              </div>
               {props.horizontal ? (
                 <div className="logo d-flex align-items-center">
                   <div className="brand-logo mr-50"></div>
@@ -57,7 +63,7 @@ const ThemeNavbar = props => {
               <NavbarUser
                 handleAppOverlay={props.handleAppOverlay}
                 changeCurrentLang={props.changeCurrentLang}
-                userName="Lars Raschke"
+                userName="John Doe"
                 userImg={ userImg }
               />
             </div>
