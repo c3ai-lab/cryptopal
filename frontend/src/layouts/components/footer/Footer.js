@@ -1,7 +1,7 @@
 import React from "react"
 import ScrollToTop from "react-scroll-up"
 import { Button } from "reactstrap"
-import { Heart, ArrowUp } from "react-feather"
+import { ArrowUp } from "react-feather"
 import classnames from "classnames"
 
 const Footer = props => {
@@ -13,11 +13,17 @@ const Footer = props => {
         "d-none": props.footerType === "hidden"
       })}
     >
-      <p className="mb-0 clearfix">
+      <p className="mb-0 clearfix text-center">
         
-        <span className="float-md-right d-none d-md-block">
-          <span className="align-middle">Hand-crafted & Made with</span>{" "}
-          <Heart className="text-danger" size={15} />
+      <span className="d-block d-md-inline-block mt-25">
+          COPYRIGHT © 2021
+          <a
+            href="/"
+            rel="noopener noreferrer"
+          >
+            CryptoPal,
+          </a>
+          All rights reserved
         </span>
       </p>
       {props.hideScrollToTop === false ? (
