@@ -1,2 +1,2 @@
-import * as loginAction from './loginActions';
-export default loginAction;
+import * as authActions from './authActions';
+export default authActions;
