@@ -2,7 +2,7 @@ import React from 'react';
 import themeConfig from '../configs/themeConfig';
 import classnames from 'classnames';
 
-const FullPageLayout = ({ children, ...rest }) => {
+const FullPageLayout = ({ children }) => {
   return (
     <div
       className={classnames(
