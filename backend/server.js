@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // use routes
-app.use('/authorization', require('./routes/authorization'));
+app.use('/auth', require('./routes/authentication'));
 
 // connect to DB
 mongoose.connect(
