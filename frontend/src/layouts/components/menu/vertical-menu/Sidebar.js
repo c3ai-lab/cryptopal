@@ -1,20 +1,20 @@
-import React, { Component } from "react"
-import classnames from "classnames"
-import { ContextLayout } from "../../../../utility/context/Layout"
-import { connect } from "react-redux"
-import SidebarHeader from "./SidebarHeader"
-import Hammer from "react-hammerjs"
-import SideMenuContent from "./sidemenu/SideMenuContent"
-import PerfectScrollbar from "react-perfect-scrollbar"
+import React, { Component } from 'react';
+import classnames from 'classnames';
+import { ContextLayout } from '../../../../utility/context/Layout';
+import { connect } from 'react-redux';
+import SidebarHeader from './SidebarHeader';
+import Hammer from 'react-hammerjs';
+import SideMenuContent from './sidemenu/SideMenuContent';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 class Sidebar extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.activePath !== state.activeItem) {
       return {
         activeItem: props.activePath
-      }
+      };
     }
     // Return null if the state hasn't changed
-    return null
+    return null;
   }
   state = {
     width: window.innerWidth,
@@ -23,81 +23,83 @@ class Sidebar extends Component {
     activeItem: this.props.activePath,
     menuShadow: false,
     ScrollbarTag: PerfectScrollbar
-  }
+  };
 
-  mounted = false
+  mounted = false;
 
   updateWidth = () => {
     if (this.mounted) {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         width: window.innerWidth
-      }))
-      this.checkDevice()
+      }));
+      this.checkDevice();
     }
-  }
+  };
 
   componentDidMount() {
-    this.mounted = true
+    this.mounted = true;
     if (this.mounted) {
-      if (window !== "undefined") {
-        window.addEventListener("resize", this.updateWidth, false)
+      if (window !== 'undefined') {
+        window.addEventListener('resize', this.updateWidth, false);
       }
-      this.checkDevice()
+      this.checkDevice();
     }
   }
 
   componentWillUnmount() {
-    this.mounted = false
+    this.mounted = false;
   }
 
   checkDevice = () => {
-    var prefixes = " -webkit- -moz- -o- -ms- ".split(" ")
-    var mq = function(query) {
-      return window.matchMedia(query).matches
-    }
+    var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+    var mq = function (query) {
+      return window.matchMedia(query).matches;
+    };
 
-    if ("ontouchstart" in window || window.DocumentTouch) {
+    if ('ontouchstart' in window || window.DocumentTouch) {
       this.setState({
-        ScrollbarTag: "div"
-      })
+        ScrollbarTag: 'div'
+      });
     } else {
       this.setState({
         ScrollbarTag: PerfectScrollbar
-      })
+      });
     }
-    var query = ["(", prefixes.join("touch-enabled),("), "heartz", ")"].join("")
-    return mq(query)
-  }
+    var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join(
+      ''
+    );
+    return mq(query);
+  };
 
-  changeActiveIndex = id => {
+  changeActiveIndex = (id) => {
     if (id !== this.state.activeIndex) {
       this.setState({
         activeIndex: id
-      })
+      });
     } else {
       this.setState({
         activeIndex: null
-      })
+      });
     }
-  }
+  };
 
-  handleSidebarMouseEnter = id => {
+  handleSidebarMouseEnter = (id) => {
     if (id !== this.state.hoveredMenuItem) {
       this.setState({
         hoveredMenuItem: id
-      })
+      });
     } else {
       this.setState({
         hoveredMenuItem: null
-      })
+      });
     }
-  }
+  };
 
-  handleActiveItem = url => {
+  handleActiveItem = (url) => {
     this.setState({
       activeItem: url
-    })
-  }
+    });
+  };
 
   render() {
     let {
@@ -115,7 +117,7 @@ class Sidebar extends Component {
       permission,
       currentUser,
       collapsedMenuPaths
-    } = this.props
+    } = this.props;
 
     let {
       menuShadow,
@@ -123,28 +125,28 @@ class Sidebar extends Component {
       hoveredMenuItem,
       activeItem,
       ScrollbarTag
-    } = this.state
+    } = this.state;
     let scrollShadow = (container, dir) => {
-      if (container && dir === "up" && container.scrollTop >= 100) {
-        this.setState({ menuShadow: true })
-      } else if (container && dir === "down" && container.scrollTop < 100) {
-        this.setState({ menuShadow: false })
+      if (container && dir === 'up' && container.scrollTop >= 100) {
+        this.setState({ menuShadow: true });
+      } else if (container && dir === 'down' && container.scrollTop < 100) {
+        this.setState({ menuShadow: false });
       } else {
-        return
+        return;
       }
-    }
+    };
     return (
       <ContextLayout.Consumer>
-        {context => {
-          let dir = context.state.direction
+        {(context) => {
+          let dir = context.state.direction;
           return (
             <React.Fragment>
               <Hammer
-                onSwipe={e => {
-                  sidebarVisibility()
+                onSwipe={(e) => {
+                  sidebarVisibility();
                 }}
                 direction={
-                  dir === "rtl" ? "DIRECTION_LEFT" : "DIRECTION_RIGHT"
+                  dir === 'rtl' ? 'DIRECTION_LEFT' : 'DIRECTION_RIGHT'
                 }>
                 <div className="menu-swipe-area d-xl-none d-block vh-100"></div>
               </Hammer>
@@ -154,7 +156,7 @@ class Sidebar extends Component {
                   `main-menu menu-fixed menu-light menu-accordion menu-shadow theme-${activeTheme}`,
                   {
                     collapsed: sidebarState === true,
-                    "hide-sidebar":
+                    'hide-sidebar':
                       this.state.width < 1200 && visibilityState === false
                   }
                 )}
@@ -172,24 +174,25 @@ class Sidebar extends Component {
                   sidebarState={sidebarState}
                 />
                 <ScrollbarTag
-                  className={classnames("main-menu-content", {
-                    "overflow-hidden": ScrollbarTag !== "div",
-                    "overflow-scroll": ScrollbarTag === "div"
+                  className={classnames('main-menu-content', {
+                    'overflow-hidden': ScrollbarTag !== 'div',
+                    'overflow-scroll': ScrollbarTag === 'div'
                   })}
-                  {...(ScrollbarTag !== "div" && {
+                  {...(ScrollbarTag !== 'div' && {
                     options: { wheelPropagation: false },
-                    onScrollDown: container => scrollShadow(container, "down"),
-                    onScrollUp: container => scrollShadow(container, "up"),
+                    onScrollDown: (container) =>
+                      scrollShadow(container, 'down'),
+                    onScrollUp: (container) => scrollShadow(container, 'up'),
                     onYReachStart: () =>
                       menuShadow === true &&
                       this.setState({ menuShadow: false })
                   })}>
                   <Hammer
                     onSwipe={() => {
-                      sidebarVisibility()
+                      sidebarVisibility();
                     }}
                     direction={
-                      dir === "rtl" ? "DIRECTION_RIGHT" : "DIRECTION_LEFT"
+                      dir === 'rtl' ? 'DIRECTION_RIGHT' : 'DIRECTION_LEFT'
                     }>
                     <ul className="navigation navigation-main">
                       <SideMenuContent
@@ -212,17 +215,17 @@ class Sidebar extends Component {
                 </ScrollbarTag>
               </div>
             </React.Fragment>
-          )
+          );
         }}
       </ContextLayout.Consumer>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentUser: state.auth.login.userRole
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(Sidebar)
+export default connect(mapStateToProps)(Sidebar);

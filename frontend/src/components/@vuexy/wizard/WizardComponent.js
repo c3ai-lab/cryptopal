@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import classnames from "classnames"
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import {
   Nav,
   NavItem,
@@ -9,8 +9,8 @@ import {
   TabPane,
   Form,
   Button
-} from "reactstrap"
-import { AvForm } from "availity-reactstrap-validation"
+} from 'reactstrap';
+import { AvForm } from 'availity-reactstrap-validation';
 
 class VuexyWizard extends React.Component {
   static getDerivedStateFromProps(props, state) {
@@ -18,73 +18,73 @@ class VuexyWizard extends React.Component {
       if (props.activeStep !== state.activeStep) {
         if (props.validate) {
           if (state.errors.length === 0 && state.submitted)
-            return { activeStep: props.activeStep }
-        } else return { activeStep: props.activeStep }
+            return { activeStep: props.activeStep };
+        } else return { activeStep: props.activeStep };
       }
     }
-    return null
+    return null;
   }
 
   state = {
     activeStep: this.props.activeStep ? this.props.activeStep : 0,
     errors: [],
     values: []
-  }
+  };
 
   handleNextStep = (index, total, errors = []) => {
-    let activeStep = this.state.activeStep
-    let validation = this.props.validate
+    let activeStep = this.state.activeStep;
+    let validation = this.props.validate;
 
     if (!validation) {
       if (activeStep <= index && activeStep !== total) {
         this.setState({
           activeStep: activeStep + 1
-        })
+        });
       }
     } else {
       if (errors.length === 0 && activeStep <= index && activeStep !== total) {
         this.setState({
           activeStep: activeStep + 1
-        })
+        });
       } else if (errors.length && this.props.onValidationError) {
-        this.props.onValidationError(this.state.errors)
+        this.props.onValidationError(this.state.errors);
       } else {
-        return
+        return;
       }
     }
-  }
+  };
 
-  handlePreviousStep = index => {
-    let activeStep = this.state.activeStep
+  handlePreviousStep = (index) => {
+    let activeStep = this.state.activeStep;
     if (activeStep >= index)
       this.setState({
         activeStep: activeStep - 1
-      })
-  }
+      });
+  };
 
-  handleEnableAllSteps = index => {
+  handleEnableAllSteps = (index) => {
     if (this.props.enableAllSteps) {
-      this.setState({ activeStep: index })
+      this.setState({ activeStep: index });
     }
-  }
+  };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     if (
       this.props.steps.length - 1 === this.state.activeStep &&
       this.props.onFinish
     ) {
-      this.props.onFinish(e)
+      this.props.onFinish(e);
     }
-  }
+  };
 
   render() {
-    let FormTag = this.props.validate ? AvForm : Form
+    let FormTag = this.props.validate ? AvForm : Form;
 
     return (
       <React.Fragment>
         <Nav
           className={`vx-wizard ${
-            this.props.className ? this.props.className : ""
+            this.props.className ? this.props.className : ''
           }`}
           tabs>
           {this.props.steps.map((item, i) => {
@@ -101,12 +101,12 @@ class VuexyWizard extends React.Component {
                   <span className="step-text">{item.title}</span>
                 </NavLink>
               </NavItem>
-            )
+            );
           })}
         </Nav>
         <TabContent
           className={`vx-wizard-content ${
-            this.props.tabPaneClass ? this.props.tabPaneClass : ""
+            this.props.tabPaneClass ? this.props.tabPaneClass : ''
           }`}
           activeTab={this.state.activeStep}>
           {this.props.steps.map((item, i) => {
@@ -118,10 +118,10 @@ class VuexyWizard extends React.Component {
                 <FormTag
                   className="form-horizontal"
                   onSubmit={(e, errors, values) => {
-                    this.setState({ errors, values })
-                    if (!this.props.validate) e.preventDefault()
-                    this.handleNextStep(i, this.props.steps.length - 1, errors)
-                    this.handleSubmit(e)
+                    this.setState({ errors, values });
+                    if (!this.props.validate) e.preventDefault();
+                    this.handleNextStep(i, this.props.steps.length - 1, errors);
+                    this.handleSubmit(e);
                   }}>
                   {item.content}
                   {this.props.pagination ? (
@@ -135,21 +135,21 @@ class VuexyWizard extends React.Component {
                       <Button type="submit" color="primary">
                         {this.props.steps.length - 1 === i &&
                         !this.props.finishBtnText
-                          ? "Submit"
+                          ? 'Submit'
                           : this.props.steps.length - 1 === i &&
                             this.props.finishBtnText
                           ? this.props.finishBtnText
-                          : "Next"}
+                          : 'Next'}
                       </Button>
                     </div>
                   ) : null}
                 </FormTag>
               </TabPane>
-            )
+            );
           })}
         </TabContent>
       </React.Fragment>
-    )
+    );
   }
 }
 
@@ -163,10 +163,10 @@ VuexyWizard.propTypes = {
   pagination: PropTypes.bool,
   onValidationError: PropTypes.func,
   activeStep: PropTypes.number
-}
+};
 
 VuexyWizard.defaultProps = {
   pagination: true
-}
+};
 
-export default VuexyWizard
+export default VuexyWizard;

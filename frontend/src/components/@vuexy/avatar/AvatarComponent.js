@@ -1,6 +1,6 @@
-import React from "react"
-import classnames from "classnames"
-import { Badge } from "reactstrap"
+import React from 'react';
+import classnames from 'classnames';
+import { Badge } from 'reactstrap';
 class Avatar extends React.Component {
   render() {
     return (
@@ -10,18 +10,16 @@ class Avatar extends React.Component {
             this.props.className
           }`,
           {
-            "avatar-sm": this.props.size && this.props.size === "sm",
-            "avatar-lg": this.props.size && this.props.size === "lg",
-            "avatar-xl": this.props.size && this.props.size === "xl"
+            'avatar-sm': this.props.size && this.props.size === 'sm',
+            'avatar-lg': this.props.size && this.props.size === 'lg',
+            'avatar-xl': this.props.size && this.props.size === 'xl'
           }
-        )}
-      >
+        )}>
         {this.props.img === false || this.props.img === undefined ? (
           <span
-            className={classnames("avatar-content", {
-              "position-relative": this.props.badgeUp
-            })}
-          >
+            className={classnames('avatar-content', {
+              'position-relative': this.props.badgeUp
+            })}>
             {this.props.content ? this.props.content : null}
 
             {this.props.icon ? (
@@ -30,12 +28,11 @@ class Avatar extends React.Component {
             {this.props.badgeUp ? (
               <Badge
                 color={
-                  this.props.badgeColor ? this.props.badgeColor : "primary"
+                  this.props.badgeColor ? this.props.badgeColor : 'primary'
                 }
                 className="badge-sm badge-up"
-                pill
-              >
-                {this.props.badgeText ? this.props.badgeText : "0"}
+                pill>
+                {this.props.badgeText ? this.props.badgeText : '0'}
               </Badge>
             ) : null}
           </span>
@@ -57,7 +54,7 @@ class Avatar extends React.Component {
           <span className={`avatar-status-${this.props.status}`}></span>
         ) : null}
       </div>
-    )
+    );
   }
 }
-export default Avatar
+export default Avatar;

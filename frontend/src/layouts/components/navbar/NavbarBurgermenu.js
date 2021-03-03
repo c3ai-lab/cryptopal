@@ -1,17 +1,11 @@
-import React from "react"
-import {
-  NavItem,
-  NavLink
-} from "reactstrap"
-import * as Icon from "react-feather"
-import { connect } from "react-redux"
+import React from 'react';
+import { NavItem, NavLink } from 'reactstrap';
+import * as Icon from 'react-feather';
+import { connect } from 'react-redux';
 
 class NavbarBurgermenu extends React.PureComponent {
-
   render() {
-    let {
-      sidebarVisibility
-    } = this.props
+    let { sidebarVisibility } = this.props;
 
     return (
       <div className="mr-auto float-left bookmark-wrapper d-flex align-items-center">
@@ -25,15 +19,13 @@ class NavbarBurgermenu extends React.PureComponent {
           </NavItem>
         </ul>
       </div>
-    )
+    );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     bookmarks: state.navbar
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(
-  NavbarBurgermenu
-)
+export default connect(mapStateToProps)(NavbarBurgermenu);
