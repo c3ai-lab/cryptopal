@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { history } from '../../../history';
 import { returnErrors } from '../errors/errorActions';
 import {
   USER_LOADED,
@@ -46,12 +47,13 @@ export const register = (user) => (dispatch) => {
 
   axios
     .post(process.env.REACT_APP_SERVER_API + '/auth/register', body, config)
-    .then((res) =>
+    .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
-      })
-    )
+      });
+      history.push('/');
+    })
     .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
@@ -80,6 +82,7 @@ export const login = (user) => (dispatch) => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
+      history.push('/');
     })
     .catch((err) => {
       dispatch(
