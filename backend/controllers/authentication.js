@@ -4,6 +4,24 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { registerValidation, loginValidation } = require('../helper/validation');
 
+// create and assign a token
+const generateJWT = (id) => {
+  const token = jwt.sign({ _id: id }, process.env.TOKEN_SECRET, {
+    expiresIn: 900,
+  });
+  return token;
+};
+
+const getDataWithoutPassword = (user) => {
+  console.log(user);
+  console.log(
+    '-------------------------------------------------------------------------------'
+  );
+  const { password, ...otherData } = user._doc;
+  console.log(otherData);
+  return otherData;
+};
+
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
   // validate received data before creating a user
@@ -35,11 +53,13 @@ exports.register = async (req, res) => {
     payerId: mongoose.Types.ObjectId(),
     password: hashedPassword,
   });
-
-  // save user
   try {
+    // save user
     const savedUser = await user.save();
-    res.send({ user: savedUser._id });
+    // send token and user data to client
+    const token = generateJWT(savedUser._id);
+    const returnedUser = getDataWithoutPassword(user);
+    res.status(200).send({ token, user: returnedUser });
   } catch (err) {
     res.status(400).send(err); // send db error
   }
@@ -61,13 +81,11 @@ exports.login = async (req, res) => {
     return res.status(400).send('Invalid password');
   }
 
-  // create and assign a token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-    expiresIn: 900,
-  });
+  const token = generateJWT(user._id);
+  const returnedUser = getDataWithoutPassword(user);
 
   res.status(200).send({
     token,
-    user,
+    user: returnedUser,
   });
 };
