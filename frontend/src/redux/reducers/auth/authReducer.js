@@ -7,13 +7,14 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL
-} from '../actions/types';
+} from '../../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   isLoading: false,
-  user: null
+  user: null,
+  userRole: 'admin'
 };
 
 export default function (state = initialState, action) {
