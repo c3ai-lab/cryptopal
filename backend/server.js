@@ -10,8 +10,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// use routes
-app.use('/auth', require('./routes/authentication'));
+// use router
+app.use('/api', require('./router'));
 
 // connect to DB
 mongoose.connect(
