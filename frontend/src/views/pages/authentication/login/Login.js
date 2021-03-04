@@ -17,15 +17,20 @@ import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
 import loginImg from '../../../../assets/img/pages/login.png';
 import '../../../../assets/scss/pages/authentication.scss';
 
+import { connect } from 'react-redux';
+import { login } from '../../../../redux/actions/auth/authActions';
+import { clearErrors } from '../../../../redux/actions/errors/errorActions';
+
 class Login extends React.Component {
   state = {
     email: '',
     password: ''
   };
 
-  onLogin() {
+  onLogin(e) {
     // send request to server
-    history.push('/');
+    e.preventDefault();
+    this.props.login(this.state);
   }
 
   render() {
@@ -49,11 +54,12 @@ class Login extends React.Component {
                   <CardBody>
                     <h4>Login</h4>
                     <p>Welcome back, please login to your account.</p>
-                    <Form onSubmit={(e) => e.preventDefault()}>
+                    <Form onSubmit={(e) => this.onLogin(e)}>
                       <FormGroup className="form-label-group position-relative has-icon-left">
                         <Input
                           type="email"
                           placeholder="Email"
+                          required
                           value={this.state.email}
                           onChange={(e) =>
                             this.setState({ email: e.target.value })
@@ -70,6 +76,7 @@ class Login extends React.Component {
                           placeholder="Password"
                           value={this.state.password}
                           minLength="6"
+                          required
                           onChange={(e) =>
                             this.setState({ password: e.target.value })
                           }
@@ -94,10 +101,7 @@ class Login extends React.Component {
                           onClick={() => history.push('/register')}>
                           Register
                         </Button.Ripple>
-                        <Button.Ripple
-                          color="primary"
-                          type="submit"
-                          onClick={this.onLogin}>
+                        <Button.Ripple color="primary" type="submit">
                           Login
                         </Button.Ripple>
                       </div>
@@ -112,4 +116,9 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error
+});
+
+export default connect(mapStateToProps, { login, clearErrors })(Login);
