@@ -18,6 +18,7 @@ class RegisterPersonalData extends React.Component {
     confirmedTerms: false
   };
 
+  // check if terms are accepted and send entered data to register component
   handleNext = (e) => {
     e.preventDefault();
     if (this.state.confirmedTerms) {

@@ -31,7 +31,7 @@ class Register extends React.Component {
     msg: null
   };
 
-  // switch the tabs
+  // switch the tabs with registration details
   toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -53,7 +53,7 @@ class Register extends React.Component {
     }
   };
 
-  // send register data to server
+  // send register data to server by calling action
   onRegister = (data) => {
     const sendData = { ...this.state.registerData, ...data };
     this.props.register(sendData);
