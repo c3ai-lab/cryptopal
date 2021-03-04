@@ -1,9 +1,11 @@
 import React from 'react';
-import { Navbar } from 'reactstrap';
+import { Navbar, Button } from 'reactstrap';
 import classnames from 'classnames';
 import NavbarBookmarks from './NavbarBurgermenu';
 import NavbarUser from './NavbarUser';
 import userImg from '../../../assets/img/portrait/small/avatar-s-11.jpg';
+import { history } from '../../../history';
+import { connect } from 'react-redux';
 
 const ThemeNavbar = (props) => {
   const colorsArr = ['primary', 'danger', 'success', 'info', 'warning', 'dark'];
@@ -59,12 +61,30 @@ const ThemeNavbar = (props) => {
                   <h2 className="text-primary brand-text mb-0">Vuexy</h2>
                 </div>
               ) : null}
-              <NavbarUser
-                handleAppOverlay={props.handleAppOverlay}
-                changeCurrentLang={props.changeCurrentLang}
-                userName="John Doe"
-                userImg={userImg}
-              />
+              {props.isAuthenticated ? (
+                <NavbarUser
+                  handleAppOverlay={props.handleAppOverlay}
+                  changeCurrentLang={props.changeCurrentLang}
+                  userName={props.user.givenName + ' ' + props.user.familyName}
+                  userImg={userImg}
+                />
+              ) : (
+                <div className="d-flex justify-content-between">
+                  <Button.Ripple
+                    color="primary"
+                    className="navbar-buttons"
+                    outline
+                    onClick={() => history.push('/login')}>
+                    Login
+                  </Button.Ripple>
+                  <Button.Ripple
+                    color="primary"
+                    className="navbar-buttons"
+                    onClick={() => history.push('/register')}>
+                    Register
+                  </Button.Ripple>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -73,4 +93,9 @@ const ThemeNavbar = (props) => {
   );
 };
 
-export default ThemeNavbar;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(ThemeNavbar);
