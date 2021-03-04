@@ -65,6 +65,9 @@ exports.login = async (req, res) => {
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
     expiresIn: 900,
   });
-  res.setHeader('cp-auth-token', token);
-  res.send(token);
+
+  res.status(200).send({
+    token,
+    user,
+  });
 };
