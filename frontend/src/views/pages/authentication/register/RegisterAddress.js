@@ -6,7 +6,7 @@ class RegisterAddress extends React.Component {
   state = {
     streetAddress: '',
     postalCode: '',
-    city: '',
+    locality: '',
     region: '',
     country: ''
   };
@@ -21,6 +21,7 @@ class RegisterAddress extends React.Component {
       <Form action="/" onSubmit={this.handleRegister}>
         <FormGroup className="form-label-group">
           <Input
+            autoFocus
             type="text"
             placeholder="Street address"
             required
@@ -42,12 +43,12 @@ class RegisterAddress extends React.Component {
         <FormGroup className="form-label-group">
           <Input
             type="text"
-            placeholder="City"
+            placeholder="Locality"
             required
-            value={this.state.city}
-            onChange={(e) => this.setState({ city: e.target.value })}
+            value={this.state.locality}
+            onChange={(e) => this.setState({ locality: e.target.value })}
           />
-          <Label>City</Label>
+          <Label>Locality</Label>
         </FormGroup>
         <FormGroup className="form-label-group">
           <Input
