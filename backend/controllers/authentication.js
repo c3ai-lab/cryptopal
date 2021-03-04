@@ -62,7 +62,9 @@ exports.login = async (req, res) => {
   }
 
   // create and assign a token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+    expiresIn: 900,
+  });
   res.setHeader('cp-auth-token', token);
   res.send(token);
 };
