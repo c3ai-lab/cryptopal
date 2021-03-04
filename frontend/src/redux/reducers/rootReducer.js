@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import customizer from './customizer/';
-import auth from './auth/';
+import authReducer from './auth/authReducer';
+import errorReducer from './errors/errorReducer';
 
 const rootReducer = combineReducers({
   customizer: customizer,
-  auth: auth
+  auth: authReducer,
+  error: errorReducer
 });
 
 export default rootReducer;
