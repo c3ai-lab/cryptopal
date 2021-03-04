@@ -8,7 +8,8 @@ import {
   Form,
   FormGroup,
   Input,
-  Label
+  Label,
+  Alert
 } from 'reactstrap';
 import { Mail, Lock, Check } from 'react-feather';
 import { history } from '../../../../history';
@@ -24,16 +25,34 @@ import { clearErrors } from '../../../../redux/actions/errors/errorActions';
 class Login extends React.Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    msg: null
   };
 
   onLogin(e) {
     // send request to server
     e.preventDefault();
-    this.props.login(this.state);
+
+    const { email, password } = this.state;
+    this.props.login({ email, password });
+  }
+
+  // check for login error
+  componentDidUpdate(prevProps) {
+    // set error message if exists
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({ msg: error.msg });
+    }
+
+    // clear errors if log in was successful
+    if (this.props.isAuthenticated) {
+      this.props.clearErrors();
+    }
   }
 
   render() {
+    const { msg } = this.state;
     return (
       <Row className="m-0 justify-content-center">
         <Col
@@ -54,6 +73,7 @@ class Login extends React.Component {
                   <CardBody>
                     <h4>Login</h4>
                     <p>Welcome back, please login to your account.</p>
+                    {msg ? <Alert color="danger">{msg}</Alert> : null}
                     <Form onSubmit={(e) => this.onLogin(e)}>
                       <FormGroup className="form-label-group position-relative has-icon-left">
                         <Input
