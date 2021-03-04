@@ -20,7 +20,8 @@ class RegisterCredentials extends React.Component {
     e.preventDefault();
     // check if password confimation is successful
     if (this.state.password === this.state.confirmPassword) {
-      this.props.next('2', this.state);
+      const { email, password } = this.state;
+      this.props.next('2', { email, password });
     }
   };
 
@@ -29,6 +30,7 @@ class RegisterCredentials extends React.Component {
       <Form action="/" onSubmit={this.handleNext}>
         <FormGroup className="form-label-group">
           <Input
+            autoFocus
             type="email"
             placeholder="Email"
             required

@@ -20,7 +20,12 @@ class RegisterPersonalData extends React.Component {
 
   handleNext = (e) => {
     e.preventDefault();
-    this.props.next('3', this.state);
+    if (this.state.confirmedTerms) {
+      const { givenName, familyName } = this.state;
+      this.props.next('3', { givenName, familyName });
+    } else {
+      this.props.next('0', { msg: 'You need to accept terms!' });
+    }
   };
 
   render() {
@@ -28,6 +33,7 @@ class RegisterPersonalData extends React.Component {
       <Form action="/" onSubmit={this.handleNext}>
         <FormGroup className="form-label-group">
           <Input
+            autoFocus
             type="text"
             placeholder="Given Name"
             required
