@@ -46,7 +46,7 @@ class Login extends React.Component {
     }
 
     // clear errors if log in was successful
-    if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated && error.status) {
       this.props.clearErrors();
     }
   }
