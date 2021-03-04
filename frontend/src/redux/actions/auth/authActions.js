@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { returnErrors } from './errorActions';
+import { returnErrors } from '../errors/errorActions';
 import {
   USER_LOADED,
   USER_LOADING,
@@ -9,7 +9,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL
-} from './types';
+} from '../types';
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
@@ -63,7 +63,7 @@ export const register = (user) => (dispatch) => {
 };
 
 // Login User
-export const login = ({ email, password }) => (dispatch) => {
+export const login = (user) => (dispatch) => {
   // Headers
   const config = {
     headers: {
@@ -72,16 +72,15 @@ export const login = ({ email, password }) => (dispatch) => {
   };
 
   // Request body
-  const body = JSON.stringify({ email, password });
-
+  const body = JSON.stringify(user);
   axios
     .post(process.env.REACT_APP_SERVER_API + '/auth/login', body, config)
-    .then((res) =>
+    .then((res) => {
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
