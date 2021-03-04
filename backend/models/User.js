@@ -47,23 +47,19 @@ const userSchema = new mongoose.Schema({
     locality: {
       type: String,
       required: true,
-      min: 6,
       max: 255,
     },
     region: {
       type: String,
-      min: 6,
       max: 255,
     },
     postalCode: {
       type: String,
-      min: 1,
       max: 255,
     },
     country: {
       type: String,
       required: true,
-      min: 6,
       max: 255,
     },
   },
