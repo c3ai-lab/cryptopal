@@ -51,7 +51,7 @@ const RouteConfig = ({
 );
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.login.userRole
+    user: state.auth.userRole
   };
 };
 
