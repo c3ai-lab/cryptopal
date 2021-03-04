@@ -10,7 +10,8 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Alert
 } from 'reactstrap';
 import classnames from 'classnames';
 import RegisterCredentials from './RegisterCredentials';
@@ -18,12 +19,16 @@ import RegisterPersonalData from './RegisterPersonalData';
 import RegisterAddress from './RegisterAddress';
 import registerImg from '../../../../assets/img/pages/register.jpg';
 import '../../../../assets/scss/pages/authentication.scss';
-import { history } from '../../../../history';
+
+import { connect } from 'react-redux';
+import { register } from '../../../../redux/actions/auth/authActions';
+import { clearErrors } from '../../../../redux/actions/errors/errorActions';
 
 class Register extends React.Component {
   state = {
     activeTab: '1',
-    registerData: {}
+    registerData: {},
+    msg: null
   };
 
   // switch the tabs
@@ -37,24 +42,39 @@ class Register extends React.Component {
 
   // navigate to next form tab
   nextForm = (nextTab, data) => {
-    this.setState((prevState) => ({
-      registerData: { ...prevState.registerData, ...data },
-      activeTab: nextTab
-    }));
-    setTimeout(() => {
-      console.log(this.state);
-    }, 1000);
+    if (nextTab === '0') {
+      this.setState({ msg: data.msg });
+    } else {
+      this.setState((prevState) => ({
+        registerData: { ...prevState.registerData, ...data },
+        activeTab: nextTab,
+        msg: null
+      }));
+    }
   };
 
   // send register data to server
   onRegister = (data) => {
     const sendData = { ...this.state.registerData, ...data };
-    console.log('send register data');
-    console.log(sendData);
-    history.push('/');
+    this.props.register(sendData);
   };
 
+  // check for login error
+  componentDidUpdate(prevProps) {
+    // set error message if exists
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({ msg: error.msg });
+    }
+
+    // clear errors if log in was successful
+    if (this.props.isAuthenticated) {
+      this.props.clearErrors();
+    }
+  }
+
   render() {
+    const { msg } = this.state;
     return (
       <Row className="m-0 justify-content-center">
         <Col
@@ -80,6 +100,7 @@ class Register extends React.Component {
                   <p className="px-2 auth-title mb-0">
                     Fill the below form to create a new account.
                   </p>
+                  {msg ? <Alert color="danger">{msg}</Alert> : null}
                   <Nav tabs className="px-2">
                     <NavItem>
                       <NavLink
@@ -139,4 +160,10 @@ class Register extends React.Component {
     );
   }
 }
-export default Register;
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error
+});
+
+export default connect(mapStateToProps, { register, clearErrors })(Register);
