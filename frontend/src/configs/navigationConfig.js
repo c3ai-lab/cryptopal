@@ -16,6 +16,14 @@ const navigationConfig = [
     icon: <Icon.File size={20} />,
     permissions: ['admin', 'editor'],
     navLink: '/page2'
+  },
+  {
+    id: 'accountSettings',
+    title: 'Account Settings',
+    type: 'item',
+    icon: <Icon.Settings size={20} />,
+    permissions: ['admin', 'editor'],
+    navLink: '/account-settings'
   }
 ];
 
