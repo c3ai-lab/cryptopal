@@ -10,30 +10,51 @@ import {
   Col
 } from 'reactstrap';
 import img from '../../../assets/img/portrait/small/avatar-s-11.jpg';
+import Avatar from '../../../components/@vuexy/avatar/AvatarComponent';
+
 class General extends React.Component {
   state = {
-    visible: true
+    ...this.props.user,
+    credentials: ''
   };
 
-  dismissAlert = () => {
-    this.setState({
-      visible: false
-    });
-  };
+  componentDidMount() {
+    // get credentials of user to display as an avatar
+    if (this.props.user) {
+      const user = this.props.user;
+      const credentials = user.givenName.charAt(0) + user.familyName.charAt(0);
+      this.setState({ credentials: credentials.toUpperCase() });
+    }
+  }
+
+  onChangeSubmit(e) {
+    e.preventDefault();
+    // send change data request to server
+  }
 
   render() {
+    const user = this.state;
     return (
       <React.Fragment>
         <Media>
           <Media className="mr-1" left href="#">
-            <Media
-              className="rounded-circle"
-              object
-              src={img}
-              alt="User"
-              height="64"
-              width="64"
-            />
+            {/* images not supported yet - user.img is always false */}
+            {user.img ? (
+              <Media
+                className="rounded-circle"
+                object
+                src={img}
+                alt="User"
+                height="64"
+                width="64"
+              />
+            ) : (
+              <Avatar
+                className="mr-1"
+                content={this.state.credentials}
+                size="lg"
+              />
+            )}
           </Media>
           <Media className="mt-25" body>
             <div className="d-flex flex-sm-row flex-column justify-content-start px-0">
@@ -52,24 +73,45 @@ class General extends React.Component {
             </p>
           </Media>
         </Media>
-        <Form className="mt-2" onSubmit={(e) => e.preventDefault()}>
+        <Form className="mt-2" onSubmit={(e) => this.onChangeSubmit(e)}>
           <Row>
             <Col sm="12">
               <FormGroup>
-                <Label for="userName">Given Name</Label>
-                <Input id="userName" defaultValue="johny_01" />
+                <Label for="givenName">Given Name</Label>
+                <Input
+                  id="givenName"
+                  value={user.givenName}
+                  required
+                  onChange={(e) => this.setState({ givenName: e.target.value })}
+                />
               </FormGroup>
             </Col>
             <Col sm="12">
               <FormGroup>
-                <Label for="name">Family Name</Label>
-                <Input id="name" defaultValue="John Doe" />
+                <Label for="familyName">Family Name</Label>
+                <Input
+                  id="familyName"
+                  value={user.familyName}
+                  required
+                  onChange={(e) =>
+                    this.setState({ familyName: e.target.value })
+                  }
+                />
               </FormGroup>
             </Col>
             <Col sm="12">
               <FormGroup>
                 <Label for="email">Email</Label>
-                <Input id="email" defaultValue="john@admin.com" />
+                <Input
+                  id="email"
+                  value={user.email ? user.email[0].value : ''}
+                  required
+                  onChange={(e) =>
+                    this.setState((prevState) => ({
+                      email: [{ ...prevState.email[0], value: e.target.value }]
+                    }))
+                  }
+                />
               </FormGroup>
             </Col>
             <Col sm="12">
@@ -77,7 +119,9 @@ class General extends React.Component {
                 <Label for="company">Company</Label>
                 <Input
                   id="company"
-                  defaultValue="SnowMash Technologies Pvt Ltd"
+                  value={user.company}
+                  required
+                  onChange={(e) => this.setState({ company: e.target.value })}
                 />
               </FormGroup>
             </Col>
