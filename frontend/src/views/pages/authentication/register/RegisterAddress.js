@@ -9,7 +9,8 @@ class RegisterAddress extends React.Component {
     postalCode: '',
     locality: '',
     region: '',
-    country: ''
+    country: '',
+    phone: ''
   };
 
   handleRegister = (e) => {
@@ -74,6 +75,16 @@ class RegisterAddress extends React.Component {
             {countriesOptions}
           </Input>
           <Label>Country</Label>
+        </FormGroup>
+        <FormGroup className="form-label-group">
+          <Input
+            type="number"
+            placeholder="Phone"
+            maxLength="30"
+            value={this.state.phone}
+            onChange={(e) => this.setState({ phone: e.target.value })}
+          />
+          <Label>Phone</Label>
         </FormGroup>
         <div className="d-flex justify-content-between">
           <Button.Ripple
