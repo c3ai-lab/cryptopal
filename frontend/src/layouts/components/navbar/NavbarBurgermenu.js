@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavItem, NavLink } from 'reactstrap';
 import * as Icon from 'react-feather';
-import { connect } from 'react-redux';
 
 class NavbarBurgermenu extends React.PureComponent {
   render() {
@@ -22,10 +21,5 @@ class NavbarBurgermenu extends React.PureComponent {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    bookmarks: state.navbar
-  };
-};
 
-export default connect(mapStateToProps)(NavbarBurgermenu);
+export default NavbarBurgermenu;
