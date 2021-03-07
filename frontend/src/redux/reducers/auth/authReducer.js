@@ -38,6 +38,7 @@ export default function (state = initialState, action) {
         ...state,
         ...action.payload,
         isAuthenticated: true,
+        userRole: action.payload.merchantId ? 'merchant' : 'buyer',
         isLoading: false
       };
     case AUTH_ERROR:
