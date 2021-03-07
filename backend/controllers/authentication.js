@@ -49,6 +49,7 @@ exports.register = async (req, res) => {
     phone: req.body.phone,
     verifiedAccount: false,
     payerId: mongoose.Types.ObjectId(),
+    merchantId: null,
     password: hashedPassword,
   });
   try {
