@@ -9,30 +9,7 @@ import {
 } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import * as Icon from 'react-feather';
-import { history } from '../../../history';
-
-const UserDropdown = (props) => {
-  return (
-    <DropdownMenu right>
-      <DropdownItem tag="a" href="#">
-        <Icon.User size={14} className="mr-50" />
-        <span className="align-middle">My Profile</span>
-      </DropdownItem>
-      <DropdownItem tag="a" href="#">
-        <Icon.Mail size={14} className="mr-50" />
-        <span className="align-middle">My Inbox</span>
-      </DropdownItem>
-      <DropdownItem divider />
-      <DropdownItem
-        tag="a"
-        href="#"
-        onClick={(e) => history.push('/pages/login')}>
-        <Icon.Power size={14} className="mr-50" />
-        <span className="align-middle">Log Out</span>
-      </DropdownItem>
-    </DropdownMenu>
-  );
-};
+import UserDropdown from './UserDropdown';
 
 class NavbarUser extends React.PureComponent {
   render() {
