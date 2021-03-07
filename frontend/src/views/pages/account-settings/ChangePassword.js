@@ -3,25 +3,42 @@ import { Button, FormGroup, Row, Col } from 'reactstrap';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 const formSchema = Yup.object().shape({
-  oldpass: Yup.string().required('Required'),
-  newpass: Yup.string().required('Required'),
+  oldpass: Yup.string()
+    .required('Required')
+    .min(6, 'Password must have at least 6 characters'),
+  newpass: Yup.string()
+    .required('Required')
+    .min(6, 'Password must have at least 6 characters'),
   confirmpass: Yup.string()
     .oneOf([Yup.ref('newpass'), null], 'Passwords must match')
     .required('Required')
 });
+
 class ChangePassword extends React.Component {
+  onChangePassword(values) {
+    const id = this.props.user._id;
+    const { oldPassword, newPassword } = values;
+    // send to server
+  }
+
   render() {
     return (
       <React.Fragment>
         <Row className="pt-1">
           <Col sm="12">
+            <h4>Change Password</h4>
+            <p>
+              Fill in the form to change your password. Do not forget to safe
+              the changes.
+            </p>
             <Formik
               initialValues={{
                 oldpass: '',
                 newpass: '',
                 confirmpass: ''
               }}
-              validationSchema={formSchema}>
+              validationSchema={formSchema}
+              onSubmit={(values) => this.onChangePassword(values)}>
               {({ errors, touched }) => (
                 <Form>
                   <FormGroup>
@@ -44,7 +61,6 @@ class ChangePassword extends React.Component {
                       placeholder="New Password"
                       id="newpass"
                       type="password"
-                      minLength="6"
                       className={`form-control ${
                         errors.newpass && touched.newpass && 'is-invalid'
                       }`}
