@@ -15,6 +15,8 @@ class RegisterPersonalData extends React.Component {
   state = {
     givenName: '',
     familyName: '',
+    company: '',
+    website: '',
     confirmedTerms: false
   };
 
@@ -22,8 +24,8 @@ class RegisterPersonalData extends React.Component {
   handleNext = (e) => {
     e.preventDefault();
     if (this.state.confirmedTerms) {
-      const { givenName, familyName } = this.state;
-      this.props.next('3', { givenName, familyName });
+      const { givenName, familyName, company, website } = this.state;
+      this.props.next('3', { givenName, familyName, company, website });
     } else {
       this.props.next('0', { msg: 'You need to accept terms!' });
     }
@@ -52,6 +54,24 @@ class RegisterPersonalData extends React.Component {
             onChange={(e) => this.setState({ familyName: e.target.value })}
           />
           <Label>Family Name</Label>
+        </FormGroup>
+        <FormGroup className="form-label-group">
+          <Input
+            type="text"
+            placeholder="Company"
+            value={this.state.company}
+            onChange={(e) => this.setState({ company: e.target.value })}
+          />
+          <Label>Company</Label>
+        </FormGroup>
+        <FormGroup className="form-label-group">
+          <Input
+            type="text"
+            placeholder="Company Website"
+            value={this.state.website}
+            onChange={(e) => this.setState({ website: e.target.value })}
+          />
+          <Label>Company Website</Label>
         </FormGroup>
         <FormGroup>
           <Checkbox
