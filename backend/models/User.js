@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 255,
   },
+  company: {
+    type: String,
+    max: 255,
+  },
+  website: {
+    type: String,
+    max: 255,
+  },
   email: [
     {
       value: {
@@ -78,6 +86,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: 6,
     max: 1024,
+  },
+  phone: {
+    type: String,
+    min: 4,
+    max: 30,
   },
 });
 

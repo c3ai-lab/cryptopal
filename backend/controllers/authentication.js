@@ -13,12 +13,7 @@ const generateJWT = (id) => {
 };
 
 const getDataWithoutPassword = (user) => {
-  console.log(user);
-  console.log(
-    '-------------------------------------------------------------------------------'
-  );
   const { password, ...otherData } = user._doc;
-  console.log(otherData);
   return otherData;
 };
 
@@ -41,6 +36,8 @@ exports.register = async (req, res) => {
     loginName: req.body.email,
     givenName: req.body.givenName,
     familyName: req.body.familyName,
+    company: req.body.company,
+    website: req.body.website,
     email: [{ value: req.body.email, type: 'private', primary: true }],
     address: {
       streetAddress: req.body.streetAddress,
@@ -49,6 +46,7 @@ exports.register = async (req, res) => {
       postalCode: req.body.postalCode,
       country: req.body.country,
     },
+    phone: req.body.phone,
     verifiedAccount: false,
     payerId: mongoose.Types.ObjectId(),
     password: hashedPassword,
