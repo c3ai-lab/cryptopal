@@ -6,7 +6,7 @@ const navigationConfig = [
     title: 'Home',
     type: 'item',
     icon: <Icon.Home size={20} />,
-    permissions: ['admin', 'editor'],
+    permissions: ['guest', 'buyer', 'merchant', 'admin'],
     navLink: '/'
   },
   {
@@ -14,7 +14,7 @@ const navigationConfig = [
     title: 'Page 2',
     type: 'item',
     icon: <Icon.File size={20} />,
-    permissions: ['admin', 'editor'],
+    permissions: ['guest', 'buyer', 'merchant', 'admin'],
     navLink: '/page2'
   },
   {
@@ -22,7 +22,7 @@ const navigationConfig = [
     title: 'Account Settings',
     type: 'item',
     icon: <Icon.Settings size={20} />,
-    permissions: ['admin', 'editor'],
+    permissions: ['buyer', 'merchant', 'admin'],
     navLink: '/account-settings'
   }
 ];
