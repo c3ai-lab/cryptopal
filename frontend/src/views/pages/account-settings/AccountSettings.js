@@ -9,12 +9,11 @@ import {
   CardBody
 } from 'reactstrap';
 import classnames from 'classnames';
-import { Settings, Lock, Info, Bell } from 'react-feather';
+import { Settings, Lock, Info } from 'react-feather';
 import { connect } from 'react-redux';
 import GeneralTab from './General';
 import ChangePassword from './ChangePassword';
 import InfoTab from './Info';
-import Notifications from './Notifications';
 import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
 
 import '../../../assets/scss/pages/account-settings.scss';
@@ -92,20 +91,6 @@ class AccountSettings extends React.Component {
                 onClick={() => {
                   this.toggle('3');
                 }}>
-                <Bell size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">
-                  Notifications
-                </span>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === '4'
-                })}
-                onClick={() => {
-                  this.toggle('4');
-                }}>
                 <Lock size={16} />
                 <span className="d-md-inline-block d-none align-middle ml-1">
                   Change Password
@@ -123,9 +108,6 @@ class AccountSettings extends React.Component {
                   <InfoTab user={this.props.user} />
                 </TabPane>
                 <TabPane tabId="3">
-                  <Notifications />
-                </TabPane>
-                <TabPane tabId="4">
                   <ChangePassword user={this.props.user} />
                 </TabPane>
               </TabContent>
