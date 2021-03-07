@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import { Settings, Lock, Info, Bell } from 'react-feather';
+import { connect } from 'react-redux';
 import GeneralTab from './General';
 import ChangePassword from './ChangePassword';
 import InfoTab from './Info';
@@ -116,16 +117,16 @@ class AccountSettings extends React.Component {
             <CardBody>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                  <GeneralTab />
+                  <GeneralTab user={this.props.user} />
                 </TabPane>
                 <TabPane tabId="2">
-                  <InfoTab />
+                  <InfoTab user={this.props.user} />
                 </TabPane>
                 <TabPane tabId="3">
                   <Notifications />
                 </TabPane>
                 <TabPane tabId="4">
-                  <ChangePassword />
+                  <ChangePassword user={this.props.user} />
                 </TabPane>
               </TabContent>
             </CardBody>
@@ -136,4 +137,9 @@ class AccountSettings extends React.Component {
   }
 }
 
-export default AccountSettings;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  error: state.error
+});
+
+export default connect(mapStateToProps)(AccountSettings);
