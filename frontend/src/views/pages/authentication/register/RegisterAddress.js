@@ -21,7 +21,9 @@ class RegisterAddress extends React.Component {
     const countryCodes = Object.keys(countries.countries);
     const countriesOptions = [];
     countryCodes.map((code) =>
-      countriesOptions.push(<option>{countries.countries[code].name}</option>)
+      countriesOptions.push(
+        <option key={code}>{countries.countries[code].name}</option>
+      )
     );
     return (
       <Form action="/" onSubmit={this.handleRegister}>
