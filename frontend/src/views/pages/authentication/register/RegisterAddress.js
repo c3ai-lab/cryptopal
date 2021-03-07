@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import { history } from '../../../../history';
+import countries from 'countries-list';
 
 class RegisterAddress extends React.Component {
   state = {
@@ -17,6 +18,11 @@ class RegisterAddress extends React.Component {
   };
 
   render() {
+    const countryCodes = Object.keys(countries.countries);
+    const countriesOptions = [];
+    countryCodes.map((code) =>
+      countriesOptions.push(<option>{countries.countries[code].name}</option>)
+    );
     return (
       <Form action="/" onSubmit={this.handleRegister}>
         <FormGroup className="form-label-group">
@@ -61,12 +67,10 @@ class RegisterAddress extends React.Component {
         </FormGroup>
         <FormGroup className="form-label-group">
           <Input
-            type="text"
-            placeholder="Country"
-            required
-            value={this.state.country}
-            onChange={(e) => this.setState({ country: e.target.value })}
-          />
+            type="select"
+            onChange={(e) => this.setState({ country: e.target.value })}>
+            {countriesOptions}
+          </Input>
           <Label>Country</Label>
         </FormGroup>
         <div className="d-flex justify-content-between">
