@@ -92,7 +92,7 @@ exports.confirmRegistration = async (req, res) => {
 
   user.verifiedAccount = true;
   user.save();
-  res.status(200).send('Confirmation successfull');
+  res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
 };
 
 /** **********************LOGIN HANDLER*********************** */
