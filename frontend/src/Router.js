@@ -17,6 +17,9 @@ const login = lazy(() => import('./views/pages/authentication/login/Login'));
 const register = lazy(() =>
   import('./views/pages/authentication/register/Register')
 );
+const registerSuccessful = lazy(() =>
+  import('./views/pages/authentication/register/RegisterSuccessful')
+);
 
 // error sites
 const authorized = lazy(() => import('./views/pages/misc/NotAuthorized'));
@@ -72,6 +75,11 @@ class AppRouter extends React.Component {
           <AppRoute path="/page2" component={Page2} />
           <AppRoute path="/account-settings" component={accountSettings} />
           <AppRoute path="/register" component={register} fullLayout />
+          <AppRoute
+            path="/registered"
+            component={registerSuccessful}
+            fullLayout
+          />
           <AppRoute path="/login" component={login} fullLayout />
           <AppRoute
             path="/misc/not-authorized"

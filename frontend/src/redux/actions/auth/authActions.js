@@ -52,7 +52,7 @@ export const register = (user) => (dispatch) => {
         type: REGISTER_SUCCESS,
         payload: res.data
       });
-      history.push('/');
+      history.push('/registered');
     })
     .catch((err) => {
       dispatch(
