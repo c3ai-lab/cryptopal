@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
   const payerId = mongoose.Types.ObjectId(); // unique payerId
 
   // get confirmation token and send email
-  const confirmToken = await sendConfirmationEmail({
+  sendConfirmationEmail({
     id: payerId,
     email: req.body.email,
     name: req.body.givenName,
@@ -50,7 +50,6 @@ exports.register = async (req, res) => {
     phone: req.body.phone,
     verifiedAccount: false,
     payerId,
-    confirmToken,
     merchantId: null,
     password: hashedPassword,
   });
@@ -60,6 +59,18 @@ exports.register = async (req, res) => {
   } catch (err) {
     res.status(400).send(err); // send db error
   }
+};
+
+/** **********************CONFIRM REGISTRATION HANDLER*********************** */
+exports.confirmRegistration = async (req, res) => {
+  const decodedUser = jwt.verify(
+    req.params.token,
+    process.env.TOKEN_SECRET_CONFIRM
+  );
+  const user = await User.findOne({ payerId: decodedUser.id });
+  user.verifiedAccount = true;
+  user.save();
+  res.status(200).send('Confirmation successfull');
 };
 
 /** **********************LOGIN HANDLER*********************** */

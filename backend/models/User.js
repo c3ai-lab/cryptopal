@@ -97,9 +97,6 @@ const userSchema = new mongoose.Schema({
     min: 4,
     max: 30,
   },
-  confirmToken: {
-    type: String,
-  },
 });
 
 module.exports = mongoose.model('User', userSchema);
