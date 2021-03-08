@@ -7,18 +7,19 @@ import { ContextLayout } from './utility/context/Layout';
 
 // Route-based code splitting
 const Home = lazy(() => import('./views/pages/Home'));
-
 const Page2 = lazy(() => import('./views/pages/Page2'));
+const accountSettings = lazy(() =>
+  import('./views/pages/account-settings/AccountSettings')
+);
 
+// authorization base sites
 const login = lazy(() => import('./views/pages/authentication/login/Login'));
-
 const register = lazy(() =>
   import('./views/pages/authentication/register/Register')
 );
 
-const accountSettings = lazy(() =>
-  import('./views/pages/account-settings/AccountSettings')
-);
+// error sites
+const authorized = lazy(() => import('./views/pages/misc/NotAuthorized'));
 
 // Set Layout and Component Using App Route
 const RouteConfig = ({
@@ -72,6 +73,11 @@ class AppRouter extends React.Component {
           <AppRoute path="/account-settings" component={accountSettings} />
           <AppRoute path="/register" component={register} fullLayout />
           <AppRoute path="/login" component={login} fullLayout />
+          <AppRoute
+            path="/misc/not-authorized"
+            component={authorized}
+            fullLayout
+          />
         </Switch>
       </Router>
     );
