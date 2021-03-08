@@ -105,6 +105,11 @@ exports.login = async (req, res) => {
   const user = await User.findOne({ loginName: req.body.email });
   if (!user) return res.status(400).send('Invalid email');
 
+  // check if email is confirmed
+  if (!user.verifiedAccount) {
+    return res.status(400).send('Email not confirmed.');
+  }
+
   // check if password is correct
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) {
