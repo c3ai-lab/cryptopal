@@ -6,6 +6,12 @@ const router = express.Router();
 // route to register a new user with authorization controller
 router.post('/register', authentication.register);
 
+// route to resend confirmation email with authorization controller
+router.get(
+  '/resend-confirmation/:email',
+  authentication.resendConfirmationMail
+);
+
 // route to validate a user with authorization controller
 router.get('/validate/:token', authentication.confirmRegistration);
 

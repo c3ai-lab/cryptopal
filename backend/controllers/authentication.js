@@ -61,6 +61,26 @@ exports.register = async (req, res) => {
   }
 };
 
+/** *******************RESEND CONFIRMATION EMAIL HANDLER******************* */
+exports.resendConfirmationMail = async (req, res) => {
+  const user = await User.findOne({
+    email: { $elemMatch: { value: req.params.email, primary: true } },
+  });
+  if (!user) return res.status(400).send('Invalid email');
+
+  if (user.verifiedAccount) {
+    return res.status(401).send('User already verified');
+  }
+
+  sendConfirmationEmail({
+    id: user.payerId,
+    email: req.params.email,
+    name: user.givenName,
+  });
+
+  res.status(200).send('Successfully send email');
+};
+
 /** **********************CONFIRM REGISTRATION HANDLER*********************** */
 exports.confirmRegistration = async (req, res) => {
   const decodedUser = jwt.verify(
@@ -68,6 +88,8 @@ exports.confirmRegistration = async (req, res) => {
     process.env.TOKEN_SECRET_CONFIRM
   );
   const user = await User.findOne({ payerId: decodedUser.id });
+  if (!user) return res.status(400).send('Invalid Token');
+
   user.verifiedAccount = true;
   user.save();
   res.status(200).send('Confirmation successfull');
