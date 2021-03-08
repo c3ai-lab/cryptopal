@@ -6,6 +6,9 @@ const router = express.Router();
 // route to register a new user with authorization controller
 router.post('/register', authentication.register);
 
+// route to validate a user with authorization controller
+router.get('/validate/:token', authentication.confirmRegistration);
+
 // route to log in a user with authorization controller
 router.post('/login', authentication.login);
 
