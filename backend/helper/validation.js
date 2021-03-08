@@ -1,11 +1,11 @@
 /*
- * Validation of send authentification data before
- * interacting with database.
+ * Validation of send authentification data to reject
+ * requests with wrong formated data
  */
 const Joi = require('@hapi/joi');
 
+// set up joi validation of registration data
 const registerValidation = (data) => {
-  // set up joi validation of registration data
   const schema = Joi.object({
     givenName: Joi.string().required(),
     familyName: Joi.string().required(),
@@ -24,8 +24,8 @@ const registerValidation = (data) => {
   return schema.validate(data);
 };
 
+// set up joi validation of login data
 const loginValidation = (data) => {
-  // set up joi validation of login data
   const schema = Joi.object({
     email: Joi.string().min(6).required(),
     password: Joi.string().min(6).required(),
@@ -34,5 +34,17 @@ const loginValidation = (data) => {
   return schema.validate(data);
 };
 
+// set up joi validation of login data
+const changePasswordValidation = (data) => {
+  const schema = Joi.object({
+    id: Joi.string().required(),
+    oldPassword: Joi.string().min(6).required(),
+    newPassword: Joi.string().min(6).required(),
+  });
+
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.changePasswordValidation = changePasswordValidation;
