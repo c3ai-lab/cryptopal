@@ -9,4 +9,7 @@ router.post('/register', authentication.register);
 // route to log in a user with authorization controller
 router.post('/login', authentication.login);
 
+// route to log in a user with authorization controller
+router.post('/change-password', authentication.changePassword);
+
 module.exports = router;
