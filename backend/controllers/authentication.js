@@ -7,19 +7,7 @@ const {
   loginValidation,
   changePasswordValidation,
 } = require('../helper/validation');
-
-// create and assign a token
-const generateJWT = (id) => {
-  const token = jwt.sign({ _id: id }, process.env.TOKEN_SECRET, {
-    expiresIn: 900,
-  });
-  return token;
-};
-
-const getDataWithoutPassword = (user) => {
-  const { password, ...otherData } = user._doc;
-  return otherData;
-};
+const { sendConfirmationEmail } = require('../helper/mailSender');
 
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
@@ -34,6 +22,15 @@ exports.register = async (req, res) => {
   // hash the password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  const payerId = mongoose.Types.ObjectId(); // unique payerId
+
+  // get confirmation token and send email
+  const confirmToken = await sendConfirmationEmail({
+    id: payerId,
+    email: req.body.email,
+    name: req.body.givenName,
+  });
 
   // create user with received data
   const user = new User({
@@ -52,17 +49,14 @@ exports.register = async (req, res) => {
     },
     phone: req.body.phone,
     verifiedAccount: false,
-    payerId: mongoose.Types.ObjectId(),
+    payerId,
+    confirmToken,
     merchantId: null,
     password: hashedPassword,
   });
   try {
-    // save user
-    const savedUser = await user.save();
-    // send token and user data to client
-    const token = generateJWT(savedUser._id);
-    const returnedUser = getDataWithoutPassword(user);
-    res.status(200).send({ token, user: returnedUser });
+    await user.save(); // save user
+    res.status(200).send('Sign up successfull');
   } catch (err) {
     res.status(400).send(err); // send db error
   }
@@ -84,12 +78,17 @@ exports.login = async (req, res) => {
     return res.status(400).send('Invalid password');
   }
 
-  const token = generateJWT(user._id);
-  const returnedUser = getDataWithoutPassword(user);
+  // create auth token
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET_AUTH, {
+    expiresIn: 900,
+  });
+
+  // delete password from response user data
+  const { password, ...userWithoutPw } = user._doc;
 
   res.status(200).send({
     token,
-    user: returnedUser,
+    user: userWithoutPw,
   });
 };
 
