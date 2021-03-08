@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, FormGroup, Row, Col } from 'reactstrap';
+import axios from 'axios';
+import { Button, FormGroup, Row, Col, Alert } from 'reactstrap';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 const formSchema = Yup.object().shape({
@@ -15,13 +16,47 @@ const formSchema = Yup.object().shape({
 });
 
 class ChangePassword extends React.Component {
-  onChangePassword(values) {
+  state = {
+    type: '',
+    message: null
+  };
+
+  onChangePassword(values, resetValues) {
     const id = this.props.user._id;
-    const { oldPassword, newPassword } = values;
-    // send to server
+
+    // Headers
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    // Request body
+    const body = JSON.stringify({
+      id,
+      oldPassword: values.oldpass,
+      newPassword: values.newpass
+    });
+    axios
+      .post(
+        process.env.REACT_APP_SERVER_API + '/auth/change-password',
+        body,
+        config
+      )
+      .then(() => {
+        this.setState({
+          type: 'success',
+          message: 'Successfully changed password!'
+        });
+      })
+      .catch((err) => {
+        this.setState({ type: 'danger', message: err.response.data });
+      });
+    resetValues();
   }
 
   render() {
+    const { type, message } = this.state;
     return (
       <React.Fragment>
         <Row className="pt-1">
@@ -31,6 +66,7 @@ class ChangePassword extends React.Component {
               Fill in the form to change your password. Do not forget to safe
               the changes.
             </p>
+            {message ? <Alert color={type}>{message}</Alert> : null}
             <Formik
               initialValues={{
                 oldpass: '',
@@ -38,7 +74,9 @@ class ChangePassword extends React.Component {
                 confirmpass: ''
               }}
               validationSchema={formSchema}
-              onSubmit={(values) => this.onChangePassword(values)}>
+              onSubmit={(values, functions) =>
+                this.onChangePassword(values, functions.resetForm)
+              }>
               {({ errors, touched }) => (
                 <Form>
                   <FormGroup>
