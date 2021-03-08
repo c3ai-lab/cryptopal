@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { registerValidation, loginValidation } = require('../helper/validation');
+const {
+  registerValidation,
+  loginValidation,
+  changePasswordValidation,
+} = require('../helper/validation');
 
 // create and assign a token
 const generateJWT = (id) => {
@@ -87,4 +91,37 @@ exports.login = async (req, res) => {
     token,
     user: returnedUser,
   });
+};
+
+/** *******************CHANGE PASSWORD HANDLER*********************** */
+exports.changePassword = async (req, res) => {
+  // validate received data
+  const { error } = changePasswordValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // check if the user is already in the database
+  const user = await User.findOne({ _id: req.body.id });
+  if (!user) return res.status(400).send('User id cannot be found');
+
+  // check if password is correct
+  const validPassword = await bcrypt.compare(
+    req.body.oldPassword,
+    user.password
+  );
+  if (!validPassword) {
+    return res.status(400).send('Invalid password');
+  }
+
+  try {
+    // hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+    user.password = hashedPassword;
+
+    await user.save(); // save user in database
+
+    res.status(200).send();
+  } catch (err) {
+    res.status(400).send(err); // send db error
+  }
 };
