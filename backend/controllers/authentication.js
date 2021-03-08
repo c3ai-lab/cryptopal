@@ -55,7 +55,7 @@ exports.register = async (req, res) => {
   });
   try {
     await user.save(); // save user
-    res.status(200).send('Sign up successfull');
+    res.status(200).send({ user: { email: req.body.email } });
   } catch (err) {
     res.status(400).send(err); // send db error
   }
