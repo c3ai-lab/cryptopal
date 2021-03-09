@@ -34,7 +34,10 @@ exports.updateUserInfo = async (req, res) => {
   if (!storedUser) return res.status(400).send('Invalid authorization token');
 
   // check if email was changed
-  if (updateData.emails[0].value !== storedUser.emails[0].value) {
+  if (
+    updateData.emails &&
+    updateData.emails[0].value !== storedUser.emails[0].value
+  ) {
     // check if email is already used for another account
     const existingEmail = await User.findOne({
       login_name: updateData.emails[0].value,
