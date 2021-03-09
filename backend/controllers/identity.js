@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User');
 
 /** *******************RESEND CONFIRMATION EMAIL HANDLER******************* */
@@ -28,13 +30,50 @@ exports.updateUserInfo = async (req, res) => {
   delete updateData.merchant_id;
   delete updateData.password;
 
+  const storedUser = await User.findOne({ _id: req.token._id });
+  if (!storedUser) return res.status(400).send('Invalid authorization token');
+
+  // check if email was changed
+  if (updateData.emails[0].value !== storedUser.emails[0].value) {
+    // check if email is already used for another account
+    const existingEmail = await User.findOne({
+      login_name: updateData.emails[0].value,
+    });
+    if (existingEmail) {
+      return res
+        .status(400)
+        .send('Email already connected to another account.');
+    }
+    // send email with change email address request
+    sendChangeEmailConfirmation({
+      id: storedUser.payer_id,
+      name: storedUser.given_name,
+      oldEmail: storedUser.emails[0].value,
+      newEmail: updateData.emails[0].value,
+    });
+    delete updateData.emails;
+  }
+
   // update database entry
-  const user = await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
     { _id: req.token._id },
     { $set: { ...updateData } },
     { useFindAndModify: false }
   );
-  if (!user) return res.status(400).send('Invalid authorization token');
 
-  res.status(200).send('Successfully updated');
+  res.status(200).send(updateData);
+};
+
+exports.validateEmailChange = async (req, res) => {
+  const decodedUser = jwt.verify(
+    req.params.token,
+    process.env.TOKEN_SECRET_CONFIRM
+  );
+  const user = await User.findOne({ payer_id: decodedUser.id });
+  if (!user) return res.status(400).send('Invalid Token');
+
+  user.emails[0].value = req.query.email;
+  user.login_name = req.query.email;
+  user.save();
+  res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
 };
