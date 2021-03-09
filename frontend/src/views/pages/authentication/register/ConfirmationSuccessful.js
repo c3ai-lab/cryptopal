@@ -16,16 +16,16 @@ class ConfirmationSuccessful extends React.Component {
                 className="img-fluid align-self-center"
               />
               <h1 className="font-large-2 my-1">
-                Email confirmation successfull!
+                Email confirmation successful!
               </h1>
               <p className="pt-2 mb-0">
-                The email confirmation was successfull. You are now ready to use
+                The email confirmation was successful. You are now ready to use
                 Cryptopal - your payment provider for cryptocurrency.
                 <br></br>
                 We hope you enjoy our service and are looking forward for your
                 feedback.
               </p>
-              <p className="pb-2">Your Cryptopal-Team</p>
+              <p className="pb-2 mt-2">Your Cryptopal-Team</p>
               <Button.Ripple
                 tag="a"
                 href="/"
