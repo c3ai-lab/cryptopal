@@ -1,14 +1,17 @@
 import React from 'react';
-import { Button, FormGroup, Row, Col } from 'reactstrap';
+import { Button, FormGroup, Row, Col, Alert } from 'reactstrap';
 import countries from 'countries-list';
+import { connect } from 'react-redux';
+import { updateUser } from '../../../redux/actions/auth/authActions';
+import { clearErrors } from '../../../redux/actions/errors/errorActions';
 
 import '../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss';
 
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 const formSchema = Yup.object().shape({
-  streetAddress: Yup.string().required('Required').max(255, 'Too long'),
-  postalCode: Yup.string().required('Required').max(255, 'Too long'),
+  street_address: Yup.string().required('Required').max(255, 'Too long'),
+  postal_code: Yup.string().required('Required').max(255, 'Too long'),
   locality: Yup.string().required('Required').max(255, 'Too long'),
   region: Yup.string(),
   country: Yup.string().required('Required'),
@@ -18,12 +21,44 @@ const formSchema = Yup.object().shape({
 
 class InfoTab extends React.Component {
   state = {
-    ...this.props.user
+    ...this.props.user,
+    feedback: { type: 'success', msg: null }
   };
 
   onChangesSubmit(values) {
     // send request to server
-    console.log(values);
+    const { website, phone, ...address } = values;
+
+    // send request
+    this.props.updateUser({ user: { website, phone, address } });
+    this.setState({
+      feedback: { type: 'success', msg: 'Successfully changed data.' }
+    });
+    // reset feedback message after 5 sec
+    setTimeout(
+      () =>
+        this.setState({
+          feedback: { msg: null }
+        }),
+      5000
+    );
+  }
+
+  // check for request error
+  componentDidUpdate(prevProps) {
+    if (prevProps.user !== this.props.user) {
+      this.setState({ ...this.props.user });
+    }
+    // set error message if exists
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({ feedback: { type: 'danger', msg: error.msg } });
+    }
+
+    // clear errors if log in was successful
+    if (this.props.isAuthenticated && error.status) {
+      this.props.clearErrors();
+    }
   }
 
   render() {
@@ -37,6 +72,7 @@ class InfoTab extends React.Component {
         <option key={code}>{countries.countries[code].name}</option>
       )
     );
+    const feedback = this.state.feedback;
     return (
       <React.Fragment>
         <Row className="pt-1">
@@ -49,9 +85,15 @@ class InfoTab extends React.Component {
             <Formik
               initialValues={{ ...address, phone, website }}
               validationSchema={formSchema}
-              onSubmit={(values) => this.onChangesSubmit(values)}>
+              onSubmit={(values) => {
+                console.log('submit');
+                this.onChangesSubmit(values);
+              }}>
               {({ errors, touched }) => (
                 <Form>
+                  {feedback.msg ? (
+                    <Alert color={feedback.type}>{feedback.msg}</Alert>
+                  ) : null}
                   <FormGroup>
                     <Field
                       name="street_address"
@@ -91,6 +133,19 @@ class InfoTab extends React.Component {
                     />
                     {errors.locality && touched.locality ? (
                       <div className="text-danger">{errors.locality}</div>
+                    ) : null}
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      name="region"
+                      id="region"
+                      className={`form-control ${
+                        errors.region && touched.region && 'is-invalid'
+                      }`}
+                      placeholder="Region"
+                    />
+                    {errors.region && touched.region ? (
+                      <div className="text-danger">{errors.region}</div>
                     ) : null}
                   </FormGroup>
                   <FormGroup>
@@ -151,4 +206,9 @@ class InfoTab extends React.Component {
     );
   }
 }
-export default InfoTab;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  error: state.error
+});
+
+export default connect(mapStateToProps, { updateUser, clearErrors })(InfoTab);
