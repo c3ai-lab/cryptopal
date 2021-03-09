@@ -9,7 +9,8 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  USER_UPDATED
 } from '../types';
 
 // Check token & load user
@@ -18,7 +19,10 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get(process.env.REACT_APP_SERVER_API + '/auth/user', tokenConfig(getState))
+    .get(
+      process.env.REACT_APP_SERVER_API + '/identity/userinfo',
+      tokenConfig(getState)
+    )
     .then((res) =>
       dispatch({
         type: USER_LOADED,
@@ -99,6 +103,30 @@ export const logout = () => {
   return {
     type: LOGOUT_SUCCESS
   };
+};
+
+// Change User data
+export const updateUser = (user) => (dispatch, getState) => {
+  // Request body
+  const body = JSON.stringify(user);
+
+  axios
+    .patch(
+      process.env.REACT_APP_SERVER_API + '/identity/userinfo',
+      body,
+      tokenConfig(getState)
+    )
+    .then((res) =>
+      dispatch({
+        type: USER_UPDATED,
+        payload: res.data
+      })
+    )
+    .catch((err) => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'USER_UPDATE_FAIL')
+      );
+    });
 };
 
 // Setup config/headers and token
