@@ -102,10 +102,10 @@ class AccountSettings extends React.Component {
             <CardBody>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                  <GeneralTab user={this.props.user} />
+                  <GeneralTab />
                 </TabPane>
                 <TabPane tabId="2">
-                  <InfoTab user={this.props.user} />
+                  <InfoTab />
                 </TabPane>
                 <TabPane tabId="3">
                   <ChangePassword user={this.props.user} />
@@ -120,8 +120,7 @@ class AccountSettings extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
-  error: state.error
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps)(AccountSettings);
