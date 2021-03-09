@@ -7,15 +7,20 @@ import {
   Input,
   Label,
   Row,
-  Col
+  Col,
+  Alert
 } from 'reactstrap';
 import img from '../../../assets/img/portrait/small/avatar-s-11.jpg';
 import Avatar from '../../../components/@vuexy/avatar/AvatarComponent';
+import { connect } from 'react-redux';
+import { updateUser } from '../../../redux/actions/auth/authActions';
+import { clearErrors } from '../../../redux/actions/errors/errorActions';
 
 class General extends React.Component {
   state = {
     ...this.props.user,
-    credentials: ''
+    credentials: '',
+    feedback: { type: 'success', msg: null }
   };
 
   componentDidMount() {
@@ -31,11 +36,47 @@ class General extends React.Component {
   onChangeSubmit(e) {
     e.preventDefault();
     // send change data request to server
-    console.log(this.state);
+    const { credentials, feedback, ...updateData } = this.state;
+    let message = 'Successfully changed data!';
+    // check if email was changed
+    if (updateData.emails[0].value !== this.props.user.emails[0].value) {
+      message =
+        'You need to confirm email change. We send you an email to your active address.';
+    }
+    // send update request
+    this.props.updateUser({ user: updateData });
+    this.setState({
+      feedback: { type: 'success', msg: message }
+    });
+    // reset feedback message after 5 sec
+    setTimeout(
+      () =>
+        this.setState({
+          feedback: { msg: null }
+        }),
+      5000
+    );
+  }
+
+  // check for login error
+  componentDidUpdate(prevProps) {
+    if (prevProps.user != this.props.user) {
+      this.setState({ ...this.props.user });
+    }
+    // set error message if exists
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      this.setState({ feedback: { type: 'danger', msg: error.msg } });
+    }
+
+    // clear errors if log in was successful
+    if (this.props.isAuthenticated && error.status) {
+      this.props.clearErrors();
+    }
   }
 
   render() {
-    const user = this.state;
+    const { feedback, ...user } = this.state;
     return (
       <React.Fragment>
         <Media>
@@ -75,6 +116,9 @@ class General extends React.Component {
             </p>
           </Media>
         </Media>
+        {feedback.msg ? (
+          <Alert color={feedback.type}>{feedback.msg}</Alert>
+        ) : null}
         <Form className="mt-2" onSubmit={(e) => this.onChangeSubmit(e)}>
           <Row>
             <Col sm="12">
@@ -110,13 +154,12 @@ class General extends React.Component {
                   id="email"
                   value={user.emails ? user.emails[0].value : ''}
                   required
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const email = e.target.value;
                     this.setState((prevState) => ({
-                      emails: [
-                        { ...prevState.emails[0], value: e.target.value }
-                      ]
-                    }))
-                  }
+                      emails: [{ ...prevState.emails[0], value: email }]
+                    }));
+                  }}
                 />
               </FormGroup>
             </Col>
@@ -141,4 +184,9 @@ class General extends React.Component {
     );
   }
 }
-export default General;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  error: state.error
+});
+
+export default connect(mapStateToProps, { updateUser, clearErrors })(General);
