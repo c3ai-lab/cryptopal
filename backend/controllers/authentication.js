@@ -7,7 +7,7 @@ const {
   loginValidation,
   changePasswordValidation,
 } = require('../helper/validation');
-const { sendConfirmationEmail } = require('../helper/mailSender');
+const { sendRegisterConfirmationEmail } = require('../helper/mailSender');
 
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
   const payerId = mongoose.Types.ObjectId(); // unique payerId
 
   // get confirmation token and send email
-  sendConfirmationEmail({
+  sendRegisterConfirmationEmail({
     id: payerId,
     email: req.body.email,
     name: req.body.givenName,
@@ -72,7 +72,7 @@ exports.resendConfirmationMail = async (req, res) => {
     return res.status(401).send('User already verified');
   }
 
-  sendConfirmationEmail({
+  sendRegisterConfirmationEmail({
     id: user.payer_id,
     email: req.params.email,
     name: user.given_name,
