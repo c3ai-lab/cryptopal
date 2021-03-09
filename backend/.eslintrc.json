@@ -17,6 +17,10 @@
       "no-console": "off",
       "no-plusplus": "off",
       "linebreak-style": 0,
+      "operator-linebreak": [
+        "error",
+        "after"
+      ],
       "comma-dangle": [
         "error",
         {
