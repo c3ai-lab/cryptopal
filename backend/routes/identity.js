@@ -10,4 +10,7 @@ router.get('/userinfo', verifyToken, identity.getUserInfo);
 // route to get users information with identity controller
 router.patch('/userinfo', verifyToken, identity.updateUserInfo);
 
+// route to get users information with identity controller
+router.get('/validate/:token', identity.validateEmailChange);
+
 module.exports = router;
