@@ -60,7 +60,7 @@ class General extends React.Component {
 
   // check for login error
   componentDidUpdate(prevProps) {
-    if (prevProps.user != this.props.user) {
+    if (prevProps.user !== this.props.user) {
       this.setState({ ...this.props.user });
     }
     // set error message if exists
