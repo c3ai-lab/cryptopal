@@ -34,23 +34,23 @@ exports.register = async (req, res) => {
 
   // create user with received data
   const user = new User({
-    loginName: req.body.email,
-    givenName: req.body.givenName,
-    familyName: req.body.familyName,
+    login_name: req.body.email,
+    given_name: req.body.givenName,
+    family_name: req.body.familyName,
     company: req.body.company,
     website: req.body.website,
-    email: [{ value: req.body.email, type: 'private', primary: true }],
+    emails: [{ value: req.body.email, type: 'private', primary: true }],
     address: {
-      streetAddress: req.body.streetAddress,
+      street_address: req.body.streetAddress,
       locality: req.body.locality,
       region: req.body.region,
-      postalCode: req.body.postalCode,
+      postal_code: req.body.postalCode,
       country: req.body.country,
     },
     phone: req.body.phone,
-    verifiedAccount: false,
-    payerId,
-    merchantId: null,
+    verified_account: false,
+    payer_id: payerId,
+    merchant_id: null,
     password: hashedPassword,
   });
   try {
@@ -64,18 +64,18 @@ exports.register = async (req, res) => {
 /** *******************RESEND CONFIRMATION EMAIL HANDLER******************* */
 exports.resendConfirmationMail = async (req, res) => {
   const user = await User.findOne({
-    email: { $elemMatch: { value: req.params.email, primary: true } },
+    emails: { $elemMatch: { value: req.params.email, primary: true } },
   });
   if (!user) return res.status(400).send('Invalid email');
 
-  if (user.verifiedAccount) {
+  if (user.verified_account) {
     return res.status(401).send('User already verified');
   }
 
   sendConfirmationEmail({
-    id: user.payerId,
+    id: user.payer_id,
     email: req.params.email,
-    name: user.givenName,
+    name: user.given_name,
   });
 
   res.status(200).send('Successfully send email');
@@ -87,10 +87,10 @@ exports.confirmRegistration = async (req, res) => {
     req.params.token,
     process.env.TOKEN_SECRET_CONFIRM
   );
-  const user = await User.findOne({ payerId: decodedUser.id });
+  const user = await User.findOne({ payer_id: decodedUser.id });
   if (!user) return res.status(400).send('Invalid Token');
 
-  user.verifiedAccount = true;
+  user.verified_account = true;
   user.save();
   res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
 };
@@ -102,11 +102,11 @@ exports.login = async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   // check if the user is already in the database
-  const user = await User.findOne({ loginName: req.body.email });
+  const user = await User.findOne({ login_name: req.body.email });
   if (!user) return res.status(400).send('Invalid email');
 
   // check if email is confirmed
-  if (!user.verifiedAccount) {
+  if (!user.verified_account) {
     return res.status(400).send('Email not confirmed.');
   }
 

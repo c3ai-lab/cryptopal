@@ -27,9 +27,9 @@ class InfoTab extends React.Component {
   }
 
   render() {
-    // get current values
+    // get current values and set as initial values
     const { address, phone, website } = this.props.user ? this.props.user : {};
-    // get all countries from api and display them as option for selector
+    // get all countries from api and display them as options for selector
     const countryCodes = Object.keys(countries.countries);
     const countriesOptions = [];
     countryCodes.map((code) =>
@@ -54,8 +54,8 @@ class InfoTab extends React.Component {
                 <Form>
                   <FormGroup>
                     <Field
-                      name="streetAddress"
-                      id="streetAddress"
+                      name="street_address"
+                      id="street_address"
                       className={`form-control ${
                         errors.streetAddress &&
                         touched.streetAddress &&
@@ -69,10 +69,9 @@ class InfoTab extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Field
-                      name="postalCode"
+                      name="postal_code"
                       placeholder="Postal Code"
-                      id="postalCode"
-                      type="postalCode"
+                      id="postal_code"
                       className={`form-control ${
                         errors.postalCode && touched.postalCode && 'is-invalid'
                       }`}

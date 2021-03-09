@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  loginName: {
+  login_name: {
     type: String,
     required: true,
     min: 6,
     max: 255,
   },
-  givenName: {
+  given_name: {
     type: String,
     required: true,
     max: 255,
   },
-  familyName: {
+  family_name: {
     type: String,
     required: true,
     max: 255,
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     max: 255,
   },
-  email: [
+  emails: [
     {
       value: {
         type: String,
@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     },
   ],
   address: {
-    streetAddress: {
+    street_address: {
       type: String,
       required: true,
       min: 6,
@@ -61,7 +61,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       max: 255,
     },
-    postalCode: {
+    postal_code: {
       type: String,
       max: 255,
     },
@@ -71,17 +71,17 @@ const userSchema = new mongoose.Schema({
       max: 255,
     },
   },
-  verifiedAccount: {
+  verified_account: {
     type: Boolean,
     required: true,
   },
-  payerId: {
+  payer_id: {
     type: String,
     required: true,
     min: 6,
     max: 255,
   },
-  merchantId: {
+  merchant_id: {
     type: String,
     min: 6,
     max: 255,

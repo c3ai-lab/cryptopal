@@ -22,7 +22,8 @@ class General extends React.Component {
     // get credentials of user to display as an avatar
     if (this.props.user) {
       const user = this.props.user;
-      const credentials = user.givenName.charAt(0) + user.familyName.charAt(0);
+      const credentials =
+        user.given_name.charAt(0) + user.family_name.charAt(0);
       this.setState({ credentials: credentials.toUpperCase() });
     }
   }
@@ -30,6 +31,7 @@ class General extends React.Component {
   onChangeSubmit(e) {
     e.preventDefault();
     // send change data request to server
+    console.log(this.state);
   }
 
   render() {
@@ -80,9 +82,11 @@ class General extends React.Component {
                 <Label for="givenName">Given Name</Label>
                 <Input
                   id="givenName"
-                  value={user.givenName}
+                  value={user.given_name}
                   required
-                  onChange={(e) => this.setState({ givenName: e.target.value })}
+                  onChange={(e) =>
+                    this.setState({ given_name: e.target.value })
+                  }
                 />
               </FormGroup>
             </Col>
@@ -91,10 +95,10 @@ class General extends React.Component {
                 <Label for="familyName">Family Name</Label>
                 <Input
                   id="familyName"
-                  value={user.familyName}
+                  value={user.family_name}
                   required
                   onChange={(e) =>
-                    this.setState({ familyName: e.target.value })
+                    this.setState({ family_name: e.target.value })
                   }
                 />
               </FormGroup>
@@ -104,11 +108,13 @@ class General extends React.Component {
                 <Label for="email">Email</Label>
                 <Input
                   id="email"
-                  value={user.email ? user.email[0].value : ''}
+                  value={user.emails ? user.emails[0].value : ''}
                   required
                   onChange={(e) =>
                     this.setState((prevState) => ({
-                      email: [{ ...prevState.email[0], value: e.target.value }]
+                      emails: [
+                        { ...prevState.emails[0], value: e.target.value }
+                      ]
                     }))
                   }
                 />
@@ -120,7 +126,6 @@ class General extends React.Component {
                 <Input
                   id="company"
                   value={user.company}
-                  required
                   onChange={(e) => this.setState({ company: e.target.value })}
                 />
               </FormGroup>

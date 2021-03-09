@@ -7,13 +7,13 @@ exports.getUserInfo = async (req, res) => {
 
   const returnedUser = {
     user_id: user._id,
-    name: user.givenName + user.familyName,
-    given_name: user.givenName,
-    family_name: user.familyName,
-    emails: user.email,
+    name: user.given_name + user.family_name,
+    given_name: user.given_name,
+    family_name: user.family_name,
+    emails: user.emails,
     address: user.address,
-    verified_account: user.verifiedAccount,
-    payer_id: user.payerId,
+    verified_account: user.verified_account,
+    payer_id: user.payer_id,
   };
   res.status(200).send(returnedUser);
 };
@@ -22,10 +22,10 @@ exports.updateUserInfo = async (req, res) => {
   // delete for variables, which should not be changed by user
   const updateData = req.body.user;
   delete updateData._id;
-  delete updateData.loginName;
-  delete updateData.verifiedAccount;
-  delete updateData.payerId;
-  delete updateData.merchantId;
+  delete updateData.login_name;
+  delete updateData.verified_account;
+  delete updateData.payer_id;
+  delete updateData.merchant_id;
   delete updateData.password;
 
   // update database entry

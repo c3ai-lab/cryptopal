@@ -65,7 +65,9 @@ const ThemeNavbar = (props) => {
                 <NavbarUser
                   handleAppOverlay={props.handleAppOverlay}
                   changeCurrentLang={props.changeCurrentLang}
-                  userName={props.user.givenName + ' ' + props.user.familyName}
+                  userName={
+                    props.user.given_name + ' ' + props.user.family_name
+                  }
                   userImg={userImg}
                 />
               ) : (
