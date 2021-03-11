@@ -49,7 +49,7 @@ const changePasswordValidation = (data) => {
 const recoverPasswordValidation = (data) => {
   const schema = Joi.object({
     email: Joi.string().required(),
-    first_name: Joi.string().required(),
+    family_name: Joi.string().required(),
   });
 
   return schema.validate(data);
