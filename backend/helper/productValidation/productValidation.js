@@ -13,13 +13,11 @@ exports.addProductValidation = (data) => {
 
   const schema = Joi.object({
     name: Joi.string().required(),
-    description: Joi.string().max(1024).allow('', null),
+    description: Joi.string().max(1024),
     type: Joi.string().required(),
-    category: Joi.string().allow('', null),
-    img_url: Joi.string().min(6).required(),
-    home_url: Joi.string().min(6).required().email(),
-    create_time: Joi.string().required(),
-    update_time: Joi.string().required(),
+    category: Joi.string(),
+    img_url: Joi.string().max(255),
+    home_url: Joi.string().max(255),
     links: Joi.array().items(link),
   });
 
