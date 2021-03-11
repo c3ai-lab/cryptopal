@@ -45,6 +45,17 @@ const changePasswordValidation = (data) => {
   return schema.validate(data);
 };
 
+// set up joi validation of login data
+const recoverPasswordValidation = (data) => {
+  const schema = Joi.object({
+    email: Joi.string().required(),
+    first_name: Joi.string().required(),
+  });
+
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePasswordValidation = changePasswordValidation;
+module.exports.recoverPasswordValidation = recoverPasswordValidation;
