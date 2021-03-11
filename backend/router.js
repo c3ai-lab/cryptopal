@@ -7,4 +7,6 @@ app.use('/auth', require('./routes/authentication'));
 
 app.use('/identity', require('./routes/identity'));
 
+app.use('/products', require('./routes/product'));
+
 module.exports = app;
