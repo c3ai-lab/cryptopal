@@ -1,13 +1,18 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const generator = require('generate-password');
 const User = require('../models/User');
 const {
   registerValidation,
   loginValidation,
   changePasswordValidation,
+  recoverPasswordValidation,
 } = require('../helper/validation');
-const { sendRegisterConfirmationEmail } = require('../helper/mailSender');
+const {
+  sendRegisterConfirmationEmail,
+  sendPasswordRecoveryEmail,
+} = require('../helper/mailSender');
 
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
@@ -157,6 +162,40 @@ exports.changePassword = async (req, res) => {
 
     await user.save(); // save user in database
 
+    res.status(200).send();
+  } catch (err) {
+    res.status(400).send(err); // send db error
+  }
+};
+
+/** *******************RECOVER PASSWORD HANDLER*********************** */
+exports.recoverPassword = async (req, res) => {
+  // validate received data
+  const { error } = recoverPasswordValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // check if the user is already in the database
+  const user = await User.findOne({ login_name: req.body.email });
+  if (!user || user.family_name !== req.body.family_name) {
+    return res.status(400).send('User cannot be found');
+  }
+
+  // generate new random password
+  const password = generator.generate({
+    length: 10,
+    numbers: true,
+  });
+
+  // hash the new password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  user.password = hashedPassword;
+
+  // send email with new password
+  const { login_name, given_name } = user;
+  sendPasswordRecoveryEmail({ login_name, given_name }, password);
+  try {
+    await user.save(); // save user in database
     res.status(200).send();
   } catch (err) {
     res.status(400).send(err); // send db error
