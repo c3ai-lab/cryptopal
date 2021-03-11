@@ -54,8 +54,8 @@ exports.sendPasswordRecoveryEmail = (user, password) => {
   const mailOptions = {
     from: process.env.EMAILADDRESS_SENDER,
     to: user.login_name,
-    subject: 'You Password has been resetted',
-    text: `Hi ${user.given_name}!\n\nYou requested a new password for your CryptoPal account.\n\nNew password:\n\n${password}\n\nWe strongly recommend to change the password after you logged in.\n\nYour Cryptopal-Team `,
+    subject: 'Recovery',
+    text: `Hi ${user.given_name}!\n\nYou requested a new password for your CryptoPal account.\n\nNew password:\n${password}\n\nWe strongly recommend to change the password after you logged in.\n\nYour Cryptopal-Team `,
   };
 
   transporter.sendMail(mailOptions, (error) => {
