@@ -37,7 +37,7 @@ class ForgotPassword extends React.Component {
         this.setState({
           feedback: {
             type: 'success',
-            message: res.body.message
+            message: res.data
           }
         });
       })
