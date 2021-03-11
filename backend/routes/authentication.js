@@ -21,4 +21,7 @@ router.post('/login', authentication.login);
 // route to log in a user with authorization controller
 router.post('/change-password', authentication.changePassword);
 
+// route to log in a user with authorization controller
+router.post('/recover-password', authentication.recoverPassword);
+
 module.exports = router;
