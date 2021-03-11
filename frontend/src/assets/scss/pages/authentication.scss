@@ -9,16 +9,16 @@
 // ================================================================================================
 
 // Core mixins
-@import "~bootstrap/scss/_functions.scss";
-@import "~bootstrap/scss/mixins";
-@import "../bootstrap-extended/mixins";
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/mixins';
+@import '../bootstrap-extended/mixins';
 
 // Core variables and mixins overrides
-@import "../core/variables/variables";
-@import "~bootstrap/scss/_variables.scss";
+@import '../core/variables/variables';
+@import '~bootstrap/scss/_variables.scss';
 
 // Overrides user variable
-@import "../core/variables/components-variables";
+@import '../core/variables/components-variables';
 
 // authentication pages background
 .bg-authentication {
@@ -41,6 +41,11 @@
 
 .login-tabs-container {
   min-height: 505px;
+}
+
+.link:hover {
+  cursor: pointer;
+  color: $primary;
 }
 
 // Unlock btn spacing in sm

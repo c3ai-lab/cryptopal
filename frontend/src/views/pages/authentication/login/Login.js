@@ -11,9 +11,8 @@ import {
   Label,
   Alert
 } from 'reactstrap';
-import { Mail, Lock, Check } from 'react-feather';
+import { Mail, Lock } from 'react-feather';
 import { history } from '../../../../history';
-import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
 
 import loginImg from '../../../../assets/img/pages/login.png';
 import '../../../../assets/scss/pages/authentication.scss';
@@ -107,12 +106,14 @@ class Login extends React.Component {
                         <Label>Password</Label>
                       </FormGroup>
                       <FormGroup className="d-flex justify-content-between align-items-center">
-                        <Checkbox
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label="Remember me"
-                        />
-                        <div className="float-right">Forgot Password?</div>
+                        <div />
+                        <div className="float-right">
+                          <p
+                            className="link"
+                            onClick={() => history.push('/forgot-password')}>
+                            Forgot Password?
+                          </p>
+                        </div>
                       </FormGroup>
                       <div className="d-flex justify-content-between">
                         <Button.Ripple
