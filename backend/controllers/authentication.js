@@ -8,7 +8,7 @@ const {
   loginValidation,
   changePasswordValidation,
   recoverPasswordValidation,
-} = require('../helper/validation');
+} = require('../helper/authValidation/authValidation');
 const {
   sendRegisterConfirmationEmail,
   sendPasswordRecoveryEmail,
