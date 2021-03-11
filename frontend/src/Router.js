@@ -23,6 +23,9 @@ const registerSuccessful = lazy(() =>
 const emailConfirmed = lazy(() =>
   import('./views/pages/authentication/register/ConfirmationSuccessful')
 );
+const forgotPassword = lazy(() =>
+  import('./views/pages/authentication/ForgotPassword')
+);
 
 // error sites
 const authorized = lazy(() => import('./views/pages/misc/NotAuthorized'));
@@ -86,6 +89,11 @@ class AppRouter extends React.Component {
           <AppRoute
             path="/email-confirmed"
             component={emailConfirmed}
+            fullLayout
+          />
+          <AppRoute
+            path="/forgot-password"
+            component={forgotPassword}
             fullLayout
           />
           <AppRoute path="/login" component={login} fullLayout />
