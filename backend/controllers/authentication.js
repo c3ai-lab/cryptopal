@@ -196,7 +196,7 @@ exports.recoverPassword = async (req, res) => {
   sendPasswordRecoveryEmail({ login_name, given_name }, password);
   try {
     await user.save(); // save user in database
-    res.status(200).send();
+    res.status(200).send('Send email with new password.');
   } catch (err) {
     res.status(400).send(err); // send db error
   }
