@@ -9,6 +9,5 @@ exports.addProduct = async (req, res) => {
   // validate received data before creating a product
   const { error } = addProductValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  console.log('object');
   console.log(req.body);
 };
