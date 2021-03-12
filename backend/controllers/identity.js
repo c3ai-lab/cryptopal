@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User');
 
@@ -58,13 +59,17 @@ exports.updateUserInfo = async (req, res) => {
   }
 
   // update database entry
-  await User.findOneAndUpdate(
-    { _id: req.token._id },
-    { $set: { ...updateData } },
-    { useFindAndModify: false }
-  );
+  try {
+    await User.findOneAndUpdate(
+      { _id: req.token._id },
+      { $set: { ...updateData } },
+      { useFindAndModify: false }
+    );
 
-  res.status(200).send(updateData);
+    res.status(200).send(updateData);
+  } catch (err) {
+    res.status(400).send('Failed to update user!');
+  }
 };
 
 exports.validateEmailChange = async (req, res) => {
@@ -79,4 +84,18 @@ exports.validateEmailChange = async (req, res) => {
   user.login_name = req.query.email;
   user.save();
   res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
+};
+
+exports.upgradeToMerchant = async (req, res) => {
+  const user = await User.findOne({ _id: req.token._id });
+  if (!user) return res.status(400).send('Invalid authorization token');
+
+  const merchantId = mongoose.Types.ObjectId(); // unique merchantId
+  user.merchant_id = merchantId;
+  try {
+    user.save();
+    res.status(200).send('Upgrade successful');
+  } catch (err) {
+    res.status(400).send('Upgrade failed');
+  }
 };
