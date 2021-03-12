@@ -12,12 +12,13 @@ exports.addProductValidation = (data) => {
   });
 
   const schema = Joi.object({
-    name: Joi.string().required(),
-    description: Joi.string().max(1024),
-    type: Joi.string().required(),
-    category: Joi.string(),
-    img_url: Joi.string().max(255),
-    home_url: Joi.string().max(255),
+    id: Joi.string().min(6).max(50),
+    name: Joi.string().required().min(1).max(127),
+    description: Joi.string().min(1).max(256),
+    type: Joi.string().required().min(1).max(24),
+    category: Joi.string().min(4).max(256),
+    img_url: Joi.string().min(1).max(2000),
+    home_url: Joi.string().min(1).max(2000),
     links: Joi.array().items(link),
   });
 

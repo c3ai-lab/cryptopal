@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const {
   addProductValidation,
   getProductsValidation,
@@ -20,8 +21,11 @@ exports.addProduct = async (req, res) => {
   const { error } = addProductValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  const id = req.body.id ? req.body.id : mongoose.Types.ObjectId();
+
   // create new product with received data
   const product = new Product({
+    _id: id,
     merchant_id: user.merchant_id,
     ...req.body,
   });
@@ -29,8 +33,11 @@ exports.addProduct = async (req, res) => {
   // save new product in database
   try {
     await product.save();
-    res.status(200).send('Product added.');
+    // send created product back
+    res.status(201).send({ id, ...req.body });
   } catch (err) {
+    console.log(err);
+    if (err.code === 11000) return res.status(400).send('Duplicated id.');
     res.status(400).send('Failed saving product.');
   }
 };
