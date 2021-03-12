@@ -35,7 +35,7 @@ exports.addProduct = async (req, res) => {
   }
 };
 
-/** **********************GET PRODUCTS HANDLER*********************** */
+/** **********************GET ALL PRODUCTS HANDLER*********************** */
 exports.getProducts = async (req, res) => {
   // validate received data before creating a product
   const { error } = getProductsValidation(req.body);
@@ -58,5 +58,15 @@ exports.getProducts = async (req, res) => {
     res.status(200).send(products);
   } catch (err) {
     res.status(400).send('Failed fetching products.');
+  }
+};
+/** **********************GET SINGLE PRODUCT HANDLER*********************** */
+exports.getProduct = async (req, res) => {
+  // get product from database
+  try {
+    const product = await Product.findOne({ _id: req.params.id });
+    res.status(200).send(product);
+  } catch (err) {
+    res.status(400).send('Failed fetching product.');
   }
 };
