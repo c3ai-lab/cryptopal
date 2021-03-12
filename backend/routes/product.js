@@ -8,6 +8,6 @@ const router = express.Router();
 router.post('/', verifyToken, product.addProduct);
 
 // route to get all products of merchant with product controller
-router.get('/', product.getProducts);
+router.get('/', verifyToken, product.getProducts);
 
 module.exports = router;

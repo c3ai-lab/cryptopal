@@ -7,9 +7,9 @@ const Product = require('../models/Product');
 
 /** **********************ADD PRODUCT HANDLER*********************** */
 exports.addProduct = async (req, res) => {
-  // check for valid authorization token
+  // get user from database
   const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('Invalid authorization token');
+  if (!user) return res.status(400).send('User not found');
 
   // check if sender is merchant
   if (!user.merchant_id) {

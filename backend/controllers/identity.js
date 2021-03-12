@@ -6,7 +6,7 @@ const User = require('../models/User');
 /** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
   const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('Invalid authorization token');
+  if (!user) return res.status(400).send('User not found');
 
   const returnedUser = {
     user_id: user._id,
@@ -32,8 +32,9 @@ exports.updateUserInfo = async (req, res) => {
   delete updateData.merchant_id;
   delete updateData.password;
 
+  // get user from database
   const storedUser = await User.findOne({ _id: req.token._id });
-  if (!storedUser) return res.status(400).send('Invalid authorization token');
+  if (!storedUser) return res.status(400).send('User not found');
 
   // check if email was changed - need confirmation
   if (
@@ -97,8 +98,9 @@ exports.validateEmailChange = async (req, res) => {
 
 /** *******************UPGRATE USER TO MERCHANT HANDLER******************* */
 exports.upgradeToMerchant = async (req, res) => {
+  // get user from database
   const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('Invalid authorization token');
+  if (!user) return res.status(400).send('User not found');
 
   // generate unique merchantId for user
   const merchantId = mongoose.Types.ObjectId();

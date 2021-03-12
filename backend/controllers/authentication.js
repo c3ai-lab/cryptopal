@@ -192,8 +192,11 @@ exports.recoverPassword = async (req, res) => {
   user.password = hashedPassword;
 
   // send email with new password
-  const { login_name, given_name } = user;
-  sendPasswordRecoveryEmail({ login_name, given_name }, password);
+  const { loginName, givenName } = user;
+  sendPasswordRecoveryEmail(
+    { login_name: loginName, given_name: givenName },
+    password
+  );
   try {
     await user.save(); // save user in database
     res.status(200).send('Send email with new password.');
