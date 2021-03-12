@@ -98,3 +98,24 @@ exports.getProduct = async (req, res) => {
     res.status(400).send('Failed fetching product.');
   }
 };
+
+/** **********************DELETE PRODUCT HANDLER*********************** */
+exports.deleteProducts = async (req, res) => {
+  // get user from database
+  const user = await User.findOne({ _id: req.token._id });
+  if (!user) return res.status(400).send('User not found');
+
+  // check if the user is merchant
+  if (!user.merchant_id) {
+    return res.status(400).send('You are not a merchant yet.');
+  }
+
+  // delete product
+  try {
+    await Product.deleteOne({ _id: req.params.id });
+    console.log('deleted');
+    res.status(204).send();
+  } catch (err) {
+    res.status(400).send('Failed deleting product.');
+  }
+};
