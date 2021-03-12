@@ -28,7 +28,9 @@ exports.addProductValidation = (data) => {
 // setup joi validation for get all products data
 exports.getProductsValidation = (data) => {
   const schema = Joi.object({
-    merchant_id: Joi.string().required(),
+    page_size: Joi.number().integer().min(1).max(20),
+    page: Joi.number().integer().min(1).max(1000),
+    total_required: Joi.bool(),
   });
   return schema.validate(data);
 };

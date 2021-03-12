@@ -52,21 +52,37 @@ exports.getProducts = async (req, res) => {
   const user = await User.findOne({ _id: req.token._id });
   if (!user) return res.status(400).send('User not found');
 
-  // check if the user is owner of queried products
-  if (user.merchant_id !== req.body.merchant_id) {
-    return res
-      .status(400)
-      .send('Incorrect merchant id. You can only lookup your own products!');
+  // check if the user is merchant
+  if (!user.merchant_id) {
+    return res.status(400).send('You are not a merchant yet.');
   }
 
-  // get all products of one merchant from database
+  // get all selected products by query params
+  const page = req.body.page || 1;
+  const numberOfItems = req.body.page_size || 10;
+  const skippedItems = (page - 1) * numberOfItems;
   try {
-    const products = await Product.find({ merchant_id: req.body.merchant_id });
-    res.status(200).send(products);
+    const products = await Product.find({ merchant_id: user.merchant_id })
+      .skip(skippedItems)
+      .limit(numberOfItems);
+
+    // get total items and pages if requested
+    if (req.body.total_required) {
+      const allProducts = await Product.find({ merchant_id: user.merchant_id });
+      const totalPages = Math.ceil(allProducts.length / numberOfItems);
+      res.status(200).send({
+        products,
+        total_items: allProducts.length,
+        total_pages: totalPages,
+      });
+    } else {
+      res.status(200).send({ products });
+    }
   } catch (err) {
     res.status(400).send('Failed fetching products.');
   }
 };
+
 /** **********************GET SINGLE PRODUCT HANDLER*********************** */
 exports.getProduct = async (req, res) => {
   // get product from database
