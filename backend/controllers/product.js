@@ -41,6 +41,17 @@ exports.getProducts = async (req, res) => {
   const { error } = getProductsValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  // get user from database
+  const user = await User.findOne({ _id: req.token._id });
+  if (!user) return res.status(400).send('User not found');
+
+  // check if the user is owner of queried products
+  if (user.merchant_id !== req.body.merchant_id) {
+    return res
+      .status(400)
+      .send('Incorrect merchant id. You can only lookup your own products!');
+  }
+
   // get all products of one merchant from database
   try {
     const products = await Product.find({ merchant_id: req.body.merchant_id });
