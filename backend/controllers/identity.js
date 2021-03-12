@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User');
 
-/** *******************RESEND CONFIRMATION EMAIL HANDLER******************* */
+/** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
   const user = await User.findOne({ _id: req.token._id });
   if (!user) return res.status(400).send('Invalid authorization token');
@@ -20,6 +20,7 @@ exports.getUserInfo = async (req, res) => {
   };
   res.status(200).send(returnedUser);
 };
+
 /** *******************UPDATE USER INFO HANDLER******************* */
 exports.updateUserInfo = async (req, res) => {
   // delete for variables, which should not be changed by user
@@ -34,12 +35,12 @@ exports.updateUserInfo = async (req, res) => {
   const storedUser = await User.findOne({ _id: req.token._id });
   if (!storedUser) return res.status(400).send('Invalid authorization token');
 
-  // check if email was changed
+  // check if email was changed - need confirmation
   if (
     updateData.emails &&
     updateData.emails[0].value !== storedUser.emails[0].value
   ) {
-    // check if email is already used for another account
+    // check if new email is already used for another account
     const existingEmail = await User.findOne({
       login_name: updateData.emails[0].value,
     });
@@ -55,6 +56,7 @@ exports.updateUserInfo = async (req, res) => {
       oldEmail: storedUser.emails[0].value,
       newEmail: updateData.emails[0].value,
     });
+    // dont set email yet - wait for confirmation
     delete updateData.emails;
   }
 
@@ -72,7 +74,9 @@ exports.updateUserInfo = async (req, res) => {
   }
 };
 
+/** *******************VALIDATE CHANGE EMAIL HANDLER******************* */
 exports.validateEmailChange = async (req, res) => {
+  // check if token is valid
   const decodedUser = jwt.verify(
     req.params.token,
     process.env.TOKEN_SECRET_CONFIRM
@@ -80,18 +84,27 @@ exports.validateEmailChange = async (req, res) => {
   const user = await User.findOne({ payer_id: decodedUser.id });
   if (!user) return res.status(400).send('Invalid Token');
 
+  // save new email of user in database
   user.emails[0].value = req.query.email;
   user.login_name = req.query.email;
-  user.save();
-  res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
+  try {
+    user.save();
+    res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
+  } catch (err) {
+    res.status(400).send('Failed Email change');
+  }
 };
 
+/** *******************UPGRATE USER TO MERCHANT HANDLER******************* */
 exports.upgradeToMerchant = async (req, res) => {
   const user = await User.findOne({ _id: req.token._id });
   if (!user) return res.status(400).send('Invalid authorization token');
 
-  const merchantId = mongoose.Types.ObjectId(); // unique merchantId
+  // generate unique merchantId for user
+  const merchantId = mongoose.Types.ObjectId();
   user.merchant_id = merchantId;
+
+  // save changes in db
   try {
     user.save();
     res.status(200).send('Upgrade successful');
