@@ -4,7 +4,7 @@
  */
 const Joi = require('@hapi/joi');
 
-// set up joi validation of registration data
+// set up joi validation for add product data
 exports.addProductValidation = (data) => {
   const link = Joi.object().keys({
     href: Joi.string().required(),
@@ -21,5 +21,13 @@ exports.addProductValidation = (data) => {
     links: Joi.array().items(link),
   });
 
+  return schema.validate(data);
+};
+
+// setup joi validation for get all products data
+exports.getProductsValidation = (data) => {
+  const schema = Joi.object({
+    merchant_id: Joi.string().required(),
+  });
   return schema.validate(data);
 };
