@@ -85,10 +85,15 @@ exports.getProducts = async (req, res) => {
 
 /** **********************GET SINGLE PRODUCT HANDLER*********************** */
 exports.getProduct = async (req, res) => {
-  // get product from database
   try {
+    // get product from database
     const product = await Product.findOne({ _id: req.params.id });
-    res.status(200).send(product);
+    // adjust returned data format
+    const returnProduct = product.toObject();
+    delete returnProduct._id;
+    delete returnProduct.merchant_id;
+    returnProduct.id = req.params.id;
+    res.status(200).send(returnProduct);
   } catch (err) {
     res.status(400).send('Failed fetching product.');
   }
