@@ -14,6 +14,9 @@ router.get('/:id', verifyToken, product.getProduct);
 router.get('/', verifyToken, product.getProducts);
 
 // route to delete specific product by id with product controller
+router.patch('/:id', verifyToken, product.updateProduct);
+
+// route to delete specific product by id with product controller
 router.delete('/:id', verifyToken, product.deleteProduct);
 
 module.exports = router;

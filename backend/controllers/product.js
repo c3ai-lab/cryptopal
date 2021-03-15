@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const {
   addProductValidation,
   getProductsValidation,
+  updateProductsValidation,
 } = require('../helper/productValidation/productValidation');
 const User = require('../models/User');
 const Product = require('../models/Product');
@@ -99,6 +100,39 @@ exports.getProduct = async (req, res) => {
   }
 };
 
+/** **********************UPDATE PRODUCT HANDLER*********************** */
+exports.updateProduct = async (req, res) => {
+  // validate received data before creating a product
+  const { error } = updateProductsValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // get user from database
+  const user = await User.findOne({ _id: req.token._id });
+  if (!user) return res.status(400).send('User not found');
+
+  // check if the user is merchant
+  if (!user.merchant_id) {
+    return res.status(400).send('You are not a merchant yet.');
+  }
+
+  // get product product
+  const product = await Product.findOne({
+    _id: req.params.id,
+    merchant_id: user.merchant_id,
+  });
+  if (!product) return res.status(400).send('Product not found');
+
+  Object.entries(req.body).forEach(([key, value]) => {
+    product[key] = value;
+  });
+
+  try {
+    res.status(204).send();
+  } catch (err) {
+    res.status(400).send('Failed updating product.');
+  }
+};
+
 /** **********************DELETE PRODUCT HANDLER*********************** */
 exports.deleteProduct = async (req, res) => {
   // get user from database
@@ -112,7 +146,10 @@ exports.deleteProduct = async (req, res) => {
 
   // delete product
   try {
-    await Product.deleteOne({ _id: req.params.id });
+    await Product.deleteOne({
+      _id: req.params.id,
+      merchant_id: user.merchant_id,
+    });
     res.status(204).send();
   } catch (err) {
     res.status(400).send('Failed deleting product.');
