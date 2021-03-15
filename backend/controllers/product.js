@@ -100,7 +100,7 @@ exports.getProduct = async (req, res) => {
 };
 
 /** **********************DELETE PRODUCT HANDLER*********************** */
-exports.deleteProducts = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
   // get user from database
   const user = await User.findOne({ _id: req.token._id });
   if (!user) return res.status(400).send('User not found');
@@ -113,7 +113,6 @@ exports.deleteProducts = async (req, res) => {
   // delete product
   try {
     await Product.deleteOne({ _id: req.params.id });
-    console.log('deleted');
     res.status(204).send();
   } catch (err) {
     res.status(400).send('Failed deleting product.');
