@@ -96,7 +96,7 @@ exports.validateEmailChange = async (req, res) => {
   }
 };
 
-/** *******************UPGRATE USER TO MERCHANT HANDLER******************* */
+/** *******************UPGRADE USER TO MERCHANT HANDLER******************* */
 exports.upgradeToMerchant = async (req, res) => {
   // get user from database
   const user = await User.findOne({ _id: req.token._id });
@@ -109,7 +109,7 @@ exports.upgradeToMerchant = async (req, res) => {
   // save changes in db
   try {
     user.save();
-    res.status(200).send('Upgrade successful');
+    res.status(200).send({ merchant_id: merchantId });
   } catch (err) {
     res.status(400).send('Upgrade failed');
   }
