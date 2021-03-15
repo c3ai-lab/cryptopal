@@ -34,3 +34,13 @@ exports.getProductsValidation = (data) => {
   });
   return schema.validate(data);
 };
+// setup joi validation for updating a product data
+exports.updateProductsValidation = (data) => {
+  const schema = Joi.object({
+    description: Joi.string().min(1).max(256),
+    category: Joi.string().min(4).max(256),
+    img_url: Joi.string().min(1).max(2000),
+    home_url: Joi.string().min(1).max(2000),
+  });
+  return schema.validate(data);
+};
