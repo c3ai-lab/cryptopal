@@ -46,9 +46,8 @@ exports.addProduct = async (req, res) => {
 /** **********************GET ALL PRODUCTS HANDLER*********************** */
 exports.getProducts = async (req, res) => {
   // validate received data before creating a product
-  const { error } = getProductsValidation(req.body);
+  const { error } = getProductsValidation(req.query);
   if (error) return res.status(400).send(error.details[0].message);
-
   // get user from database
   const user = await User.findOne({ _id: req.token._id });
   if (!user) return res.status(400).send('User not found');
@@ -59,8 +58,8 @@ exports.getProducts = async (req, res) => {
   }
 
   // get all selected products by query params
-  const page = req.body.page || 1;
-  const numberOfItems = req.body.page_size || 10;
+  const page = parseInt(req.query.page, 10) || 1;
+  const numberOfItems = parseInt(req.query.page_size, 10) || 10;
   const skippedItems = (page - 1) * numberOfItems;
   try {
     const products = await Product.find({ merchant_id: user.merchant_id })
@@ -68,7 +67,7 @@ exports.getProducts = async (req, res) => {
       .limit(numberOfItems);
 
     // get total items and pages if requested
-    if (req.body.total_required) {
+    if (req.query.total_required) {
       const allProducts = await Product.find({ merchant_id: user.merchant_id });
       const totalPages = Math.ceil(allProducts.length / numberOfItems);
       res.status(200).send({
