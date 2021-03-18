@@ -36,7 +36,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        user: { ...state.user, ...action.payload }
+        user: { ...state.user, ...action.payload },
+        userRole: action.payload.merchant_id ? 'merchant' : 'buyer'
       };
     case REGISTER_SUCCESS:
       return {
@@ -51,7 +52,7 @@ export default function (state = initialState, action) {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        userRole: action.payload.merchantId ? 'merchant' : 'buyer',
+        userRole: action.payload.user.merchant_id ? 'merchant' : 'buyer',
         isLoading: false
       };
     case AUTH_ERROR:
