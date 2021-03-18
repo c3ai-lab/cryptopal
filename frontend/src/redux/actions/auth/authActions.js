@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { history } from '../../../history';
 import { returnErrors } from '../errors/errorActions';
+import { tokenConfig } from '../headers';
 import {
   USER_LOADED,
   USER_LOADING,
@@ -127,24 +128,4 @@ export const updateUser = (user) => (dispatch, getState) => {
         returnErrors(err.response.data, err.response.status, 'USER_UPDATE_FAIL')
       );
     });
-};
-
-// Setup config/headers and token
-export const tokenConfig = (getState) => {
-  // Get token from localstorage
-  const token = getState().auth.token;
-
-  // Headers
-  const config = {
-    headers: {
-      'Content-type': 'application/json'
-    }
-  };
-
-  // If token, add to headers
-  if (token) {
-    config.headers['cp-auth-token'] = token;
-  }
-
-  return config;
 };
