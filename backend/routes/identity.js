@@ -16,4 +16,7 @@ router.get('/validate/:token', identity.validateEmailChange);
 // route to upgrade user to merchant with identity controller
 router.post('/upgrade-merchant', verifyToken, identity.upgradeToMerchant);
 
+// route to downgrade merchant to user with identity controller
+router.post('/downgrade-user', verifyToken, identity.downgradeToUser);
+
 module.exports = router;

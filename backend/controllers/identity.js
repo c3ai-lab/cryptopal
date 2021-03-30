@@ -102,14 +102,32 @@ exports.upgradeToMerchant = async (req, res) => {
   const user = await User.findOne({ _id: req.token._id });
   if (!user) return res.status(400).send('User not found');
 
-  // generate unique merchantId for user
-  const merchantId = mongoose.Types.ObjectId();
-  user.merchant_id = merchantId;
+  // use unique userid as merchant id
+  const id = user._id;
+  user.merchant_id = id;
 
   // save changes in db
   try {
     user.save();
-    res.status(200).send({ merchant_id: merchantId });
+    res.status(200).send({ merchant_id: id });
+  } catch (err) {
+    res.status(400).send('Upgrade failed');
+  }
+};
+
+/** *******************DOWNGRADE MERCHANT TO USER HANDLER******************* */
+exports.downgradeToUser = async (req, res) => {
+  // get user from database
+  const user = await User.findOne({ _id: req.token._id });
+  if (!user) return res.status(400).send('User not found');
+
+  // reset merchant id
+  user.merchant_id = null;
+
+  // save changes in db
+  try {
+    user.save();
+    res.status(200).send();
   } catch (err) {
     res.status(400).send('Upgrade failed');
   }
