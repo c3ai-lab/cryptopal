@@ -126,6 +126,7 @@ exports.updateProduct = async (req, res) => {
   });
 
   try {
+    await product.save();
     res.status(204).send();
   } catch (err) {
     res.status(400).send('Failed updating product.');
