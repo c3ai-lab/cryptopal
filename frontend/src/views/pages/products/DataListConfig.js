@@ -4,13 +4,11 @@ import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem,
-  Input
+  DropdownItem
 } from 'reactstrap';
 import DataTable from 'react-data-table-component';
 import classnames from 'classnames';
 import ReactPaginate from 'react-paginate';
-import { history } from '../../../history';
 import {
   Edit,
   Trash,
@@ -23,11 +21,9 @@ import {
 import { connect } from 'react-redux';
 import {
   getData,
-  getInitialData,
   deleteData,
   updateData,
-  addData,
-  filterData
+  addData
 } from '../../../redux/actions/product-list/productListActions';
 import Sidebar from './DataListSidebar';
 import Checkbox from '../../../components/@vuexy/checkbox/CheckboxesVuexy';
@@ -95,7 +91,7 @@ const CustomHeader = (props) => {
         <UncontrolledDropdown className="data-list-rows-dropdown mr-1 d-md-block d-none">
           <DropdownToggle color="" className="sort-dropdown">
             <span className="align-middle mx-50">
-              {`${props.index[0]} - ${props.index[1]} of ${props.total}`}
+              {`${props.startIndex} - ${props.endIndex} of ${props.total}`}
             </span>
             <ChevronDown size={15} />
           </DropdownToggle>
@@ -114,9 +110,6 @@ const CustomHeader = (props) => {
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
-        <div className="filter-section">
-          <Input type="text" onChange={(e) => props.handleFilter(e)} />
-        </div>
       </div>
     </div>
   );
@@ -124,18 +117,11 @@ const CustomHeader = (props) => {
 
 class DataListConfig extends Component {
   static getDerivedStateFromProps(props, state) {
-    if (
-      props.productList.data.length !== state.data.length ||
-      state.currentPage !== props.parsedFilter.page
-    ) {
+    if (props.productList.totalItems !== state.data.totalItems) {
       return {
         data: props.productList.data,
-        allData: props.productList.filteredData,
         totalPages: props.productList.totalPages,
-        currentPage: parseInt(props.parsedFilter.page) - 1,
-        rowsPerPage: parseInt(props.parsedFilter.perPage),
-        totalRecords: props.productList.totalRecords,
-        sortIndex: props.productList.sortIndex
+        totalItems: props.productList.totalItems
       };
     }
 
@@ -146,7 +132,12 @@ class DataListConfig extends Component {
   state = {
     data: [],
     totalPages: 0,
-    currentPage: 0,
+    totalItems: 0,
+    parsedFilter: {
+      page_size: 5,
+      page: 1,
+      total_required: true
+    },
     columns: [
       {
         name: 'Name',
@@ -183,24 +174,17 @@ class DataListConfig extends Component {
         )
       }
     ],
-    allData: [],
-    value: '',
-    rowsPerPage: 5,
     sidebar: false,
-    currentData: null,
-    selected: [],
-    totalRecords: 0,
-    sortIndex: [],
-    addNew: ''
+    currentData: null
   };
 
   thumbView = this.props.thumbView;
 
   componentDidMount() {
-    this.props.getData({ page_size: 5, page: 1, total_required: true });
+    this.props.getData(this.state.parsedFilter);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if (this.thumbView) {
       this.thumbView = false;
       let columns = [
@@ -223,7 +207,6 @@ class DataListConfig extends Component {
         {
           name: 'Name',
           selector: 'name',
-          sortable: true,
           minWidth: '250px',
           cell: (row) => (
             <p title={row.name} className="text-truncate text-bold-500 mb-0">
@@ -234,18 +217,16 @@ class DataListConfig extends Component {
         {
           name: 'Category',
           selector: 'category',
-          sortable: true
+          cell: (row) => `${row.category}`
         },
         {
           name: 'Description',
           selector: 'description',
-          sortable: false,
           minWidth: '350px',
           cell: (row) => `${row.description}`
         },
         {
           name: 'Actions',
-          sortable: false,
           cell: (row) => (
             <ActionsComponent
               row={row}
@@ -261,17 +242,15 @@ class DataListConfig extends Component {
     }
   }
 
-  handleFilter = (e) => {
-    this.setState({ value: e.target.value });
-    this.props.filterData(e.target.value);
-  };
-
   handleRowsPerPage = (value) => {
-    let { parsedFilter, getData } = this.props;
-    let page = parsedFilter.page !== undefined ? parsedFilter.page : 1;
-    history.push(`/data-list/list-view?page=${page}&perPage=${value}`);
-    this.setState({ rowsPerPage: value });
-    getData({ page: parsedFilter.page, perPage: value });
+    this.setState(
+      (prevState) => ({
+        parsedFilter: { ...prevState.parsedFilter, page: 1, page_size: value }
+      }),
+      () => {
+        this.props.getData(this.state.parsedFilter);
+      }
+    );
   };
 
   handleSidebar = (boolean, addNew = false) => {
@@ -281,53 +260,35 @@ class DataListConfig extends Component {
 
   handleDelete = (row) => {
     this.props.deleteData(row);
-    this.props.getData(this.props.parsedFilter);
-    if (this.state.data.length - 1 === 0) {
-      let urlPrefix = this.props.thumbView
-        ? '/data-list/thumb-view/'
-        : '/data-list/list-view/';
-      history.push(
-        `${urlPrefix}list-view?page=${parseInt(
-          this.props.parsedFilter.page - 1
-        )}&perPage=${this.props.parsedFilter.perPage}`
-      );
-      this.props.getData({
-        page: this.props.parsedFilter.page - 1,
-        perPage: this.props.parsedFilter.perPage
-      });
-    }
   };
 
   handleCurrentData = (obj) => {
-    this.setState({ currentData: obj });
-    this.handleSidebar(true);
+    this.setState({ currentData: obj }, () => this.handleSidebar(true));
   };
 
-  handlePagination = (page) => {
-    let { parsedFilter, getData } = this.props;
-    let perPage = parsedFilter.perPage !== undefined ? parsedFilter.perPage : 4;
-    let urlPrefix = this.props.thumbView
-      ? '/data-list/thumb-view/'
-      : '/data-list/list-view/';
-    history.push(
-      `${urlPrefix}list-view?page=${page.selected + 1}&perPage=${perPage}`
+  handlePagination = (currentPage) => {
+    this.setState(
+      (prevState) => ({
+        parsedFilter: {
+          ...prevState.parsedFilter,
+          page: currentPage.selected + 1
+        }
+      }),
+      () => {
+        this.props.getData(this.state.parsedFilter);
+      }
     );
-    getData({ page: page.selected + 1, perPage: perPage });
-    this.setState({ currentPage: page.selected });
   };
 
   render() {
     let {
       columns,
       data,
-      allData,
+      parsedFilter,
       totalPages,
-      value,
-      rowsPerPage,
+      totalItems,
       currentData,
-      sidebar,
-      totalRecords,
-      sortIndex
+      sidebar
     } = this.state;
     return (
       <div
@@ -336,7 +297,7 @@ class DataListConfig extends Component {
         }`}>
         <DataTable
           columns={columns}
-          data={value.length ? allData : data}
+          data={data}
           pagination
           paginationServer
           paginationComponent={() => (
@@ -348,12 +309,8 @@ class DataListConfig extends Component {
               pageCount={totalPages}
               containerClassName="vx-pagination separated-pagination pagination-end pagination-sm mb-0 mt-2"
               activeClassName="active"
-              forcePage={
-                this.props.parsedFilter.page
-                  ? parseInt(this.props.parsedFilter.page - 1)
-                  : 0
-              }
               onPageChange={(page) => this.handlePagination(page)}
+              forcePage={parsedFilter.page - 1}
             />
           )}
           noHeader
@@ -371,9 +328,14 @@ class DataListConfig extends Component {
               handleSidebar={this.handleSidebar}
               handleFilter={this.handleFilter}
               handleRowsPerPage={this.handleRowsPerPage}
-              rowsPerPage={rowsPerPage}
-              total={totalRecords}
-              index={sortIndex}
+              rowsPerPage={parsedFilter.page_size}
+              total={totalItems}
+              startIndex={(parsedFilter.page - 1) * parsedFilter.page_size + 1}
+              endIndex={
+                parsedFilter.page * parsedFilter.page_size <= totalItems
+                  ? parsedFilter.page * parsedFilter.page_size
+                  : totalItems
+              }
             />
           }
           sortIcon={<ChevronDown />}
@@ -392,9 +354,7 @@ class DataListConfig extends Component {
           addData={this.props.addData}
           handleSidebar={this.handleSidebar}
           thumbView={this.props.thumbView}
-          getData={this.props.getData}
-          dataParams={this.props.parsedFilter}
-          addNew={this.state.addNew}
+          getData={() => this.props.getData(parsedFilter)}
         />
         <div
           className={classnames('data-list-overlay', {
@@ -417,7 +377,5 @@ export default connect(mapStateToProps, {
   getData,
   deleteData,
   updateData,
-  addData,
-  getInitialData,
-  filterData
+  addData
 })(DataListConfig);
