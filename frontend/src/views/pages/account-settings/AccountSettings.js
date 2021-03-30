@@ -17,6 +17,7 @@ import InfoTab from './Info';
 import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
 
 import '../../../assets/scss/pages/account-settings.scss';
+import ChangeRoleComp from './ChangeRoleComp';
 
 class AccountSettings extends React.Component {
   state = {
@@ -97,6 +98,20 @@ class AccountSettings extends React.Component {
                 </span>
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  active: this.state.activeTab === '4'
+                })}
+                onClick={() => {
+                  this.toggle('4');
+                }}>
+                <Info size={16} />
+                <span className="d-md-inline-block d-none align-middle ml-1">
+                  Change Role
+                </span>
+              </NavLink>
+            </NavItem>
           </Nav>
           <Card>
             <CardBody>
@@ -109,6 +124,9 @@ class AccountSettings extends React.Component {
                 </TabPane>
                 <TabPane tabId="3">
                   <ChangePassword user={this.props.user} />
+                </TabPane>
+                <TabPane tabId="4">
+                  <ChangeRoleComp />
                 </TabPane>
               </TabContent>
             </CardBody>

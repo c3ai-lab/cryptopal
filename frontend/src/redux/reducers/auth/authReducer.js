@@ -7,7 +7,8 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_UPDATED
+  USER_UPDATED,
+  USER_UPGRADED
 } from '../../actions/types';
 
 const initialState = {
@@ -38,6 +39,12 @@ export default function (state = initialState, action) {
         isLoading: false,
         user: { ...state.user, ...action.payload },
         userRole: action.payload.merchant_id ? 'merchant' : 'buyer'
+      };
+    case USER_UPGRADED:
+      return {
+        ...state,
+        isLoading: false,
+        userRole: action.payload.role
       };
     case REGISTER_SUCCESS:
       return {
