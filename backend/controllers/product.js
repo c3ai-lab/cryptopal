@@ -23,19 +23,27 @@ exports.addProduct = async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const id = req.body.id ? req.body.id : mongoose.Types.ObjectId();
+  const creationTime = new Date();
 
   // create new product with received data
   const product = new Product({
     _id: id,
     merchant_id: user.merchant_id,
     ...req.body,
+    create_time: creationTime,
+    update_time: creationTime,
   });
 
   // save new product in database
   try {
     await product.save();
     // send created product back
-    res.status(201).send({ id, ...req.body });
+    res.status(201).send({
+      id,
+      ...req.body,
+      create_time: creationTime,
+      update_time: creationTime,
+    });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) return res.status(400).send('Duplicated id.');
@@ -114,16 +122,20 @@ exports.updateProduct = async (req, res) => {
     return res.status(400).send('You are not a merchant yet.');
   }
 
-  // get product product
+  // get product
   const product = await Product.findOne({
     _id: req.params.id,
     merchant_id: user.merchant_id,
   });
   if (!product) return res.status(400).send('Product not found');
 
+  // change received values
   Object.entries(req.body).forEach(([key, value]) => {
     product[key] = value;
   });
+
+  // change update time
+  product.update_time = new Date();
 
   try {
     await product.save();
