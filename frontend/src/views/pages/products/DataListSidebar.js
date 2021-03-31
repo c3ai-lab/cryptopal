@@ -9,7 +9,7 @@ class DataListSidebar extends Component {
     _id: '',
     name: '',
     description: '',
-    type: '',
+    type: 'PHYSICAL',
     category: '',
     img_url: '',
     home_url: '',
@@ -41,10 +41,11 @@ class DataListSidebar extends Component {
       }
     }
     if (this.props.data === null && prevProps.data !== null) {
+      console.log('reset');
       this.setState({
         _id: '',
         name: '',
-        type: '',
+        type: 'PHYSICAL',
         description: '',
         category: '',
         img_url: '',
@@ -126,6 +127,7 @@ class DataListSidebar extends Component {
               type="select"
               id="data-type"
               value={type}
+              disabled={disableName}
               required
               onChange={(e) => this.setState({ type: e.target.value })}>
               <option value="PHYSICAL">PHYSICAL</option>
@@ -166,6 +168,18 @@ class DataListSidebar extends Component {
                 this.setState({ home_url: e.target.value })
               }></Input>
           </FormGroup>
+          {this.props.data ? (
+            <FormGroup>
+              <Label for="data-name">Last update</Label>
+              <Input
+                type="text"
+                value={this.props.data.update_time}
+                disabled
+                placeholder="Update Time"
+                id="data-update"
+              />
+            </FormGroup>
+          ) : null}
         </PerfectScrollbar>
         <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1">
           <Button color="primary" onClick={() => this.handleSubmit(this.state)}>
