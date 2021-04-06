@@ -1,5 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# -----------------BACKEND---------------------
 # dependencies
 backend/node_modules
 backend/.pnp
@@ -24,6 +25,7 @@ backend/npm-debug.log*
 backend/yarn-debug.log*
 backend/yarn-error.log*
 
+# -----------------FRONTEND---------------------
 # dependencies
 frontend/node_modules
 frontend/.pnp
@@ -38,3 +40,19 @@ frontend/build
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
+
+# -----------------DOCS---------------------
+# dependencies
+docs/node_modules
+docs/.pnp
+docs/.pnp.js
+
+# testing
+docs/coverage
+
+# production
+docs/build
+
+docs/npm-debug.log*
+docs/yarn-debug.log*
+docs/yarn-error.log*

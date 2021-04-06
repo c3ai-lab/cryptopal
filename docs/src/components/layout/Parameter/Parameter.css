@@ -1,0 +1,30 @@
+.parameter-wrapper {
+  margin: 30px;
+}
+
+.parameter-name {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.parameter-type {
+  margin-left: 20px;
+  color: gray;
+  font: bold;
+}
+
+.parameter-required {
+  margin-left: 20px;
+  color: orangered;
+}
+
+.parameter-restrictions {
+  color: gray;
+  font: bold;
+}
+
+.parameter-restrictions-value {
+  margin-left: 20px;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.05);
+}
