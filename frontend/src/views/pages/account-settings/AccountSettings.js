@@ -9,7 +9,7 @@ import {
   CardBody
 } from 'reactstrap';
 import classnames from 'classnames';
-import { Settings, Lock, Info } from 'react-feather';
+import { Settings, Lock, Info, UserCheck } from 'react-feather';
 import { connect } from 'react-redux';
 import GeneralTab from './General';
 import ChangePassword from './ChangePassword';
@@ -106,7 +106,7 @@ class AccountSettings extends React.Component {
                 onClick={() => {
                   this.toggle('4');
                 }}>
-                <Info size={16} />
+                <UserCheck size={16} />
                 <span className="d-md-inline-block d-none align-middle ml-1">
                   Change Role
                 </span>
