@@ -1,7 +1,7 @@
 import React from "react";
-import Box from "../../layout/Box/Box";
-import Parameter from "../../layout/Parameter/Parameter"
-import "../../layout/General.css"
+import Box from "../../../layout/Box/Box";
+import Parameter from "../../../layout/Parameter/Parameter"
+import "../../../layout/General.css"
 
 class ListResponse extends React.Component {
 
