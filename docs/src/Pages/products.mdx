@@ -1,0 +1,38 @@
+---
+name: Products
+route: /products
+menu: Catalog Products
+---
+
+import Route from "../components/layout/Route/Route.js";
+import RequestHeader from "../components/content/RequestHeader/RequestHeader.js";
+import ListProductsQuery from "../components/content/Products/ListProducts/ListProductsQuery.js";
+import ListProductsResponse from "../components/content/Products/ListProducts/ListProductsResponse.js";
+
+# Catalog Products API
+
+Merchants can use the Catalog Products API to create products, which are goods and services.
+
+## Products
+
+Use /products resource to create and manage products.
+
+## List products
+
+<Route method="GET" path="/products" />
+
+Lists products.
+
+### Query parameters
+
+<ListProductsQuery />
+
+### Header parameters
+
+<RequestHeader />
+
+### Response
+
+A successful request returns the HTTP 200 OK status code and a JSON response body that lists products with details.
+
+<ListProductsResponse />
