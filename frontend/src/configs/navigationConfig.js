@@ -32,6 +32,15 @@ const navigationConfig = [
     icon: <Icon.Octagon size={20} />,
     permissions: ['merchant', 'admin'],
     navLink: '/products'
+  },
+  {
+    id: 'docs',
+    title: 'Documentation',
+    type: 'external-link',
+    newTab: true,
+    icon: <Icon.FileText size={20} />,
+    permissions: ['guest', 'merchant', 'admin'],
+    navLink: 'http://docs.bluecryptopal.com'
   }
 ];
 
