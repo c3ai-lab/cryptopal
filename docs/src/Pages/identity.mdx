@@ -1,0 +1,37 @@
+---
+name: Userinfo
+route: /identity
+menu: Identity
+---
+
+import Route from "../components/layout/Route/Route.js";
+import RequestHeader from "../components/content/RequestHeader/RequestHeader.js";
+import Query from "../components/content/Identity/GetUserinfo/Query.js";
+import Response from "../components/content/Identity/GetUserinfo/Response.js";
+
+# Identity API
+
+Connect with CryptoPal is a commerce identity solution that enables your customers to sign in to your web site quickly and securely using their CryptoPal login credentials.
+
+<h2>Userinfo</h2>
+
+Use the /userinfo resource to show user information details.
+
+<h2>Show user profile information</h2>
+<Route method="GET" path="/identity/userinfo" />
+
+Shows user profile information. Filters the response by a schema.
+
+### Query parameters
+
+<Query />
+
+### Header parameters
+
+<RequestHeader />
+
+### Response
+
+A successful request returns the HTTP 200 OK status code and a JSON response body that shows user profile information.
+
+<Response />
