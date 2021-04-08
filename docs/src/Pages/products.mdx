@@ -10,6 +10,8 @@ import ListProductsQuery from "../components/content/Products/ListProducts/ListP
 import ListProductsResponse from "../components/content/Products/ListProducts/ListProductsResponse.js";
 import CreateProductRequest from "../components/content/Products/CreateProduct/CreateProductRequest.js";
 import CreateProductResponse from "../components/content/Products/CreateProduct/CreateProductResponse.js";
+import UpdateProductPath from "../components/content/Products/UpdateProduct/UpdateProductPath.js";
+import UpdateProductRequest from "../components/content/Products/UpdateProduct/UpdateProductRequest.js";
 
 # Catalog Products API
 
@@ -66,3 +68,54 @@ Creates a product.
 A successful request returns the HTTP 201 Created status code and a JSON response body that shows product details.
 
 <CreateProductResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "------------------------------UPDSATE PRODUCT------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Update product
+
+<Route method="PATCH" path="/products/{product_id}" />
+
+Updates a product, by ID. You can patch these attributes and objects:
+
+<div>
+  <table>
+    <tr>
+      <th>Attribute or object</th>
+      <th>Operations</th>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>add, replace, remove</td>
+    </tr>
+    <tr>
+      <td>category</td>
+      <td>add, replace, remove</td>
+    </tr>
+    <tr>
+      <td>img_url</td>
+      <td>add, replace, remove</td>
+    </tr>
+    <tr>
+      <td>home_url</td>
+      <td>add, replace, remove</td>
+    </tr>
+  </table>
+</div>
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateProductPath />
+
+### Request body
+
+<UpdateProductRequest />
+
+### Response
+
+A successful request returns the HTTP 204 No Content status code with no JSON response body.

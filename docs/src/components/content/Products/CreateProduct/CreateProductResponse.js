@@ -6,14 +6,6 @@ import "../../../layout/General.css"
 class CreateProductResponse extends React.Component {
 
     render () {
-        const descriptionPage = (
-            <div>
-                A non-zero integer which is the start index of the entire list of items that are returned 
-                in the response. So, the combination of <span className="highlight-code">page=1</span> and 
-                <span className="highlight-code">page_size=20</span> returns the first 20 items. The 
-                combination of <span className="highlight-code">page=2</span> and 
-                <span className="highlight-code">page_size=20</span> returns the next 20 items."
-            </div>);
         return( 
         <Box>
             <Parameter 
