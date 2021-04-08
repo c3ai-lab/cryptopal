@@ -4,5 +4,9 @@ export default {
     themeConfig: {
       initialColorMode: 'dark',
     },
-    
+    menu: [
+      'CryptoPal API',
+      { name: 'Catalog Products', menu: ['Products'] },
+      { name: 'Identity', menu: ['Userinfo'] },
+    ]
   }
