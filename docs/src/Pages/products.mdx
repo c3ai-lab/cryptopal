@@ -12,6 +12,7 @@ import CreateProductRequest from "../components/content/Products/CreateProduct/C
 import CreateProductResponse from "../components/content/Products/CreateProduct/CreateProductResponse.js";
 import UpdateProductPath from "../components/content/Products/UpdateProduct/UpdateProductPath.js";
 import UpdateProductRequest from "../components/content/Products/UpdateProduct/UpdateProductRequest.js";
+import GetProductResponse from "../components/content/Products/GetProduct/GetProductResponse.js";
 
 # Catalog Products API
 
@@ -115,6 +116,52 @@ Updates a product, by ID. You can patch these attributes and objects:
 ### Request body
 
 <UpdateProductRequest />
+
+### Response
+
+A successful request returns the HTTP 204 No Content status code with no JSON response body.
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "--------------------------------GET PRODUCT--------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Get product
+
+<Route method="GET" path="/products/{product_id}" />
+
+Shows details for a product, by ID.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateProductPath />
+
+### Response
+
+A successful request returns the HTTP 200 OK status code and a JSON response body that shows product details.
+
+<GetProductResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "------------------------------DELETE PRODUCT-------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Delete product
+
+<Route method="DELETE" path="/products/{product_id}" />
+
+Delete a product permanently, by ID.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateProductPath />
 
 ### Response
 

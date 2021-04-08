@@ -13,7 +13,7 @@ router.get('/:id', verifyToken, product.getProduct);
 // route to get all products of merchant with product controller
 router.get('/', verifyToken, product.getProducts);
 
-// route to delete specific product by id with product controller
+// route to update specific product by id with product controller
 router.patch('/:id', verifyToken, product.updateProduct);
 
 // route to delete specific product by id with product controller
