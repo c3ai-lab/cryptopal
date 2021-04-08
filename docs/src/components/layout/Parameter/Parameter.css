@@ -18,6 +18,11 @@
   color: orangered;
 }
 
+.parameter-description {
+  display: block;
+  margin: 10px 0;
+}
+
 .parameter-restrictions {
   color: gray;
   font: bold;

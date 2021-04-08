@@ -13,7 +13,7 @@ class Parameter extends React.Component {
                     <span className="parameter-required">required</span>
                     : null}
                 </div>
-                {this.props.description}
+                <span className="parameter-description">{this.props.description}</span>
 
                 {/* Show Min value */}
                 {this.props.minValue ?
