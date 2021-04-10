@@ -4,7 +4,7 @@ const {
   getProductsValidation,
   updateProductsValidation,
 } = require('../helper/productValidation/productValidation');
-const User = require('../models/User');
+const User = require('../models/User/User');
 const Product = require('../models/Product');
 
 /** **********************ADD PRODUCT HANDLER*********************** */

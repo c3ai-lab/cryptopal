@@ -27,47 +27,17 @@ const userSchema = new mongoose.Schema({
   },
   emails: [
     {
-      value: {
+      email_id: {
         type: String,
-        required: true,
-        min: 6,
-        max: 255,
-      },
-      primary: {
-        type: Boolean,
-        required: true,
-      },
-      type: {
-        type: String,
-        required: true,
         min: 6,
         max: 255,
       },
     },
   ],
   address: {
-    street_address: {
+    address_id: {
       type: String,
-      required: true,
       min: 6,
-      max: 255,
-    },
-    locality: {
-      type: String,
-      required: true,
-      max: 255,
-    },
-    region: {
-      type: String,
-      max: 255,
-    },
-    postal_code: {
-      type: String,
-      max: 255,
-    },
-    country: {
-      type: String,
-      required: true,
       max: 255,
     },
   },
@@ -78,8 +48,7 @@ const userSchema = new mongoose.Schema({
   payer_id: {
     type: String,
     required: true,
-    min: 6,
-    max: 255,
+    length: 13,
   },
   merchant_id: {
     type: String,
