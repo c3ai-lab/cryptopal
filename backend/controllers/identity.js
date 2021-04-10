@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const { sendChangeEmailConfirmation } = require('../helper/mailSender');
-const User = require('../models/User');
+const User = require('../models/User/User');
 
 /** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
