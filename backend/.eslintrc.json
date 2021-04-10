@@ -32,7 +32,7 @@
         }
       ],
       "no-underscore-dangle": "off",
-      "camelcase": [2, {"properties": "never"}],
+      "camelcase": [{"properties": "never"}],
       "consistent-return": "off",
       "prettier/prettier": [
         "error",
