@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+const _ = require('lodash');
 const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User/User');
 const Email = require('../models/User/Email');
+const Address = require('../models/User/Address');
 
 /** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
@@ -24,40 +25,50 @@ exports.getUserInfo = async (req, res) => {
 
 /** *******************UPDATE USER INFO HANDLER******************* */
 exports.updateUserInfo = async (req, res) => {
-  // delete for variables, which should not be changed by user
   const updateData = req.body.user;
-  delete updateData._id;
-  delete updateData.login_name;
-  delete updateData.verified_account;
-  delete updateData.payer_id;
-  delete updateData.merchant_id;
-  delete updateData.password;
-
   // get user from database
   const currentUser = await User.findOne({ _id: req.token._id });
   if (!currentUser) return res.status(400).send('User not found');
+
+  // check if address details changed
+  const address = await Address.findOne({
+    _id: currentUser.address.address_id,
+  });
+
+  const { _id, ...storedAddressData } = address._doc;
+  delete updateData.address._id;
+  if (!_.isEqual(storedAddressData, updateData.address)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of Object.entries(updateData.address)) {
+      address[key] = value;
+    }
+    await address.save();
+  }
+  delete updateData.address;
 
   // check if new email is already used for another account
   const existingEmail = await User.findOne({
     login_name: updateData.emails[0].value,
   });
 
-  if(!currentUser.equals(existingEmail)){
+  if (!currentUser.equals(existingEmail)) {
     if (existingEmail) {
       return res
         .status(400)
         .send('Email already connected to another account.');
     }
-  // send email with change email address request
-  const currentEmail = await Email.findOne({_id: currentUser.emails[0].email_id})
-  sendChangeEmailConfirmation({
-    id: currentUser.payer_id,
-    name: currentUser.given_name,
-    oldEmail: currentEmail,
-    newEmail: updateData.emails[0].value,
-  });
-  // dont set email yet - wait for confirmation
-  delete updateData.emails;
+    // send email with change email address request
+    const currentEmail = await Email.findOne({
+      _id: currentUser.emails[0].email_id,
+    });
+    sendChangeEmailConfirmation({
+      id: currentUser.payer_id,
+      name: currentUser.given_name,
+      oldEmail: currentEmail.value,
+      newEmail: updateData.emails[0].value,
+    });
+    // dont set email yet - wait for confirmation
+    delete updateData.emails;
   }
 
   // update database entry
@@ -81,14 +92,18 @@ exports.validateEmailChange = async (req, res) => {
     req.params.token,
     process.env.TOKEN_SECRET_CONFIRM
   );
+
   const user = await User.findOne({ payer_id: decodedUser.id });
   if (!user) return res.status(400).send('Invalid Token');
 
   // save new email of user in database
-  user.emails[0].value = req.query.email;
+  const email = await Email.findOne({ _id: user.emails[0].email_id });
+  email.value = req.query.email;
   user.login_name = req.query.email;
+
   try {
-    user.save();
+    await email.save();
+    await user.save();
     res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
   } catch (err) {
     res.status(400).send('Failed Email change');

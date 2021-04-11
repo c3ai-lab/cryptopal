@@ -21,16 +21,28 @@ const formSchema = Yup.object().shape({
 
 class InfoTab extends React.Component {
   state = {
-    ...this.props.user,
     feedback: { type: 'success', msg: null }
   };
 
   onChangesSubmit(values) {
     // send request to server
     const { website, phone, ...address } = values;
+    const { given_name, family_name, emails, company } = this.props.user;
+
+    const user = {
+      website,
+      phone,
+      address,
+      given_name,
+      family_name,
+      emails,
+      company
+    };
 
     // send request
-    this.props.updateUser({ user: { website, phone, address } });
+    this.props.updateUser({
+      user
+    });
     this.setState({
       feedback: { type: 'success', msg: 'Successfully changed data.' }
     });
@@ -86,7 +98,6 @@ class InfoTab extends React.Component {
               initialValues={{ ...address, phone, website }}
               validationSchema={formSchema}
               onSubmit={(values) => {
-                console.log('submit');
                 this.onChangesSubmit(values);
               }}>
               {({ errors, touched }) => (

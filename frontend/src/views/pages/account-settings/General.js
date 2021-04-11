@@ -35,8 +35,27 @@ class General extends React.Component {
 
   onChangeSubmit(e) {
     e.preventDefault();
-    // send change data request to server
-    const { credentials, feedback, ...updateData } = this.state;
+    // get change data from state
+    const updateData = (({
+      given_name,
+      family_name,
+      address,
+      company,
+      website,
+      emails,
+      phone
+    }) => ({
+      given_name,
+      family_name,
+      address,
+      company,
+      website,
+      emails,
+      phone
+    }))(this.state);
+
+    console.log(updateData);
+
     let message = 'Successfully changed data!';
     // check if email was changed
     if (updateData.emails[0].value !== this.props.user.emails[0].value) {

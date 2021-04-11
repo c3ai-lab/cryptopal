@@ -147,8 +147,10 @@ exports.login = async (req, res) => {
 
   // extract password from user data
   const { password, ...userWithoutPw } = user._doc;
-  const address = await Address.findOne({_id: userWithoutPw.address.address_id});
-  const email = await Email.findOne({_id: userWithoutPw.emails[0].email_id})
+  const address = await Address.findOne({
+    _id: userWithoutPw.address.address_id,
+  });
+  const email = await Email.findOne({ _id: userWithoutPw.emails[0].email_id });
   userWithoutPw.emails = [email];
   userWithoutPw.address = address;
 
