@@ -1,22 +1,22 @@
 const express = require('express');
 const product = require('../controllers/product');
-const verifyToken = require('../middleware/verifyToken');
+const verify = require('../middleware/verify');
 
 const router = express.Router();
 
 // route to add new product with product controller
-router.post('/', verifyToken, product.addProduct);
+router.post('/', verify.merchant, product.addProduct);
 
 // route to get specific product by id with product controller
-router.get('/:id', verifyToken, product.getProduct);
+router.get('/:id', verify.merchant, product.getProduct);
 
 // route to get all products of merchant with product controller
-router.get('/', verifyToken, product.getProducts);
+router.get('/', verify.merchant, product.getProducts);
 
 // route to update specific product by id with product controller
-router.patch('/:id', verifyToken, product.updateProduct);
+router.patch('/:id', verify.merchant, product.updateProduct);
 
 // route to delete specific product by id with product controller
-router.delete('/:id', verifyToken, product.deleteProduct);
+router.delete('/:id', verify.merchant, product.deleteProduct);
 
 module.exports = router;

@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   emails: [
     {
-      email_id: {
+      _id: {
         type: String,
         min: 6,
         max: 255,

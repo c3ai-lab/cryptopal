@@ -4,19 +4,11 @@ const {
   getProductsValidation,
   updateProductsValidation,
 } = require('../helper/productValidation/productValidation');
-const User = require('../models/User/User');
 const Product = require('../models/Product');
 
 /** **********************ADD PRODUCT HANDLER*********************** */
 exports.addProduct = async (req, res) => {
-  // get user from database
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
-
-  // check if sender is merchant
-  if (!user.merchant_id) {
-    return res.status(400).send('No Merchant. Upgrade to merchant first');
-  }
+  const { user } = req;
 
   // validate received data before creating a product
   const { error } = addProductValidation(req.body);
@@ -53,17 +45,10 @@ exports.addProduct = async (req, res) => {
 
 /** **********************GET ALL PRODUCTS HANDLER*********************** */
 exports.getProducts = async (req, res) => {
+  const { user } = req;
   // validate received data before creating a product
   const { error } = getProductsValidation(req.query);
   if (error) return res.status(400).send(error.details[0].message);
-  // get user from database
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
-
-  // check if the user is merchant
-  if (!user.merchant_id) {
-    return res.status(400).send('You are not a merchant yet.');
-  }
 
   // get all selected products by query params
   const page = parseInt(req.query.page, 10) || 1;
@@ -109,18 +94,10 @@ exports.getProduct = async (req, res) => {
 
 /** **********************UPDATE PRODUCT HANDLER*********************** */
 exports.updateProduct = async (req, res) => {
+  const { user } = req;
   // validate received data before creating a product
   const { error } = updateProductsValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
-  // get user from database
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
-
-  // check if the user is merchant
-  if (!user.merchant_id) {
-    return res.status(400).send('You are not a merchant yet.');
-  }
 
   // get product
   const product = await Product.findOne({
@@ -147,14 +124,7 @@ exports.updateProduct = async (req, res) => {
 
 /** **********************DELETE PRODUCT HANDLER*********************** */
 exports.deleteProduct = async (req, res) => {
-  // get user from database
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
-
-  // check if the user is merchant
-  if (!user.merchant_id) {
-    return res.status(400).send('You are not a merchant yet.');
-  }
+  const { user } = req;
 
   // delete product
   try {

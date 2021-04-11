@@ -63,7 +63,7 @@ exports.register = async (req, res) => {
       family_name: req.body.family_name,
       company: req.body.company,
       website: req.body.website,
-      emails: [{ email_id: emailID }],
+      emails: [{ _id: emailID }],
       address: {
         address_id: addressID,
       },
@@ -150,7 +150,7 @@ exports.login = async (req, res) => {
   const address = await Address.findOne({
     _id: userWithoutPw.address.address_id,
   });
-  const email = await Email.findOne({ _id: userWithoutPw.emails[0].email_id });
+  const email = await Email.findOne({ _id: userWithoutPw.emails[0]._id });
   userWithoutPw.emails = [email];
   userWithoutPw.address = address;
 

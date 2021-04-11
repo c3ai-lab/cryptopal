@@ -4,19 +4,22 @@ const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User/User');
 const Email = require('../models/User/Email');
 const Address = require('../models/User/Address');
+const { extractData } = require('../helper/mongoHelper');
 
 /** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
-
+  const { user } = req;
+  const address = await Address.findOne({ _id: user.address.address_id });
+  const sendAddress = extractData(address._doc);
+  const email = await Email.findOne({ _id: user.emails[0]._id });
+  const sendEmail = extractData(email._doc);
   const returnedUser = {
     user_id: user._id,
     name: user.given_name + user.family_name,
     given_name: user.given_name,
     family_name: user.family_name,
-    emails: user.emails,
-    address: user.address,
+    emails: [sendEmail],
+    address: sendAddress,
     verified_account: user.verified_account,
     payer_id: user.payer_id,
   };
@@ -25,21 +28,19 @@ exports.getUserInfo = async (req, res) => {
 
 /** *******************UPDATE USER INFO HANDLER******************* */
 exports.updateUserInfo = async (req, res) => {
+  const { user } = req;
   const updateData = req.body.user;
-  // get user from database
-  const currentUser = await User.findOne({ _id: req.token._id });
-  if (!currentUser) return res.status(400).send('User not found');
 
-  // check if address details changed
+  // get current stored address of user
   const address = await Address.findOne({
-    _id: currentUser.address.address_id,
+    _id: user.address.address_id,
   });
-
-  const { _id, ...storedAddressData } = address._doc;
-  delete updateData.address._id;
-  if (!_.isEqual(storedAddressData, updateData.address)) {
+  // check if address details changed
+  const storedAddressData = extractData(address._doc);
+  const updateAddress = extractData(updateData.address);
+  if (!_.isEqual(storedAddressData, updateAddress)) {
     // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(updateData.address)) {
+    for (const [key, value] of Object.entries(updateAddress)) {
       address[key] = value;
     }
     await address.save();
@@ -51,7 +52,7 @@ exports.updateUserInfo = async (req, res) => {
     login_name: updateData.emails[0].value,
   });
 
-  if (!currentUser.equals(existingEmail)) {
+  if (!user.equals(existingEmail)) {
     if (existingEmail) {
       return res
         .status(400)
@@ -59,11 +60,11 @@ exports.updateUserInfo = async (req, res) => {
     }
     // send email with change email address request
     const currentEmail = await Email.findOne({
-      _id: currentUser.emails[0].email_id,
+      _id: user.emails[0]._id,
     });
     sendChangeEmailConfirmation({
-      id: currentUser.payer_id,
-      name: currentUser.given_name,
+      id: user.payer_id,
+      name: user.given_name,
       oldEmail: currentEmail.value,
       newEmail: updateData.emails[0].value,
     });
@@ -97,7 +98,7 @@ exports.validateEmailChange = async (req, res) => {
   if (!user) return res.status(400).send('Invalid Token');
 
   // save new email of user in database
-  const email = await Email.findOne({ _id: user.emails[0].email_id });
+  const email = await Email.findOne({ _id: user.emails[0]._id });
   email.value = req.query.email;
   user.login_name = req.query.email;
 
@@ -112,9 +113,7 @@ exports.validateEmailChange = async (req, res) => {
 
 /** *******************UPGRADE USER TO MERCHANT HANDLER******************* */
 exports.upgradeToMerchant = async (req, res) => {
-  // get user from database
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
+  const { user } = req;
 
   // use unique userid as merchant id
   const id = user._id;
@@ -131,9 +130,7 @@ exports.upgradeToMerchant = async (req, res) => {
 
 /** *******************DOWNGRADE MERCHANT TO USER HANDLER******************* */
 exports.downgradeToUser = async (req, res) => {
-  // get user from database
-  const user = await User.findOne({ _id: req.token._id });
-  if (!user) return res.status(400).send('User not found');
+  const { user } = req;
 
   // reset merchant id
   user.merchant_id = null;

@@ -39,7 +39,7 @@ exports.sendChangeEmailConfirmation = (user) => {
     from: process.env.EMAILADDRESS_SENDER,
     to: user.oldEmail,
     subject: 'Confirm email change',
-    text: `Hi ${user.name}!\n\nYou requested an email address change for your CryptoPal account. For your security you have to confirm the change of the email address.\n\nNew email address:\n\n${user.newEmail}\n\nTo confirm the changes, you need to click on the following link:\n\n${process.env.SERVER_URL}/api/identity/validate/token=${token}?email=${user.newEmail}\n\nThis link will expire in seven (7) days, so if you don't manage to click on it in time, no changes will be made.\n\nYour Cryptopal-Team `,
+    text: `Hi ${user.name}!\n\nYou requested an email address change for your CryptoPal account. For your security you have to confirm the change of the email address.\n\nNew email address:\n\n${user.newEmail}\n\nTo confirm the changes, you need to click on the following link:\n\n${process.env.SERVER_URL}/api/identity/validate/${token}?email=${user.newEmail}\n\nThis link will expire in seven (7) days, so if you don't manage to click on it in time, no changes will be made.\n\nYour Cryptopal-Team `,
   };
 
   transporter.sendMail(mailOptions, (error) => {
