@@ -34,8 +34,8 @@ class ChangePassword extends React.Component {
     // Request body
     const body = JSON.stringify({
       id,
-      oldPassword: values.oldpass,
-      newPassword: values.newpass
+      old_password: values.oldpass,
+      new_password: values.newpass
     });
     axios
       .post(

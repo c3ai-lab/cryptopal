@@ -145,8 +145,12 @@ exports.login = async (req, res) => {
     expiresIn: 900,
   });
 
-  // delete password from response user data
+  // extract password from user data
   const { password, ...userWithoutPw } = user._doc;
+  const address = await Address.findOne({_id: userWithoutPw.address.address_id});
+  const email = await Email.findOne({_id: userWithoutPw.emails[0].email_id})
+  userWithoutPw.emails = [email];
+  userWithoutPw.address = address;
 
   res.status(200).send({
     token,

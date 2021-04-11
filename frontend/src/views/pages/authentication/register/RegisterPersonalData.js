@@ -13,10 +13,11 @@ import { history } from '../../../../history';
 
 class RegisterPersonalData extends React.Component {
   state = {
-    givenName: '',
-    familyName: '',
+    given_name: '',
+    family_name: '',
     company: '',
     website: '',
+    phone: '',
     confirmedTerms: false
   };
 
@@ -24,8 +25,14 @@ class RegisterPersonalData extends React.Component {
   handleNext = (e) => {
     e.preventDefault();
     if (this.state.confirmedTerms) {
-      const { givenName, familyName, company, website } = this.state;
-      this.props.next('3', { givenName, familyName, company, website });
+      const { given_name, family_name, company, website, phone } = this.state;
+      this.props.next('3', {
+        given_name,
+        family_name,
+        company,
+        website,
+        phone
+      });
     } else {
       this.props.next('0', { msg: 'You need to accept terms!' });
     }
@@ -40,8 +47,8 @@ class RegisterPersonalData extends React.Component {
             type="text"
             placeholder="Given Name"
             required
-            value={this.state.givenName}
-            onChange={(e) => this.setState({ givenName: e.target.value })}
+            value={this.state.given_name}
+            onChange={(e) => this.setState({ given_name: e.target.value })}
           />
           <Label>Given name</Label>
         </FormGroup>
@@ -50,8 +57,8 @@ class RegisterPersonalData extends React.Component {
             type="text"
             placeholder="Family name"
             required
-            value={this.state.familyName}
-            onChange={(e) => this.setState({ familyName: e.target.value })}
+            value={this.state.family_name}
+            onChange={(e) => this.setState({ family_name: e.target.value })}
           />
           <Label>Family Name</Label>
         </FormGroup>
@@ -72,6 +79,16 @@ class RegisterPersonalData extends React.Component {
             onChange={(e) => this.setState({ website: e.target.value })}
           />
           <Label>Company Website</Label>
+        </FormGroup>
+        <FormGroup className="form-label-group">
+          <Input
+            type="number"
+            placeholder="Phone"
+            maxLength="30"
+            value={this.state.phone}
+            onChange={(e) => this.setState({ phone: e.target.value })}
+          />
+          <Label>Phone</Label>
         </FormGroup>
         <FormGroup>
           <Checkbox

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User/User');
+const Email = require('../models/User/Email');
 
 /** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
@@ -33,32 +34,30 @@ exports.updateUserInfo = async (req, res) => {
   delete updateData.password;
 
   // get user from database
-  const storedUser = await User.findOne({ _id: req.token._id });
-  if (!storedUser) return res.status(400).send('User not found');
+  const currentUser = await User.findOne({ _id: req.token._id });
+  if (!currentUser) return res.status(400).send('User not found');
 
-  // check if email was changed - need confirmation
-  if (
-    updateData.emails &&
-    updateData.emails[0].value !== storedUser.emails[0].value
-  ) {
-    // check if new email is already used for another account
-    const existingEmail = await User.findOne({
-      login_name: updateData.emails[0].value,
-    });
+  // check if new email is already used for another account
+  const existingEmail = await User.findOne({
+    login_name: updateData.emails[0].value,
+  });
+
+  if(!currentUser.equals(existingEmail)){
     if (existingEmail) {
       return res
         .status(400)
         .send('Email already connected to another account.');
     }
-    // send email with change email address request
-    sendChangeEmailConfirmation({
-      id: storedUser.payer_id,
-      name: storedUser.given_name,
-      oldEmail: storedUser.emails[0].value,
-      newEmail: updateData.emails[0].value,
-    });
-    // dont set email yet - wait for confirmation
-    delete updateData.emails;
+  // send email with change email address request
+  const currentEmail = await Email.findOne({_id: currentUser.emails[0].email_id})
+  sendChangeEmailConfirmation({
+    id: currentUser.payer_id,
+    name: currentUser.given_name,
+    oldEmail: currentEmail,
+    newEmail: updateData.emails[0].value,
+  });
+  // dont set email yet - wait for confirmation
+  delete updateData.emails;
   }
 
   // update database entry

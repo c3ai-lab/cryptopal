@@ -5,17 +5,16 @@ import countries from 'countries-list';
 
 class RegisterAddress extends React.Component {
   state = {
-    streetAddress: '',
-    postalCode: '',
+    street_address: '',
+    postal_code: '',
     locality: '',
     region: '',
-    country: '',
-    phone: ''
+    country: ''
   };
 
   handleRegister = (e) => {
     e.preventDefault();
-    this.props.register(this.state);
+    this.props.register({ address: this.state });
   };
 
   render() {
@@ -34,8 +33,8 @@ class RegisterAddress extends React.Component {
             type="text"
             placeholder="Street address"
             required
-            value={this.state.streetAddress}
-            onChange={(e) => this.setState({ streetAddress: e.target.value })}
+            value={this.state.street_address}
+            onChange={(e) => this.setState({ street_address: e.target.value })}
           />
           <Label>Street address</Label>
         </FormGroup>
@@ -44,8 +43,8 @@ class RegisterAddress extends React.Component {
             type="text"
             placeholder="Postal code"
             required
-            value={this.state.postalCode}
-            onChange={(e) => this.setState({ postalCode: e.target.value })}
+            value={this.state.postal_code}
+            onChange={(e) => this.setState({ postal_code: e.target.value })}
           />
           <Label>Postal code</Label>
         </FormGroup>
@@ -75,16 +74,6 @@ class RegisterAddress extends React.Component {
             {countriesOptions}
           </Input>
           <Label>Country</Label>
-        </FormGroup>
-        <FormGroup className="form-label-group">
-          <Input
-            type="number"
-            placeholder="Phone"
-            maxLength="30"
-            value={this.state.phone}
-            onChange={(e) => this.setState({ phone: e.target.value })}
-          />
-          <Label>Phone</Label>
         </FormGroup>
         <div className="d-flex justify-content-between">
           <Button.Ripple
