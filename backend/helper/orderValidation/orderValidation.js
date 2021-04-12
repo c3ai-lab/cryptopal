@@ -12,7 +12,7 @@ exports.createOrderValidation = (data) => {
     value: Joi.string()
       .required()
       .max(32)
-      .pattern('/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/'),
+      .regex(/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/),
   });
   const payeeBase = Joi.object({
     email_address: Joi.string().email(),
@@ -34,12 +34,16 @@ exports.createOrderValidation = (data) => {
   });
 
   const phoneNumber = Joi.object({
-    phoneTnational_number: Joi.string().required().min(1).max(14),
+    national_number: Joi.string()
+      .required()
+      .min(1)
+      .max(14)
+      .regex(/^[0-9]{1,14}?$/),
   });
 
   const phone = Joi.object({
-    phoneType: Joi.string(),
-    phone_number: phoneNumber,
+    phone_type: Joi.string().valid('FAX', 'HOME', 'MOBILE', 'OTHER', 'PAGER'),
+    phone_number: phoneNumber.required(),
   });
 
   const name = Joi.object({
@@ -51,7 +55,7 @@ exports.createOrderValidation = (data) => {
     full_name: Joi.string().max(300),
   });
 
-  const payee = Joi.object({
+  const payer = Joi.object({
     email_address: Joi.string().max(254).email(),
     payer_id: Joi.string().min(13),
     name,
@@ -86,7 +90,7 @@ exports.createOrderValidation = (data) => {
     value: Joi.string()
       .required()
       .max(32)
-      .pattern('/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/'),
+      .regex(/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/),
     breakdown,
   });
 
@@ -94,7 +98,10 @@ exports.createOrderValidation = (data) => {
     name: Joi.string().min(1).max(127).required(),
     unit_amount: money.required(),
     tax: money,
-    quantity: Joi.string().max(10).pattern('/^[1-9][0-9]{0,9}$/').required(),
+    quantity: Joi.string()
+      .max(10)
+      .regex(/^[1-9][0-9]{0,9}$/)
+      .required(),
     description: Joi.string().max(127),
     sku: Joi.string().max(127),
     category: Joi.string()
@@ -105,13 +112,13 @@ exports.createOrderValidation = (data) => {
 
   const shipping = Joi.object({
     name: Joi.object({ full_name: Joi.string().max(300) }),
-    type: Joi.string().min(1).max(255).valid('PICKUP_IN_PERSON', '"SHIPPING'),
+    type: Joi.string().min(1).max(255).valid('PICKUP_IN_PERSON', 'SHIPPING'),
     address,
   });
 
   const purchaseUnit = Joi.object({
     reference_id: Joi.string().max(256),
-    amount,
+    amount: amount.required(),
     payee: payeeBase,
     payment_instructions: paymentInstructions,
     description: Joi.string().max(127),
@@ -121,9 +128,10 @@ exports.createOrderValidation = (data) => {
     items: Joi.array().items(item),
     shipping,
   });
+
   // application context subobjects-------------------------------------------
   const paymentMethod = Joi.object({
-    payer_selected: Joi.string().min(1).pattern('/^[0-9A-Z_]+$/'),
+    payer_selected: Joi.string().min(1),
     payee_preferred: Joi.string().valid(
       'UNRESTRICTED',
       'IMMEDIATE_PAYMENT_REQUIRED'
@@ -136,28 +144,35 @@ exports.createOrderValidation = (data) => {
 
   const transRef = Joi.object({
     // eslint-disable-next-line newline-per-chained-call
-    id: Joi.string().min(9).max(15).pattern('/^[a-zA-Z0-9]+$/').required(),
-    date: Joi.string().min(4).max(4).pattern('/^[0-9]+$/'),
-    network: Joi.string(),
+    id: Joi.string()
+      .min(9)
+      .max(15)
+      .regex(/^[a-zA-Z0-9]+$/)
+      .required(),
+    date: Joi.string()
+      .min(4)
+      .max(4)
+      .regex(/^[0-9]+$/),
+    network: Joi.string().required(),
   });
 
   const paymentSource = Joi.object({
     payment_initiator: Joi.string()
       .min(1)
       .max(255)
-      .pattern('/^[0-9A-Z_]+$/')
+      .regex(/^[0-9A-Z_]+$/)
       .valid('CUSTOMER', 'MERCHANT')
       .required(),
     payment_type: Joi.string()
       .min(1)
       .max(255)
-      .pattern('/^[0-9A-Z_]+$/')
+      .regex(/^[0-9A-Z_]+$/)
       .valid('ONE_TIME', 'RECURRING', 'UNSCHEDULED')
       .required(),
     usage: Joi.string()
       .min(1)
       .max(255)
-      .pattern('/^[0-9A-Z_]+$/')
+      .regex(/^[0-9A-Z_]+$/)
       .valid('FIRST', 'SUBSEQUENT', 'DERIVED'),
     previous_network_transaction_reference: transRef,
   });
@@ -167,7 +182,7 @@ exports.createOrderValidation = (data) => {
     locale: Joi.string()
       .min(2)
       .max(10)
-      .pattern('/^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$/'),
+      .regex(/^[a-z]{2}$/),
     landing_page: Joi.string().valid('LOGIN', 'BILLING', 'NO_PREFERENCE'),
     shipping_preference: Joi.string().valid(
       'GET_FROM_FILE',
@@ -183,9 +198,9 @@ exports.createOrderValidation = (data) => {
 
   //   Order object----------------------------------------------
   const order = Joi.object({
-    intent: Joi.string().required(),
-    payee,
-    purchase_units: Joi.array().items(purchaseUnit),
+    intent: Joi.string().valid('CAPTURE', 'AUTHORIZE').required(),
+    payer,
+    purchase_units: Joi.array().items(purchaseUnit).required(),
     application_context: applicationContext,
   });
 

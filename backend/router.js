@@ -9,4 +9,6 @@ app.use('/identity', require('./routes/identity'));
 
 app.use('/products', require('./routes/product'));
 
+app.use('/orders', require('./routes/order'));
+
 module.exports = app;
