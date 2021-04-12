@@ -4,7 +4,7 @@ const {
   getProductsValidation,
   updateProductsValidation,
 } = require('../helper/productValidation/productValidation');
-const Product = require('../models/Product');
+const Product = require('../models/Product/Product');
 
 /** **********************ADD PRODUCT HANDLER*********************** */
 exports.addProduct = async (req, res) => {

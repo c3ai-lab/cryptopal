@@ -1,25 +1,17 @@
 const jwt = require('jsonwebtoken');
-const _ = require('lodash');
 const { sendChangeEmailConfirmation } = require('../helper/mailSender');
 const User = require('../models/User/User');
-const Email = require('../models/User/Email');
-const Address = require('../models/User/Address');
-const { extractData } = require('../helper/mongoHelper');
 
 /** *******************GET USER INFO HANDLER******************* */
 exports.getUserInfo = async (req, res) => {
   const { user } = req;
-  const address = await Address.findOne({ _id: user.address.address_id });
-  const sendAddress = extractData(address._doc);
-  const email = await Email.findOne({ _id: user.emails[0]._id });
-  const sendEmail = extractData(email._doc);
   const returnedUser = {
     user_id: user._id,
     name: user.given_name + user.family_name,
     given_name: user.given_name,
     family_name: user.family_name,
-    emails: [sendEmail],
-    address: sendAddress,
+    emails: [user.emails],
+    address: user.address,
     verified_account: user.verified_account,
     payer_id: user.payer_id,
   };
@@ -31,41 +23,22 @@ exports.updateUserInfo = async (req, res) => {
   const { user } = req;
   const updateData = req.body.user;
 
-  // get current stored address of user
-  const address = await Address.findOne({
-    _id: user.address.address_id,
-  });
-  // check if address details changed
-  const storedAddressData = extractData(address._doc);
-  const updateAddress = extractData(updateData.address);
-  if (!_.isEqual(storedAddressData, updateAddress)) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(updateAddress)) {
-      address[key] = value;
-    }
-    await address.save();
-  }
-  delete updateData.address;
-
-  // check if new email is already used for another account
-  const existingEmail = await User.findOne({
-    login_name: updateData.emails[0].value,
-  });
-
-  if (!user.equals(existingEmail)) {
+  // check if email was changed
+  if (updateData.emails[0].value !== user.emails[0].value) {
+    const existingEmail = await User.findOne({
+      login_name: updateData.emails[0].value,
+    });
+    // check if new email is already used for another account
     if (existingEmail) {
       return res
         .status(400)
         .send('Email already connected to another account.');
     }
     // send email with change email address request
-    const currentEmail = await Email.findOne({
-      _id: user.emails[0]._id,
-    });
     sendChangeEmailConfirmation({
       id: user.payer_id,
       name: user.given_name,
-      oldEmail: currentEmail.value,
+      oldEmail: user.emails[0].value,
       newEmail: updateData.emails[0].value,
     });
     // dont set email yet - wait for confirmation
@@ -98,12 +71,10 @@ exports.validateEmailChange = async (req, res) => {
   if (!user) return res.status(400).send('Invalid Token');
 
   // save new email of user in database
-  const email = await Email.findOne({ _id: user.emails[0]._id });
-  email.value = req.query.email;
+  user.emails[0].value = req.query.email;
   user.login_name = req.query.email;
 
   try {
-    await email.save();
     await user.save();
     res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
   } catch (err) {
