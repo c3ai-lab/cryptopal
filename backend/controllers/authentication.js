@@ -13,8 +13,6 @@ const {
   sendRegisterConfirmationEmail,
   sendPasswordRecoveryEmail,
 } = require('../helper/mailSender');
-const Address = require('../models/User/Address');
-const Email = require('../models/User/Email');
 
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
@@ -39,23 +37,7 @@ exports.register = async (req, res) => {
     name: req.body.given_name,
   });
 
-  let emailID;
-  let addressID;
   try {
-    // save address
-    const address = new Address(req.body.address);
-    const savedAddress = await address.save();
-    addressID = savedAddress._id;
-
-    // save email
-    const email = new Email({
-      value: req.body.email,
-      type: 'private',
-      primary: true,
-    });
-    const savedEmail = await email.save();
-    emailID = savedEmail._id;
-
     // create user with received data
     const user = new User({
       login_name: req.body.email,
@@ -63,10 +45,14 @@ exports.register = async (req, res) => {
       family_name: req.body.family_name,
       company: req.body.company,
       website: req.body.website,
-      emails: [{ _id: emailID }],
-      address: {
-        address_id: addressID,
-      },
+      emails: [
+        {
+          value: req.body.email,
+          type: 'private',
+          primary: true,
+        },
+      ],
+      address: req.body.address,
       phone: req.body.phone,
       verified_account: false,
       payer_id: payerId,
@@ -77,10 +63,6 @@ exports.register = async (req, res) => {
     await user.save(); // save user
     res.status(200).send({ user: { email: req.body.email } });
   } catch (err) {
-    // delete already saved entries
-    if (addressID) await Address.deleteOne({ _id: addressID });
-    if (emailID) await Email.deleteOne({ _id: emailID });
-
     res.status(400).send(err.message); // send db error
   }
 };
@@ -147,12 +129,6 @@ exports.login = async (req, res) => {
 
   // extract password from user data
   const { password, ...userWithoutPw } = user._doc;
-  const address = await Address.findOne({
-    _id: userWithoutPw.address.address_id,
-  });
-  const email = await Email.findOne({ _id: userWithoutPw.emails[0]._id });
-  userWithoutPw.emails = [email];
-  userWithoutPw.address = address;
 
   res.status(200).send({
     token,
