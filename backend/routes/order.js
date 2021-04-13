@@ -1,10 +1,12 @@
 const express = require('express');
 const order = require('../controllers/order');
-const verify = require('../middleware/verify');
 
 const router = express.Router();
 
-// route to add new product with product controller
+// route to create a new order with order controller
 router.post('/', order.createOrder);
+
+// route to get a specific order with order controller
+router.get('/:id', order.getOrder);
 
 module.exports = router;

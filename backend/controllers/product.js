@@ -15,7 +15,7 @@ exports.addProduct = async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const id = req.body.id ? req.body.id : mongoose.Types.ObjectId();
-  const creationTime = new Date();
+  const creationTime = new Date().toISOString();
 
   // create new product with received data
   const product = new Product({
