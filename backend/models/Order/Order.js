@@ -15,7 +15,7 @@ const money = new mongoose.Schema(
       required: true,
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const payeeBase = new mongoose.Schema(
@@ -31,7 +31,7 @@ const payeeBase = new mongoose.Schema(
       max: 50,
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 // Payee subschemas-----------------------------------------------
@@ -62,7 +62,7 @@ const address = new mongoose.Schema(
       required: true,
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const taxInfo = new mongoose.Schema(
@@ -78,7 +78,7 @@ const taxInfo = new mongoose.Schema(
       enum: ['BR_CPF', 'BR_CNPJ'],
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const phoneNumber = new mongoose.Schema(
@@ -90,7 +90,7 @@ const phoneNumber = new mongoose.Schema(
       max: 14,
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const phone = new mongoose.Schema(
@@ -101,7 +101,7 @@ const phone = new mongoose.Schema(
     },
     phone_number: phoneNumber,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const name = new mongoose.Schema(
@@ -131,7 +131,7 @@ const name = new mongoose.Schema(
       max: 300,
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const payer = new mongoose.Schema(
@@ -152,7 +152,7 @@ const payer = new mongoose.Schema(
     tax_info: taxInfo,
     address,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 // purchase unit subschemas --------------------------------------------
@@ -161,7 +161,7 @@ const platformFee = new mongoose.Schema(
     amount: money,
     payee: payeeBase,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const paymentInstructions = new mongoose.Schema(
@@ -169,7 +169,7 @@ const paymentInstructions = new mongoose.Schema(
     platform_fees: [platformFee],
     disbursement_mode: { type: String, enum: ['INSTANT', 'DELAYED'] },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const breakdown = new mongoose.Schema(
@@ -182,7 +182,7 @@ const breakdown = new mongoose.Schema(
     shipping_discount: money,
     discount: money,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const amount = new mongoose.Schema(
@@ -200,7 +200,7 @@ const amount = new mongoose.Schema(
     },
     breakdown,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const item = new mongoose.Schema(
@@ -233,7 +233,7 @@ const item = new mongoose.Schema(
       enum: ['DIGITAL_GOODS', 'PHYSICAL_GOODS'],
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const shipping = new mongoose.Schema(
@@ -252,7 +252,7 @@ const shipping = new mongoose.Schema(
     },
     address,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const purchaseUnit = new mongoose.Schema(
@@ -284,7 +284,7 @@ const purchaseUnit = new mongoose.Schema(
     items: [item],
     shipping,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 // application context subschemas-------------------------------------------
 const paymentMethod = new mongoose.Schema(
@@ -304,7 +304,7 @@ const paymentMethod = new mongoose.Schema(
       enum: ['TEL', 'WEB', 'CCD', 'PPD'],
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const transRef = new mongoose.Schema(
@@ -324,7 +324,7 @@ const transRef = new mongoose.Schema(
       type: String,
     },
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const paymentSource = new mongoose.Schema(
@@ -352,7 +352,7 @@ const paymentSource = new mongoose.Schema(
     },
     previous_network_transaction_reference: transRef,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 const applicationContext = new mongoose.Schema(
@@ -384,7 +384,7 @@ const applicationContext = new mongoose.Schema(
     cancel_url: { type: String },
     stored_payment_source: paymentSource,
   },
-  { _id: false }
+  { _id: false, strict: 'throw' }
 );
 
 //   Order schema----------------------------------------------

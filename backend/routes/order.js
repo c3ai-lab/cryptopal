@@ -9,4 +9,7 @@ router.post('/', order.createOrder);
 // route to get a specific order with order controller
 router.get('/:id', order.getOrder);
 
+// route to update specific order by id with order controller
+router.patch('/:id', order.updateOrder);
+
 module.exports = router;

@@ -4,7 +4,43 @@
  */
 const Joi = require('@hapi/joi');
 
-// set up joi validation of create order data
+//----------------------------------------------------------------------
+//            set up joi validation of update order data
+//----------------------------------------------------------------------
+exports.updateOrderValidation = (data) => {
+  const patch = Joi.object({
+    op: Joi.string().required().valid('add', 'remove', 'replace'),
+    path: [
+      Joi.string().valid('intent', 'payer', 'purchase_units'),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(custom_id)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(description)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(soft_descriptor)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(amount)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(invoice_id)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(payment_instruction)$/),
+      Joi.string().regex(
+        /^(purchase_units\[)\d+(\])\.(payment_instruction)\.(disbursement_mode)$/
+      ),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(payee)\.(email)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(shipping)\.(name)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(shipping)\.(address)$/),
+      Joi.string().regex(/^(purchase_units\[)\d+(\])\.(shipping)\.(type)$/),
+    ],
+    value: Joi.any(),
+    from: Joi.string(),
+  });
+
+  const updateObject = Joi.object({
+    patch_request: Joi.array().items(patch),
+  });
+
+  return updateObject.validate(data);
+};
+
+//----------------------------------------------------------------------
+//            set up joi validation of create order data
+//----------------------------------------------------------------------
 exports.createOrderValidation = (data) => {
   // general objects
   const money = Joi.object({
