@@ -1,0 +1,108 @@
+---
+name: Orders
+route: /orders
+menu: Orders
+---
+
+import Route from "../components/layout/Route/Route.js";
+import RequestHeader from "../components/content/RequestHeader/RequestHeader.js";
+import CreateOrderRequest from "../components/content/Orders/CreateOrder/CreateOrderRequest.js";
+import CreateOrderResponse from "../components/content/Orders/CreateOrder/CreateOrderResponse.js";
+import UpdateOrderPath from "../components/content/Orders/UpdateOrder/UpdateOrderPath.js";
+import UpdateOrderRequest from "../components/content/Orders/UpdateOrder/UpdateOrderRequest.js";
+import UpdateOrderDescription from "../components/content/Orders/UpdateOrder/UpdateOrderDescription.js";
+
+# Orders API
+
+An order represents a payment between two or more parties. Use the Orders API to create, update, retrieve, authorize, and capture orders.
+
+<h2>Orders</h2>
+
+Use the /orders resource to create, update, retrieve, authorize, and capture orders.
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "-------------------------------CREATE ORDER--------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Create order
+
+<Route method="POST" path="/orders" />
+
+Creates an order.
+
+### Header parameters
+
+<RequestHeader />
+
+### Request body
+
+<CreateOrderRequest />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 201 Created</span> status code and a JSON
+  response body that includes by default a minimal response with the ID, status,
+  and HATEOAS links. If you require the complete order resource representation, you
+  must pass the <span className="highlight-code">
+    Prefer: return=representation
+  </span> request header. This header value is not the default.
+</div>
+<CreateOrderResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "--------------------------------UPDATE ORDER-------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Update order
+
+<Route method="PATCH" path="/orders/{order_id}" />
+<UpdateOrderDescription />
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateOrderPath />
+
+### Request body
+
+<UpdateOrderRequest />
+
+### Response
+
+<div>
+  A successful request returns the{" "}
+  <span className="highlight-code">HTTP 204 No Content</span> status code with
+  no JSON response body.
+</div>
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "---------------------------------GET ORDER---------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Get Order
+
+<Route method="GET" path="/orders/{order_id}" />
+
+Shows details for an order, by ID.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateOrderPath />
+
+### Response
+
+<div>
+  A successful request returns the{" "}
+  <span className="highlight-code">HTTP 200 OK</span> status code and a JSON
+  response body that shows product details.
+</div>
+<CreateOrderResponse />

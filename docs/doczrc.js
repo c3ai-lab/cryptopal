@@ -8,5 +8,6 @@ export default {
       'CryptoPal API',
       { name: 'Catalog Products', menu: ['Products'] },
       { name: 'Identity', menu: ['Userinfo'] },
+      { name: 'Orders', menu: ['Orders', 'Custom Objects'] },
     ]
   }
