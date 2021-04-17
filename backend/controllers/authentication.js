@@ -13,6 +13,8 @@ const {
   sendRegisterConfirmationEmail,
   sendPasswordRecoveryEmail,
 } = require('../helper/mailSender');
+const { generateKeyPair } = require('../helper/keyGeneration/generateKeyPair');
+const Wallet = require('../models/Wallets/Wallet');
 
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
@@ -60,7 +62,19 @@ exports.register = async (req, res) => {
       password: hashedPassword,
     });
 
-    await user.save(); // save user
+    const savedUser = await user.save(); // save user
+
+    // generate users wallet address and key pair
+    const index = (await User.count()) + 10; // reserve first 10 wallets for system
+    const { address, publicKey, privateKey } = await generateKeyPair(index);
+    const wallet = new Wallet({
+      user_id: savedUser._id,
+      address,
+      publicKey,
+      privateKey,
+    });
+    await wallet.save();
+
     res.status(200).send({ user: { email: req.body.email } });
   } catch (err) {
     res.status(400).send(err.message); // send db error

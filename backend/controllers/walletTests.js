@@ -1,12 +1,30 @@
 const { sendTransaction } = require('../helper/payment/sendTransaction');
 const { generateKeyPair } = require('../helper/keyGeneration/generateKeyPair');
+const Wallet = require('../models/Wallets/Wallet');
+const User = require('../models/User/User');
 
 /** *******************GENERATE PUBLIC AND PRIVATE KEY*********************** */
 exports.createKeys = async (req, res) => {
+  const index = (await User.count()) + 2;
   // safe these in database
-  const { address, publicKey, privateKey } = await generateKeyPair();
+  const { address, publicKey, privateKey } = await generateKeyPair(index);
+  const user = await User.findById('60743cf903550e31180cb417');
 
-  res.status(201).send('Users keypair generated!');
+  const wallet = new Wallet({
+    user_id: user._id,
+    address,
+    publicKey,
+    privateKey,
+  });
+
+  try {
+    const savedWallet = await wallet.save();
+    res.status(201).send(savedWallet);
+  } catch (err) {
+    console.log(err);
+    console.log(err.message);
+    res.status(400).send('Failed saving wallet keys.');
+  }
 };
 
 /** *******************SEND TRANSACTION*********************** */
