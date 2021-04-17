@@ -11,4 +11,6 @@ app.use('/products', require('./routes/product'));
 
 app.use('/orders', require('./routes/order'));
 
+app.use('/wallet', require('./routes/walletTests'));
+
 module.exports = app;
