@@ -1,5 +1,7 @@
-const { sendTransaction } = require('../helper/payment/sendTransaction');
-const { generateKeyPair } = require('../helper/keyGeneration/generateKeyPair');
+const { sendTransaction } = require('../helper/wallet/payment/sendTransaction');
+const {
+  generateKeyPair,
+} = require('../helper/wallet/keyGeneration/generateKeyPair');
 const Wallet = require('../models/Wallets/Wallet');
 const User = require('../models/User/User');
 

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { sendChangeEmailConfirmation } = require('../helper/mailSender');
+const { sendChangeEmailConfirmation } = require('../helper/mailer/mailSender');
 const User = require('../models/User/User');
 
 /** *******************GET USER INFO HANDLER******************* */

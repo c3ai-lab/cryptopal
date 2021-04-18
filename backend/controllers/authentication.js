@@ -6,8 +6,10 @@ const User = require('../models/User/User');
 const {
   sendRegisterConfirmationEmail,
   sendPasswordRecoveryEmail,
-} = require('../helper/mailSender');
-const { generateKeyPair } = require('../helper/keyGeneration/generateKeyPair');
+} = require('../helper/mailer/mailSender');
+const {
+  generateKeyPair,
+} = require('../helper/wallet/keyGeneration/generateKeyPair');
 const Wallet = require('../models/Wallets/Wallet');
 
 /** **********************REGISTER HANDLER*********************** */
