@@ -1,9 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
-const {
-  createOrderValidation,
-  updateOrderValidation,
-} = require('../helper/orderValidation/orderValidation');
 const Order = require('../models/Order/Order');
 
 // creates the response object out of the orders object
@@ -112,10 +108,6 @@ const addParameter = (order, patchItem) => {
 
 /** **********************CREATE ORDER HANDLER*********************** */
 exports.createOrder = async (req, res) => {
-  // validate received data before creating a order
-  const { error } = createOrderValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   // create new order with received data
   const creationTime = new Date().toISOString();
   const order = new Order({
@@ -151,10 +143,6 @@ exports.getOrder = async (req, res) => {
 
 /** **********************CREATE ORDER HANDLER*********************** */
 exports.updateOrder = async (req, res) => {
-  // validate received data before creating a order
-  const { error } = updateOrderValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   const patchRequest = req.body.patch_request;
   try {
     let order = await Order.findById(req.params.id);

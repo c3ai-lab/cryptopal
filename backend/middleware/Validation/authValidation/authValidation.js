@@ -3,9 +3,10 @@
  * requests with wrong formated data
  */
 const Joi = require('@hapi/joi');
+const { validateSchema } = require('../validateSchema');
 
 // set up joi validation of registration data
-exports.registerValidation = (data) => {
+exports.registerValidation = (req, res, next) => {
   const address = Joi.object({
     street_address: Joi.string().required(),
     locality: Joi.string().required(),
@@ -25,36 +26,36 @@ exports.registerValidation = (data) => {
     address,
   });
 
-  return schema.validate(data);
+  validateSchema(req, res, next, schema);
 };
 
 // set up joi validation of login data
-exports.loginValidation = (data) => {
+exports.loginValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required(),
     password: Joi.string().min(6).required(),
   });
 
-  return schema.validate(data);
+  validateSchema(req, res, next, schema);
 };
 
 // set up joi validation of login data
-exports.changePasswordValidation = (data) => {
+exports.changePasswordValidation = (req, res, next) => {
   const schema = Joi.object({
     id: Joi.string().required(),
     old_password: Joi.string().min(6).required(),
     new_password: Joi.string().min(6).required(),
   });
 
-  return schema.validate(data);
+  validateSchema(req, res, next, schema);
 };
 
 // set up joi validation of login data
-exports.recoverPasswordValidation = (data) => {
+exports.recoverPasswordValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().required(),
     family_name: Joi.string().required(),
   });
 
-  return schema.validate(data);
+  validateSchema(req, res, next, schema);
 };

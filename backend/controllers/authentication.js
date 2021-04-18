@@ -4,12 +4,6 @@ const jwt = require('jsonwebtoken');
 const generator = require('generate-password');
 const User = require('../models/User/User');
 const {
-  registerValidation,
-  loginValidation,
-  changePasswordValidation,
-  recoverPasswordValidation,
-} = require('../helper/authValidation/authValidation');
-const {
   sendRegisterConfirmationEmail,
   sendPasswordRecoveryEmail,
 } = require('../helper/mailSender');
@@ -18,10 +12,6 @@ const Wallet = require('../models/Wallets/Wallet');
 
 /** **********************REGISTER HANDLER*********************** */
 exports.register = async (req, res) => {
-  // validate received data before creating a user
-  const { error } = registerValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   // check if the user is already in the database
   const emailExists = await User.findOne({ login_name: req.body.email });
   if (emailExists) return res.status(400).send('Email already exists');
@@ -83,6 +73,7 @@ exports.register = async (req, res) => {
 
 /** *******************RESEND CONFIRMATION EMAIL HANDLER******************* */
 exports.resendConfirmationMail = async (req, res) => {
+  // find user by entered email
   const user = await User.findOne({
     emails: { $elemMatch: { value: req.params.email, primary: true } },
   });
@@ -117,10 +108,6 @@ exports.confirmRegistration = async (req, res) => {
 
 /** **********************LOGIN HANDLER*********************** */
 exports.login = async (req, res) => {
-  // validate received data
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   // check if the user is already in the database
   const user = await User.findOne({ login_name: req.body.email });
   if (!user) return res.status(400).send('Invalid email');
@@ -152,10 +139,6 @@ exports.login = async (req, res) => {
 
 /** *******************CHANGE PASSWORD HANDLER*********************** */
 exports.changePassword = async (req, res) => {
-  // validate received data
-  const { error } = changePasswordValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   // check if the user is already in the database
   const user = await User.findOne({ _id: req.body.id });
   if (!user) return res.status(400).send('User id cannot be found');
@@ -185,10 +168,6 @@ exports.changePassword = async (req, res) => {
 
 /** *******************RECOVER PASSWORD HANDLER*********************** */
 exports.recoverPassword = async (req, res) => {
-  // validate received data
-  const { error } = recoverPasswordValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   // check if the user is already in the database
   const user = await User.findOne({ login_name: req.body.email });
   if (!user || user.family_name !== req.body.family_name) {
@@ -207,6 +186,7 @@ exports.recoverPassword = async (req, res) => {
   user.password = hashedPassword;
 
   // send email with new password
+  // eslint-disable-next-line camelcase
   const { login_name, given_name } = user;
   sendPasswordRecoveryEmail({ login_name, given_name }, password);
   try {

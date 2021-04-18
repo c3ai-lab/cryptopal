@@ -1,13 +1,14 @@
 /*
- * Validation of send authentification data to reject
+ * Validation of send order data to reject
  * requests with wrong formated data
  */
 const Joi = require('@hapi/joi');
+const { validateSchema } = require('../validateSchema');
 
 //----------------------------------------------------------------------
 //            set up joi validation of update order data
 //----------------------------------------------------------------------
-exports.updateOrderValidation = (data) => {
+exports.updateOrderValidation = (req, res, next) => {
   const patch = Joi.object({
     op: Joi.string().required().valid('add', 'remove', 'replace'),
     path: [
@@ -35,13 +36,13 @@ exports.updateOrderValidation = (data) => {
     patch_request: Joi.array().items(patch),
   });
 
-  return updateObject.validate(data);
+  validateSchema(req, res, next, updateObject);
 };
 
 //----------------------------------------------------------------------
 //            set up joi validation of create order data
 //----------------------------------------------------------------------
-exports.createOrderValidation = (data) => {
+exports.createOrderValidation = (req, res, next) => {
   // general objects
   const money = Joi.object({
     currency_code: Joi.string().min(3).max(3).required(),
@@ -240,5 +241,5 @@ exports.createOrderValidation = (data) => {
     application_context: applicationContext,
   });
 
-  return order.validate(data);
+  validateSchema(req, res, next, order);
 };

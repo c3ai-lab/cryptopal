@@ -1,18 +1,9 @@
 const mongoose = require('mongoose');
-const {
-  addProductValidation,
-  getProductsValidation,
-  updateProductsValidation,
-} = require('../helper/productValidation/productValidation');
 const Product = require('../models/Product/Product');
 
 /** **********************ADD PRODUCT HANDLER*********************** */
 exports.addProduct = async (req, res) => {
   const { user } = req;
-
-  // validate received data before creating a product
-  const { error } = addProductValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
 
   const id = req.body.id ? req.body.id : mongoose.Types.ObjectId();
   const creationTime = new Date().toISOString();
@@ -46,9 +37,6 @@ exports.addProduct = async (req, res) => {
 /** **********************GET ALL PRODUCTS HANDLER*********************** */
 exports.getProducts = async (req, res) => {
   const { user } = req;
-  // validate received data before creating a product
-  const { error } = getProductsValidation(req.query);
-  if (error) return res.status(400).send(error.details[0].message);
 
   // get all selected products by query params
   const page = parseInt(req.query.page, 10) || 1;
@@ -95,10 +83,6 @@ exports.getProduct = async (req, res) => {
 /** **********************UPDATE PRODUCT HANDLER*********************** */
 exports.updateProduct = async (req, res) => {
   const { user } = req;
-  // validate received data before creating a product
-  const { error } = updateProductsValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   // get product
   const product = await Product.findOne({
     _id: req.params.id,
