@@ -5,7 +5,7 @@ const money = new mongoose.Schema(
   {
     currency_code: {
       type: String,
-      min: 3,
+      minLength: 3,
       max: 3,
       required: true,
     },
@@ -22,12 +22,12 @@ const payeeBase = new mongoose.Schema(
   {
     email_address: {
       type: String,
-      min: 3,
+      minLength: 3,
       max: 255,
     },
     merchant_id: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 50,
     },
   },
@@ -86,7 +86,7 @@ const phoneNumber = new mongoose.Schema(
     national_number: {
       type: String,
       required: true,
-      min: 1,
+      minLength: 1,
       max: 14,
     },
   },
@@ -142,7 +142,7 @@ const payer = new mongoose.Schema(
     },
     payer_id: {
       type: String,
-      min: 13,
+      minLength: 13,
     },
     name,
     phone,
@@ -189,7 +189,7 @@ const amount = new mongoose.Schema(
   {
     currency_code: {
       type: String,
-      min: 3,
+      minLength: 3,
       max: 3,
       required: true,
     },
@@ -207,7 +207,7 @@ const item = new mongoose.Schema(
   {
     name: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 127,
       required: true,
     },
@@ -228,7 +228,7 @@ const item = new mongoose.Schema(
     },
     category: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 20,
       enum: ['DIGITAL_GOODS', 'PHYSICAL_GOODS'],
     },
@@ -246,7 +246,7 @@ const shipping = new mongoose.Schema(
     },
     type: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 255,
       enum: ['PICKUP_IN_PERSON', 'SHIPPING'],
     },
@@ -259,7 +259,7 @@ const purchaseUnit = new mongoose.Schema(
   {
     reference_id: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 255,
     },
     amount,
@@ -291,7 +291,7 @@ const paymentMethod = new mongoose.Schema(
   {
     payer_selected: {
       type: String,
-      min: 1,
+      minLength: 1,
     },
     payee_preferred: {
       type: String,
@@ -299,7 +299,7 @@ const paymentMethod = new mongoose.Schema(
     },
     standard_entry_class_code: {
       type: String,
-      min: 3,
+      minLength: 3,
       max: 255,
       enum: ['TEL', 'WEB', 'CCD', 'PPD'],
     },
@@ -311,13 +311,13 @@ const transRef = new mongoose.Schema(
   {
     id: {
       type: String,
-      min: 9,
+      minLength: 9,
       max: 15,
       required: true,
     },
     date: {
       type: String,
-      min: 4,
+      minLength: 4,
       max: 4,
     },
     network: {
@@ -331,21 +331,21 @@ const paymentSource = new mongoose.Schema(
   {
     payment_initiator: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 255,
       required: true,
       enum: ['CUSTOMER', 'MERCHANT'],
     },
     payment_type: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 255,
       required: true,
       enum: ['ONE_TIME', 'RECURRING', 'UNSCHEDULED'],
     },
     usage: {
       type: String,
-      min: 1,
+      minLength: 1,
       max: 255,
       required: true,
       enum: ['FIRST', 'SUBSEQUENT', 'DERIVED'],
@@ -363,7 +363,7 @@ const applicationContext = new mongoose.Schema(
     },
     locale: {
       type: String,
-      min: 2,
+      minLength: 2,
       max: 10,
     },
     landing_page: {
@@ -399,7 +399,7 @@ const orderSchema = new mongoose.Schema({
   application_context: applicationContext,
   status: {
     type: String,
-    min: 1,
+    minLength: 1,
     max: 255,
     enum: [
       'CREATED',
@@ -412,12 +412,12 @@ const orderSchema = new mongoose.Schema({
   },
   create_time: {
     type: String,
-    min: 20,
+    minLength: 20,
     max: 64,
   },
   update_time: {
     type: String,
-    min: 20,
+    minLength: 20,
     max: 64,
   },
 });

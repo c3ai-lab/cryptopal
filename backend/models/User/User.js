@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   login_name: {
     type: String,
     required: true,
-    min: 6,
+    minLength: 6,
     max: 255,
   },
   given_name: {
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
       value: {
         type: String,
         required: true,
-        min: 6,
+        minLength: 6,
         max: 255,
       },
       primary: {
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
       type: {
         type: String,
         required: true,
-        min: 6,
+        minLength: 6,
         max: 255,
       },
     },
@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
     street_address: {
       type: String,
       required: true,
-      min: 6,
+      minLength: 6,
       max: 255,
     },
     locality: {
@@ -82,18 +82,18 @@ const userSchema = new mongoose.Schema({
   },
   merchant_id: {
     type: String,
-    min: 6,
+    minLength: 6,
     max: 255,
   },
   password: {
     type: String,
     required: true,
-    min: 6,
+    minLength: 6,
     max: 1024,
   },
   phone: {
     type: String,
-    min: 4,
+    minLength: 4,
     max: 30,
   },
 });
