@@ -1,9 +1,11 @@
-const { sendTransaction } = require('../helper/wallet/payment/sendTransaction');
+/* eslint-disable object-curly-newline */
+const Wallet = require('../models/Wallets/Wallet');
+const User = require('../models/User/User');
 const {
   generateKeyPair,
 } = require('../helper/wallet/keyGeneration/generateKeyPair');
-const Wallet = require('../models/Wallets/Wallet');
-const User = require('../models/User/User');
+const { sendPayment } = require('../helper/wallet/transactions/payment');
+const { getTokens } = require('../helper/wallet/transactions/faucet');
 
 /** *******************GENERATE PUBLIC AND PRIVATE KEY*********************** */
 exports.createKeys = async (req, res) => {
@@ -29,9 +31,18 @@ exports.createKeys = async (req, res) => {
   }
 };
 
-/** *******************SEND TRANSACTION*********************** */
-exports.signTransaction = async (req, res) => {
-  sendTransaction()
+/** *******************SEND PAYMENT*********************** */
+exports.sendPayment = async (req, res) => {
+  const { from, to, value, sk } = req.body;
+  sendPayment(from, to, value, sk)
+    .then((hash) => res.status(201).send(hash))
+    .catch((err) => res.status(400).send(err.message));
+};
+
+/** *******************GET TOKENS FROM FAUCET*********************** */
+exports.getToken = async (req, res) => {
+  const { to, value } = req.body;
+  getTokens(to, value)
     .then((hash) => res.status(201).send(hash))
     .catch((err) => res.status(400).send(err.message));
 };

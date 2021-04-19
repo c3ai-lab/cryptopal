@@ -1,21 +1,11 @@
 const EthereumTx = require('ethereumjs-tx').Transaction;
 const Common = require('ethereumjs-common').default;
-const Web3 = require('web3');
-
-// Helper function to pad each payload data to needed 32 bit length
-const pad32Bytes = (data) => {
-  let s = String(data).slice(2);
-  while (s.length < (64 || 2)) {
-    s = `0${s}`;
-  }
-  return s;
-};
 
 /*
  * Returns the parameters to connect to the selected chain. The chain has to be set
  * in the .env file. This function also returns the address of the erc20 token.
  */
-const getNetworkParams = () => {
+exports.getNetworkParams = () => {
   const network = process.env.NETWORK;
   let contractAddress;
   let networkAddress;
@@ -62,32 +52,21 @@ const getNetworkParams = () => {
   return { networkAddress, contractAddress, networkInfo };
 };
 
-/** *******************RECOVER PASSWORD HANDLER*********************** */
-exports.sendTransaction = async () => {
-  // get parameters from database
-  const address = '0x1c0611d45c041bfa2d5e30fc584bbe3dabd5b39f';
-  const sk = '8c09ee6adcbfa63dd28c3e00b4a7ca3954516896820d5d2ccb391fc7154f48fd';
-  const addressTo = '0x1c97Fb80B4ddb3Dd429AC07351AA5b26752B31dF';
-
-  // connect to network
-  const { networkAddress, contractAddress, networkInfo } = getNetworkParams();
-  const provider = new Web3.providers.HttpProvider(networkAddress);
-  const web3 = new Web3(provider);
-
-  /* --------------- generating payload for contract call ---------------*/
-  // get hashed function identifier
-  const funcSig = web3.utils.sha3('transfer(address,uint256)').slice(2, 10);
-  // extend receiver address to 32 bit
-  const padAddressTo = pad32Bytes(addressTo);
-  // get extended hashed amount to send
-  const amountWei = web3.utils.toWei('5');
-  const amountHex = web3.utils.toHex(amountWei);
-  const padAmount = pad32Bytes(amountHex);
-  // combine values for function call into payload string
-  const payload = funcSig + padAddressTo + padAmount;
-
+/*
+ * function to send a transaction with the passed values to the passed network
+ * with the passed private key.
+ */
+exports.sendTransaction = async (
+  web3,
+  from,
+  to,
+  value,
+  payload,
+  networkInfo,
+  sk
+) => {
   // get current network parameters for function call
-  const txCount = await web3.eth.getTransactionCount(address);
+  const txCount = await web3.eth.getTransactionCount(from);
   const gasPrice = await web3.eth.getGasPrice();
 
   // define transaction data
@@ -95,8 +74,8 @@ exports.sendTransaction = async () => {
     nonce: web3.utils.toHex(txCount),
     gasPrice: web3.utils.toHex(gasPrice),
     gasLimit: web3.utils.toHex('80000'),
-    to: contractAddress,
-    value: '0x00',
+    to,
+    value: web3.utils.toHex(web3.utils.toWei(value)),
     data: `0x${payload}`,
   };
 
