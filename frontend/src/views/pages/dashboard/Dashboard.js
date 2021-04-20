@@ -9,11 +9,21 @@ import { connect } from 'react-redux';
 import { getWalletData } from '../../../redux/actions/wallet/walletActions';
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.checkForNewData = this.checkForNewData.bind(this);
+  }
   componentDidMount() {
+    this.checkForNewData();
+  }
+
+  checkForNewData() {
     this.props.getWalletData();
+    setTimeout(this.checkForNewData, 5000);
   }
 
   render() {
+    const balance = parseFloat(this.props.wallet.balance).toFixed(2);
     return (
       <React.Fragment>
         <h1 className="mb-2 ml-5">
@@ -22,7 +32,7 @@ class Dashboard extends React.Component {
         <Row className="ml-4 mr-4">
           <Col lg="7" md="12">
             <GreetingCard />
-            <DetailsCard balance={this.props.wallet.balance} />
+            <DetailsCard balance={balance} />
           </Col>
           <Col lg="5" md="12">
             <SendCard />

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { tokenConfig } from '../headers';
-import { GET_WALLET_DATA } from '../types';
+import { GET_WALLET_DATA, SEND_TRANSACTION } from '../types';
+import { returnErrors } from '../errors/errorActions';
 
 export const getWalletData = () => {
   return async (dispatch, getState) => {
@@ -19,15 +20,24 @@ export const getWalletData = () => {
   };
 };
 
-// export const deleteData = (obj) => {
-//   return async (dispatch, getState) => {
-//     const config = tokenConfig(getState);
-//     const params = getState().productList.params;
-//     axios
-//       .delete(process.env.REACT_APP_SERVER_API + '/products/' + obj._id, config)
-//       .then(() => {
-//         dispatch({ type: 'DELETE_DATA', obj });
-//         dispatch(getData(params));
-//       });
-//   };
-// };
+export const getBalanceTokens = (value) => {
+  return async (dispatch, getState) => {
+    const config = tokenConfig(getState);
+    await axios
+      .post(
+        process.env.REACT_APP_SERVER_API + '/wallet/faucet',
+        { value },
+        config
+      )
+      .then((response) => {
+        dispatch({
+          type: SEND_TRANSACTION,
+          txHash: response.data.dai
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(returnErrors(err.response.data, err.response.status));
+      });
+  };
+};
