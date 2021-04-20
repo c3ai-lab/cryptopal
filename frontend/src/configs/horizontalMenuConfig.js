@@ -19,6 +19,14 @@ const horizontalMenuConfig = [
     navLink: '/page2'
   },
   {
+    id: 'dashboard',
+    title: 'Dashboard',
+    type: 'item',
+    icon: <Icon.Home size={20} />,
+    permissions: ['buyer', 'merchant', 'admin'],
+    navLink: '/dashboard'
+  },
+  {
     id: 'accountSettings',
     title: 'Account Settings',
     type: 'item',

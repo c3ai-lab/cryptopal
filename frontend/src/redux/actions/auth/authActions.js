@@ -26,14 +26,12 @@ export const loadUser = () => (dispatch, getState) => {
       tokenConfig(getState)
     )
     .then((res) => {
-      console.log(res);
       dispatch({
         type: USER_LOADED,
         payload: res.data
       });
     })
     .catch((err) => {
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: AUTH_ERROR
@@ -90,7 +88,7 @@ export const login = (user) => (dispatch) => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      history.push('/');
+      history.push('/dashboard');
     })
     .catch((err) => {
       dispatch(
