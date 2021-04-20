@@ -9,7 +9,7 @@ class DetailsCard extends React.Component {
         <CardBody>
           <h2>CryptoPal Balance:</h2>
           <div className="balance text-center">
-            <h1>104.55 $</h1>
+            <h1>{this.props.balance} $</h1>
             <p>available</p>
 
             <div className="d-inline-block mr-1 mb-1">

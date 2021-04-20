@@ -11,3 +11,4 @@ export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const USER_UPDATED = 'USER_UPDATED';
 export const USER_UPGRADED = 'USER_UPGRADED';
+export const GET_WALLET_DATA = 'GET_WALLET_DATA';

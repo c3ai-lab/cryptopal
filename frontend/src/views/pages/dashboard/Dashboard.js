@@ -6,8 +6,13 @@ import DetailsCard from './DetailsCard';
 import '../../../assets/scss/pages/dashboard.scss';
 import TransactionTimeline from './TransactionTimeline';
 import { connect } from 'react-redux';
+import { getWalletData } from '../../../redux/actions/wallet/walletActions';
 
 class Dashboard extends React.Component {
+  componentDidMount() {
+    this.props.getWalletData();
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -17,7 +22,7 @@ class Dashboard extends React.Component {
         <Row className="ml-4 mr-4">
           <Col lg="7" md="12">
             <GreetingCard />
-            <DetailsCard />
+            <DetailsCard balance={this.props.wallet.balance} />
           </Col>
           <Col lg="5" md="12">
             <SendCard />
@@ -30,7 +35,8 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user
+  user: state.auth.user,
+  wallet: state.wallet
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { getWalletData })(Dashboard);
