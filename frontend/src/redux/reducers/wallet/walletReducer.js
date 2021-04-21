@@ -1,11 +1,17 @@
 /* eslint-disable no-case-declarations */
-import { GET_WALLET_DATA, SEND_TRANSACTION } from '../../actions/types';
+import {
+  GET_WALLET_DATA,
+  SEND_TRANSACTION,
+  CHECK_PAYMENT,
+  SEND_PAYMENT,
+  CLEAR_TRANSACTION_DATA
+} from '../../actions/types';
 const initialState = {
   address: '0x00',
   balance: '10',
   transactions: [],
   contacts: [],
-  txHash: ''
+  transaction: {}
 };
 
 const WalletReducer = (state = initialState, action) => {
@@ -21,7 +27,18 @@ const WalletReducer = (state = initialState, action) => {
     case SEND_TRANSACTION:
       return {
         ...state,
-        txHash: action.txHash
+        transaction: { hash: action.hash }
+      };
+    case CHECK_PAYMENT:
+    case SEND_PAYMENT:
+      return {
+        ...state,
+        transaction: action.transaction
+      };
+    case CLEAR_TRANSACTION_DATA:
+      return {
+        ...state,
+        transaction: {}
       };
     default:
       return state;

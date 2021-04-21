@@ -26,6 +26,14 @@ const navigationConfig = [
     navLink: '/dashboard'
   },
   {
+    id: 'sendTokens',
+    title: 'Send Payment',
+    type: 'item',
+    icon: <Icon.DollarSign size={20} />,
+    permissions: ['buyer', 'merchant', 'admin'],
+    navLink: '/send'
+  },
+  {
     id: 'accountSettings',
     title: 'Account Settings',
     type: 'item',

@@ -13,13 +13,22 @@ class Dashboard extends React.Component {
     super(props);
     this.checkForNewData = this.checkForNewData.bind(this);
   }
+  activeComponent = false;
+
   componentDidMount() {
+    this.activeComponent = true;
     this.checkForNewData();
   }
 
+  componentWillUnmount() {
+    this.activeComponent = false;
+  }
+
   checkForNewData() {
-    this.props.getWalletData();
-    setTimeout(this.checkForNewData, 5000);
+    if (this.activeComponent) {
+      this.props.getWalletData();
+      setTimeout(this.checkForNewData, 5000);
+    }
   }
 
   render() {

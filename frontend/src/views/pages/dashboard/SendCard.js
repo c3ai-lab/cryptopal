@@ -2,13 +2,14 @@ import React from 'react';
 import { Card, CardBody } from 'reactstrap';
 import { Send } from 'react-feather';
 import Avatar from '../../../components/@vuexy/avatar/AvatarComponent';
+import { history } from '../../../history';
 
 class SendCard extends React.Component {
   render() {
     return (
       <Card className="send-card">
         <CardBody className="text-center">
-          <div className="send-button">
+          <div className="send-button" onClick={() => history.push('/send')}>
             <div className="avatar bg-primary shadow avatar-dashboard mt-0">
               <div className="avatar-content">
                 <Send className="text-white" size={28} />

@@ -8,9 +8,13 @@ import {
   ModalFooter,
   Label,
   FormGroup,
-  Input
+  Input,
+  Spinner
 } from 'reactstrap';
-import { getBalanceTokens } from '../../../redux/actions/wallet/walletActions';
+import {
+  getBalanceTokens,
+  clearTransaction
+} from '../../../redux/actions/wallet/walletActions';
 import { clearErrors } from '../../../redux/actions/errors/errorActions';
 import { connect } from 'react-redux';
 
@@ -18,6 +22,7 @@ class FaucetModal extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   state = { clicked: false, msg: null, success: false };
@@ -25,12 +30,25 @@ class FaucetModal extends React.Component {
   onSubmit() {
     const value = document.getElementById('amount').value;
     this.props.getBalanceTokens(value);
+    const msg = (
+      <span>
+        Loading. Please Wait.
+        <Spinner />
+      </span>
+    );
     this.setState({
       clicked: true,
       success: true,
-      msg: 'Loading. Please Wait.'
+      msg
     });
-    setTimeout(() => this.setState({ clicked: false }), 50000);
+  }
+
+  // reset to default on close
+  closeModal() {
+    this.props.clearErrors();
+    this.props.clearTransaction();
+    this.props.toggleModal();
+    this.setState({ clicked: false, msg: null, success: false });
   }
 
   // check for error
@@ -39,7 +57,17 @@ class FaucetModal extends React.Component {
     const { error } = this.props;
     if (error !== prevProps.error) {
       this.setState({ msg: error.msg, success: false, clicked: false });
-      setTimeout(this.props.clearErrors, 5000);
+    }
+
+    // check if transaction object has changed
+    const { transaction } = this.props.wallet;
+    if (transaction.hash !== prevProps.wallet.transaction.hash) {
+      if (!transaction.hash) {
+        console.log('kein Hash');
+        this.setState({ clicked: false, msg: null, success: false });
+      } else {
+        this.setState({ clicked: true, success: true });
+      }
     }
   }
 
@@ -49,9 +77,9 @@ class FaucetModal extends React.Component {
     return (
       <Modal
         isOpen={this.props.open}
-        toggle={this.props.toggleModal}
+        toggle={this.closeModal}
         className="modal-dialog-centered">
-        <ModalHeader toggle={this.toggleModal}>Balance Faucet</ModalHeader>
+        <ModalHeader toggle={this.closeModal}>Balance Faucet</ModalHeader>
         <ModalBody>
           <p>
             This faucet is only for demo purposes. It is planed to implement an
@@ -61,7 +89,9 @@ class FaucetModal extends React.Component {
           {clicked ? (
             success ? (
               <Alert>
-                {wallet.txHash ? 'Successfull. Tx: ' + wallet.txHash : msg}
+                {wallet.transaction.hash
+                  ? 'Successfull. Tx: ' + wallet.transaction.hash
+                  : msg}
               </Alert>
             ) : (
               <Alert color="danger">{msg ? msg : ''}</Alert>
@@ -92,6 +122,8 @@ const mapStateToProps = (state) => ({
   error: state.error
 });
 
-export default connect(mapStateToProps, { getBalanceTokens, clearErrors })(
-  FaucetModal
-);
+export default connect(mapStateToProps, {
+  getBalanceTokens,
+  clearErrors,
+  clearTransaction
+})(FaucetModal);

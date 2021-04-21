@@ -1,0 +1,72 @@
+// Core variables and mixins
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/mixins';
+@import '../bootstrap-extended/mixins';
+
+// Load variable overrides
+@import '../core/variables/variables';
+@import '~bootstrap/scss/_variables.scss';
+
+// Overrides user variable
+@import '../core/variables/components-variables';
+
+.send-tokens-card {
+  position: absolute;
+  text-align: center;
+  width: 60%;
+  margin-left: 20%;
+  overflow: hidden;
+  h2 {
+    padding: 20px 0;
+    background-color: $primary;
+    color: white;
+  }
+}
+
+#receiver-input {
+  width: 70%;
+  margin-left: 15%;
+  text-align: center;
+}
+
+.payment-buttons-container {
+  Button {
+    margin-left: 20px;
+  }
+}
+
+.spinner-container {
+  position: absolute;
+  z-index: 1;
+  background-color: $body-bg;
+  opacity: 80%;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog-centered {
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 515px) {
+  .payment-buttons-container {
+    Button {
+      margin-top: 10px;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .send-tokens-card {
+    width: 90%;
+    margin-left: 5%;
+  }
+
+  #receiver-input {
+    width: 90%;
+    margin-left: 5%;
+  }
+}
