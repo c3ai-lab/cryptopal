@@ -9,7 +9,7 @@ import {
   CardBody
 } from 'reactstrap';
 import classnames from 'classnames';
-import { Settings, Lock, Info, UserCheck } from 'react-feather';
+import { Settings, Lock, Info, UserCheck, CreditCard } from 'react-feather';
 import { connect } from 'react-redux';
 import GeneralTab from './General';
 import ChangePassword from './ChangePassword';
@@ -18,6 +18,7 @@ import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
 
 import '../../../assets/scss/pages/account-settings.scss';
 import ChangeRoleComp from './ChangeRoleComp';
+import WalletInfo from './WalletInfo';
 
 class AccountSettings extends React.Component {
   state = {
@@ -112,6 +113,20 @@ class AccountSettings extends React.Component {
                 </span>
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  active: this.state.activeTab === '5'
+                })}
+                onClick={() => {
+                  this.toggle('5');
+                }}>
+                <CreditCard size={16} />
+                <span className="d-md-inline-block d-none align-middle ml-1">
+                  Wallet info
+                </span>
+              </NavLink>
+            </NavItem>
           </Nav>
           <Card>
             <CardBody>
@@ -128,6 +143,12 @@ class AccountSettings extends React.Component {
                 <TabPane tabId="4">
                   <ChangeRoleComp />
                 </TabPane>
+                <TabPane tabId="5">
+                  <WalletInfo
+                    address={this.props.wallet.address}
+                    balance={this.props.wallet.balance}
+                  />
+                </TabPane>
               </TabContent>
             </CardBody>
           </Card>
@@ -138,7 +159,8 @@ class AccountSettings extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user
+  user: state.auth.user,
+  wallet: state.wallet
 });
 
 export default connect(mapStateToProps)(AccountSettings);

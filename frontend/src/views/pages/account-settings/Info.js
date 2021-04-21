@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormGroup, Row, Col, Alert } from 'reactstrap';
+import { Button, FormGroup, Row, Col, Alert, Label } from 'reactstrap';
 import countries from 'countries-list';
 import { connect } from 'react-redux';
 import { updateUser } from '../../../redux/actions/auth/authActions';
@@ -106,6 +106,7 @@ class InfoTab extends React.Component {
                     <Alert color={feedback.type}>{feedback.msg}</Alert>
                   ) : null}
                   <FormGroup>
+                    <Label for="street_address">Street Address</Label>
                     <Field
                       name="street_address"
                       id="street_address"
@@ -121,6 +122,7 @@ class InfoTab extends React.Component {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
+                    <Label for="postal_code">Postal Code</Label>
                     <Field
                       name="postal_code"
                       placeholder="Postal Code"
@@ -134,6 +136,7 @@ class InfoTab extends React.Component {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
+                    <Label for="Locality">Locality</Label>
                     <Field
                       name="locality"
                       id="locality"
@@ -147,6 +150,7 @@ class InfoTab extends React.Component {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
+                    <Label for="region">Region</Label>
                     <Field
                       name="region"
                       id="region"
@@ -160,6 +164,7 @@ class InfoTab extends React.Component {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
+                    <Label for="country">Country</Label>
                     <Field
                       name="country"
                       id="country"
@@ -175,6 +180,7 @@ class InfoTab extends React.Component {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
+                    <Label for="phone">Phone</Label>
                     <Field
                       name="phone"
                       id="phone"
@@ -188,6 +194,7 @@ class InfoTab extends React.Component {
                     ) : null}
                   </FormGroup>
                   <FormGroup>
+                    <Label for="website">Website</Label>
                     <Field
                       name="website"
                       id="website"
