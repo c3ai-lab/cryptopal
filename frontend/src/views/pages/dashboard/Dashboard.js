@@ -39,12 +39,14 @@ class Dashboard extends React.Component {
         </h1>
         <Row className="ml-4 mr-4">
           <Col lg="7" md="12">
-            <GreetingCard />
+            <GreetingCard transaction={this.props.wallet.transactions[0]} />
             <DetailsCard balance={this.props.wallet.balance} />
           </Col>
           <Col lg="5" md="12">
             <SendCard />
-            <TransactionTimeline />
+            <TransactionTimeline
+              transactions={this.props.wallet.transactions}
+            />
           </Col>
         </Row>
       </React.Fragment>

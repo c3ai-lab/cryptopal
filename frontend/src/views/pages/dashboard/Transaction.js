@@ -3,15 +3,14 @@ import { Card, CardBody } from 'reactstrap';
 import { Check } from 'react-feather';
 
 class Transaction extends React.Component {
-  state = {
-    type: 're',
-    amount: '45.43',
-    name: 'Peter Wackel',
-    date: '14.Apr',
-    description: 'Here is space for transaction description'
-  };
   render() {
-    const send = this.state.type === 'send';
+    const send = this.props.type === 'OUT';
+    const date = new Date(this.props.date);
+    const formatDate = new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      month: 'short'
+    }).format;
+    const formattedDate = formatDate(date);
     return (
       <Card>
         <CardBody className="dash-transaction-card">
@@ -23,14 +22,14 @@ class Transaction extends React.Component {
           </div>
           <div className="dash-transaction-info">
             <div className="dash-transaction-title">
-              <span className="font-weight-bold mb-0">{this.state.name}</span>
+              <span className="font-weight-bold mb-0">{this.props.name}</span>
               <span className={send ? '' : 'received-amount'}>
-                {(send ? '-' : '+') + this.state.amount + '$'}
+                {(send ? '-' : '+') + this.props.amount + '$'}
               </span>
             </div>
 
-            <small className="text-muted">{this.state.date}</small>
-            <p className="font-small-3">{this.state.description}</p>
+            <small className="text-muted">{formattedDate}</small>
+            <p className="font-small-3">{this.props.description}</p>
           </div>
         </CardBody>
       </Card>

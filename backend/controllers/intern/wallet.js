@@ -1,6 +1,10 @@
 const Web3 = require('web3');
 const { getBalance } = require('../../helper/wallet/transactions/balance');
 const { getTokens } = require('../../helper/wallet/transactions/faucet');
+const {
+  getUserTransactions,
+  getRecentContacts,
+} = require('../../helper/wallet/transactions/getUsersTransactions');
 const { sendPayment } = require('../../helper/wallet/transactions/payment');
 const User = require('../../models/User/User');
 const Wallet = require('../../models/Wallets/Wallet');
@@ -24,14 +28,16 @@ exports.getDashboardData = async (req, res) => {
   const balance = await getBalance(wallet.address);
 
   // get last 3 transactions
+  const transactions = await getUserTransactions(user._id, 3, 0);
 
   // get 5 last contacts
+  const contacts = await getRecentContacts(user._id, 5);
 
   const returnData = {
     address: wallet.address,
     balance: parseFloat(balance).toFixed(2).toString(),
-    transactions: [],
-    contacts: [],
+    transactions,
+    contacts,
   };
 
   res.status(200).send(returnData);

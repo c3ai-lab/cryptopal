@@ -38,11 +38,9 @@ exports.saveTransaction = async (from, to, value, hash, description) => {
   let transactionId;
   let error;
   try {
-    console.log('try to save');
     const savedTX = await transaction.save();
     transactionId = savedTX._id;
   } catch (err) {
-    console.log(err);
     error = err;
   }
 
