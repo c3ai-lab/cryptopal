@@ -1,4 +1,6 @@
+/* eslint-disable no-return-assign */
 const Web3 = require('web3');
+const { saveTransaction } = require('./saveTransaction');
 const { getNetworkParams, sendTransaction } = require('./sendTransaction');
 
 // Helper function to pad each payload data to needed 32 bit length
@@ -29,7 +31,9 @@ exports.sendPayment = async (from, to, value, sk) => {
   // combine values for function call into payload string
   const payload = funcSig + padAddressTo + padAmount;
 
-  return sendTransaction(
+  let error;
+  let hash;
+  await sendTransaction(
     web3,
     from,
     contractAddress,
@@ -37,5 +41,22 @@ exports.sendPayment = async (from, to, value, sk) => {
     payload,
     networkInfo,
     sk
-  );
+  )
+    .then((txHash) => (hash = txHash))
+    .catch((err) => (error = err));
+
+  if (hash) {
+    await saveTransaction(from, to, value, hash, 'Test')
+      .then()
+      .catch((err) => (error = err));
+  }
+
+  // return promise
+  return new Promise((resolve, reject) => {
+    if (error) {
+      reject(error);
+    } else {
+      resolve(hash);
+    }
+  });
 };

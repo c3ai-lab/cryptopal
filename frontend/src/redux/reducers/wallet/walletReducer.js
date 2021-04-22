@@ -8,7 +8,7 @@ import {
 } from '../../actions/types';
 const initialState = {
   address: '0x00',
-  balance: '10',
+  balance: '0',
   transactions: [],
   contacts: [],
   transaction: {}

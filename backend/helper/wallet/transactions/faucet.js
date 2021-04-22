@@ -11,7 +11,7 @@ const sendNativeTestTokens = async (to) => {
 
   const from = process.env.FAUCET_ADDRESS;
   const sk = process.env.FAUCET_PRIVATE_KEY;
-  const value = '0.05';
+  const value = '0.005';
   const payload = '00';
 
   return sendTransaction(web3, from, to, value, payload, networkInfo, sk);
@@ -29,7 +29,6 @@ exports.getTokens = async (to, value) => {
       txHashes = { dai: hash };
     })
     .catch((err) => {
-      console.log(err);
       error = err;
     });
 
@@ -40,7 +39,6 @@ exports.getTokens = async (to, value) => {
         txHashes = { ...txHashes, native: hash };
       })
       .catch((err) => {
-        console.log(err);
         error = err;
       });
   }
