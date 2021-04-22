@@ -68,13 +68,13 @@ export const checkPaymentTransaction = (receiver) => {
   };
 };
 
-export const sendPayment = (to, value) => {
+export const sendPayment = (to, value, description) => {
   return async (dispatch, getState) => {
     const config = tokenConfig(getState);
     await axios
       .post(
         process.env.REACT_APP_SERVER_API + '/wallet/send-payment',
-        { to, value },
+        { to, value, description },
         config
       )
       .then((response) => {

@@ -63,7 +63,6 @@ class FaucetModal extends React.Component {
     const { transaction } = this.props.wallet;
     if (transaction.hash !== prevProps.wallet.transaction.hash) {
       if (!transaction.hash) {
-        console.log('kein Hash');
         this.setState({ clicked: false, msg: null, success: false });
       } else {
         this.setState({ clicked: true, success: true });

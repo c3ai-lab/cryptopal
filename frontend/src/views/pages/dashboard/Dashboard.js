@@ -39,11 +39,19 @@ class Dashboard extends React.Component {
         </h1>
         <Row className="ml-4 mr-4">
           <Col lg="7" md="12">
-            <GreetingCard transaction={this.props.wallet.transactions[0]} />
+            <GreetingCard
+              transaction={
+                this.props.wallet.transactions.length !== 0
+                  ? this.props.wallet.transactions[0]
+                  : {
+                      description: 'Here occurs your last transaction'
+                    }
+              }
+            />
             <DetailsCard balance={this.props.wallet.balance} />
           </Col>
           <Col lg="5" md="12">
-            <SendCard />
+            <SendCard contacts={this.props.wallet.contacts} />
             <TransactionTimeline
               transactions={this.props.wallet.transactions}
             />

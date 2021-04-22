@@ -24,7 +24,8 @@ exports.getTokens = async (to, value) => {
   const sk = process.env.FAUCET_PRIVATE_KEY;
 
   // get erc20 tokens as stable coin for payment
-  await sendPayment(from, to, value, sk)
+  const description = 'Getting liquidity from CryptoPal Token faucet.';
+  await sendPayment(from, to, value, sk, description)
     .then((hash) => {
       txHashes = { dai: hash };
     })

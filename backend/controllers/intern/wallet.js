@@ -120,12 +120,12 @@ exports.checkPayment = async (req, res) => {
 /** *******************SEND PAYMENT*********************** */
 exports.sendPayment = async (req, res) => {
   const { user } = req;
-  const { to, value } = req.body;
+  const { to, value, description } = req.body;
 
   const wallet = await Wallet.findOne({ user_id: user._id });
   const from = wallet.address;
   const sk = wallet.privateKey;
-  sendPayment(from, to, value, sk)
+  sendPayment(from, to, value, sk, description)
     .then((hash) => res.status(201).send(hash))
     .catch((err) => res.status(400).send(err.message));
 };

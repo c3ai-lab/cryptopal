@@ -14,7 +14,7 @@
 .greeting-card {
   // backgound color to card
   &.bg-greeting {
-    background: linear-gradient(118deg, rgba($primary, 1), rgba($primary, 0.7));
+    background: linear-gradient(118deg, rgba($primary, 1), rgba($primary, 0.4));
     .avatar {
       margin-bottom: 2rem;
       svg {

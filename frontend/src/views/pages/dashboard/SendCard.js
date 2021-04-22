@@ -6,6 +6,23 @@ import { history } from '../../../history';
 
 class SendCard extends React.Component {
   render() {
+    const contacts = this.props.contacts;
+    const contactList = [];
+    for (let i = 0; i < contacts.length; i++) {
+      const contact = contacts[i];
+      const splitName = contact.name.split(' ');
+      contactList.push(
+        <Avatar
+          className="mr-1"
+          key={'transaction-item' + i}
+          content={
+            splitName[0].charAt(0).toUpperCase() +
+            splitName[1].charAt(0).toUpperCase()
+          }
+          onClick={() => history.push('/send?address=' + contact.address)}
+        />
+      );
+    }
     return (
       <Card className="send-card">
         <CardBody className="text-center">
@@ -19,10 +36,7 @@ class SendCard extends React.Component {
           </div>
           <div className="text-center">
             <h3 className="mb-2">Send again</h3>
-            <div>
-              <Avatar className="mr-1" content="LR" />
-              <Avatar className="mr-1" content="PW" />
-            </div>
+            {contactList.length !== 0 ? contactList : <p>No recent contacts</p>}
           </div>
         </CardBody>
       </Card>

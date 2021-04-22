@@ -13,7 +13,7 @@ const pad32Bytes = (data) => {
 };
 
 /** *******************SEND TOKENS FOR PAYMENT*********************** */
-exports.sendPayment = async (from, to, value, sk) => {
+exports.sendPayment = async (from, to, value, sk, description) => {
   // connect to network
   const { networkAddress, contractAddress, networkInfo } = getNetworkParams();
   const provider = new Web3.providers.HttpProvider(networkAddress);
@@ -48,7 +48,7 @@ exports.sendPayment = async (from, to, value, sk) => {
 
   // save transaction details
   if (hash) {
-    await saveTransaction(from, to, value, hash, 'Test')
+    await saveTransaction(from, to, value, hash, description)
       .then()
       .catch((err) => (error = err));
   }

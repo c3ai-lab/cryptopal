@@ -25,7 +25,11 @@ class TransactionTimeline extends React.Component {
           <CardTitle>Latest Transactions</CardTitle>
         </CardHeader>
         <CardBody>
-          {transactionList}
+          {transactionList.length !== 0 ? (
+            transactionList
+          ) : (
+            <p>No transactions yet</p>
+          )}
           <div className="d-inline-block mr-1 mb-1 dash-tansacton-button">
             <Button.Ripple color="flat-primary">
               See all transactions

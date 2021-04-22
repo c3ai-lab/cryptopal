@@ -5,6 +5,7 @@ class Avatar extends React.Component {
   render() {
     return (
       <div
+        onClick={this.props.onClick}
         className={classnames(
           `avatar ${this.props.color ? `bg-${this.props.color}` : null}  ${
             this.props.className

@@ -20,6 +20,7 @@ import {
 } from '../../../redux/actions/wallet/walletActions';
 import { clearErrors } from '../../../redux/actions/errors/errorActions';
 import { connect } from 'react-redux';
+import { history } from '../../../history';
 
 class SendTokens extends React.Component {
   constructor(props) {
@@ -35,11 +36,18 @@ class SendTokens extends React.Component {
     sent: false,
     enteredReceiver: '',
     amount: undefined,
+    description: '',
     receiver: null,
     err: null,
     foreignAddress: false,
     hash: undefined
   };
+
+  componentDidMount() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const address = urlParams.get('address');
+    if (address) this.setState({ enteredReceiver: address });
+  }
 
   // validate inputs and send check request to server
   checkPayment() {
@@ -76,7 +84,11 @@ class SendTokens extends React.Component {
   sendPayment() {
     this.props.clearTransaction();
 
-    this.props.sendPayment(this.state.receiver.address, this.state.amount);
+    this.props.sendPayment(
+      this.state.receiver.address,
+      this.state.amount,
+      this.state.description
+    );
 
     this.setState({
       loading: false,
@@ -84,6 +96,7 @@ class SendTokens extends React.Component {
       sent: true,
       enteredReceiver: '',
       amount: undefined,
+      description: '',
       receiver: null,
       err: null,
       foreignAddress: false,
@@ -120,13 +133,13 @@ class SendTokens extends React.Component {
           loading: false
         });
       } else if (transaction.hash) {
-        console.log(transaction.hash);
         this.setState({ hash: transaction.hash });
       }
     }
   }
 
   render() {
+    // render feedback
     let feedback = <Alert>Receiver check successful</Alert>;
     if (this.state.err) {
       feedback = <Alert color="danger">{this.state.err}</Alert>;
@@ -136,6 +149,25 @@ class SendTokens extends React.Component {
           Receiving address is not a CryptoPal user. If the entered address is
           not correct, funds are lost forever. Double check the address!
         </Alert>
+      );
+    }
+
+    // render contacts
+    const contacts = this.props.wallet.contacts;
+    const contactList = [];
+    for (let i = 0; i < contacts.length; i++) {
+      const contact = contacts[i];
+      const splitName = contact.name.split(' ');
+      contactList.push(
+        <Avatar
+          className="mr-1"
+          key={'transaction-item' + i}
+          content={
+            splitName[0].charAt(0).toUpperCase() +
+            splitName[1].charAt(0).toUpperCase()
+          }
+          onClick={() => this.setState({ enteredReceiver: contact.address })}
+        />
       );
     }
     return (
@@ -171,14 +203,27 @@ class SendTokens extends React.Component {
 
             {/* input field for amount */}
             <FormGroup>
-              <Label for="receiver-input">Sending Amount</Label>
+              <Label for="amount-input">Sending Amount</Label>
               <Input
                 type="number"
                 value={this.state.amount || ''}
                 disabled={this.state.checked}
                 onChange={(e) => this.setState({ amount: e.target.value })}
-                id="receiver-input"
+                id="amount-input"
                 placeholder="Sending Amount"
+              />
+            </FormGroup>
+
+            {/* input field for description */}
+            <FormGroup>
+              <Label for="description-input">Description</Label>
+              <Input
+                type="text"
+                value={this.state.description || ''}
+                disabled={this.state.checked}
+                onChange={(e) => this.setState({ description: e.target.value })}
+                id="description-input"
+                placeholder="Description"
               />
             </FormGroup>
 
@@ -198,8 +243,11 @@ class SendTokens extends React.Component {
               <div>
                 <h3 className="mb-2">Send again</h3>
                 <div>
-                  <Avatar className="mr-1" content="LR" />
-                  <Avatar className="mr-1" content="PW" />
+                  {contactList.length !== 0 ? (
+                    contactList
+                  ) : (
+                    <p>No recent contacts</p>
+                  )}
                 </div>
               </div>
             )}
@@ -232,7 +280,10 @@ class SendTokens extends React.Component {
         {/* confirmation modal */}
         <SendPaymentModal
           open={this.state.sent}
-          toggleModal={() => this.setState({ sent: false })}
+          toggleModal={() => {
+            history.push('/dashboard');
+            this.setState({ sent: false });
+          }}
           status="pending"
           txHash={this.state.hash}
         />
