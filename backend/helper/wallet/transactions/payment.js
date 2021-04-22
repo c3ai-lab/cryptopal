@@ -31,6 +31,7 @@ exports.sendPayment = async (from, to, value, sk) => {
   // combine values for function call into payload string
   const payload = funcSig + padAddressTo + padAmount;
 
+  // send transaction
   let error;
   let hash;
   await sendTransaction(
@@ -45,6 +46,7 @@ exports.sendPayment = async (from, to, value, sk) => {
     .then((txHash) => (hash = txHash))
     .catch((err) => (error = err));
 
+  // save transaction details
   if (hash) {
     await saveTransaction(from, to, value, hash, 'Test')
       .then()

@@ -8,9 +8,6 @@ const Wallet = require('../../../models/Wallets/Wallet');
 exports.saveTransaction = async (from, to, value, hash, description) => {
   const sendingWallet = await Wallet.findOne({ address: from });
   const receivingWallet = await Wallet.findOne({ address: to });
-  console.log('in saving');
-  console.log(to);
-  console.log(receivingWallet.user_name);
 
   const sender = {
     id: sendingWallet.user_id,
@@ -19,16 +16,14 @@ exports.saveTransaction = async (from, to, value, hash, description) => {
   };
 
   const receiver = {
-    id: receivingWallet.user_id,
-    name: receivingWallet.user_name,
+    id: receivingWallet ? receivingWallet.user_id : undefined,
+    name: receivingWallet ? receivingWallet.user_name : 'External Wallet',
     address: to,
   };
-  console.log('objects created');
 
   const status = 'pending';
   const date = new Date().toISOString();
 
-  console.log('creating tx model');
   const transaction = new Transaction({
     sender,
     receiver,

@@ -1,24 +1,27 @@
 const mongoose = require('mongoose');
 
-const contactData = new mongoose.Schema({
-  id: {
-    type: String,
-    minlength: 24,
-    maxlength: 24,
+const contactData = new mongoose.Schema(
+  {
+    id: {
+      type: String,
+      minlength: 24,
+      maxlength: 24,
+    },
+    address: {
+      type: String,
+      required: true,
+      minlength: 42,
+      maxlength: 42,
+    },
+    name: {
+      type: String,
+      required: true,
+      minlength: 1,
+      maxlength: 255,
+    },
   },
-  address: {
-    type: String,
-    required: true,
-    minlength: 42,
-    maxlength: 42,
-  },
-  name: {
-    type: String,
-    required: true,
-    minlength: 1,
-    maxlength: 255,
-  },
-});
+  { _id: false }
+);
 
 const transactionSchema = new mongoose.Schema({
   sender: contactData,
