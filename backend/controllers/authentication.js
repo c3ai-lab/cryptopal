@@ -61,6 +61,7 @@ exports.register = async (req, res) => {
     const { address, publicKey, privateKey } = await generateKeyPair(index);
     const wallet = new Wallet({
       user_id: savedUser._id,
+      user_name: `${savedUser.given_name} ${savedUser.family_name}`,
       address,
       publicKey,
       privateKey,
