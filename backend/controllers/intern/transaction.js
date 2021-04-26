@@ -3,6 +3,9 @@ const { sendPayment } = require('../../helper/wallet/transactions/payment');
 const Wallet = require('../../models/Wallets/Wallet');
 const User = require('../../models/User/User');
 const Transaction = require('../../models/Transaction/Transaction');
+const {
+  getUserTransactions,
+} = require('../../helper/wallet/transactions/getUsersTransactions');
 /** *******************CHECK PAYMENT INPUT*********************** */
 /*
  * Checks if the receiver input is a valid address or email and returns
@@ -83,5 +86,38 @@ exports.getTransaction = async (req, res) => {
     res.status(200).send(transaction);
   } catch (err) {
     res.status(400).send('Failed catching transaction!');
+  }
+};
+
+exports.getTransactions = async (req, res) => {
+  const { user } = req;
+
+  // get all selected transactions by query params
+  const page = parseInt(req.query.page, 10) || 1;
+  const numberOfItems = parseInt(req.query.page_size, 10) || 10;
+  const skippedItems = (page - 1) * numberOfItems;
+  try {
+    const transactions = await getUserTransactions(
+      user._id,
+      numberOfItems,
+      skippedItems
+    );
+
+    // get total items and pages if requested
+    if (req.query.total_required) {
+      const allTransactions = await Transaction.find({
+        merchant_id: user.merchant_id,
+      });
+      const totalPages = Math.ceil(allTransactions.length / numberOfItems);
+      res.status(200).send({
+        transactions,
+        total_items: allTransactions.length,
+        total_pages: totalPages,
+      });
+    } else {
+      res.status(200).send({ transactions });
+    }
+  } catch (err) {
+    res.status(400).send('Failed fetching transactions.');
   }
 };

@@ -13,4 +13,7 @@ router.post('/send-payment', verify.user, transaction.sendPayment);
 // route to get transaction details
 router.get('/:id', verify.user, transaction.getTransaction);
 
+// route to get a list of transactions
+router.get('/', verify.user, transaction.getTransactions);
+
 module.exports = router;

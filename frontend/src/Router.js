@@ -17,6 +17,9 @@ const sendToken = lazy(() => import('./views/pages/send-payment/SendTokens'));
 const transaction = lazy(() =>
   import('./views/pages/transactions/Transaction')
 );
+const transactions = lazy(() =>
+  import('./views/pages/transactions/list/Transactions')
+);
 
 // authorization base sites
 const login = lazy(() => import('./views/pages/authentication/login/Login'));
@@ -90,6 +93,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/products" component={products} />
           <AppRoute path="/send" component={sendToken} />
           <AppRoute path="/transaction" component={transaction} />
+          <AppRoute path="/transactions" component={transactions} />
           <AppRoute path="/register" component={register} fullLayout />
           <AppRoute
             path="/registered"

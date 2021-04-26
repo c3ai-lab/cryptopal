@@ -5,14 +5,17 @@ import {
   CHECK_PAYMENT,
   SEND_PAYMENT,
   CLEAR_TRANSACTION_DATA,
-  GET_TRANSACTION
+  GET_TRANSACTION,
+  GET_TRANSACTIONS
 } from '../../actions/types';
 const initialState = {
   address: '0x00',
   balance: '0',
   transactions: [],
   contacts: [],
-  transaction: {}
+  transaction: {},
+  totalPages: 0,
+  totalItems: 0
 };
 
 const WalletReducer = (state = initialState, action) => {
@@ -36,6 +39,13 @@ const WalletReducer = (state = initialState, action) => {
       return {
         ...state,
         transaction: action.transaction
+      };
+    case GET_TRANSACTIONS:
+      return {
+        ...state,
+        transactions: action.transactions,
+        totalPages: action.totalPages,
+        totalItems: action.totalItems
       };
     case CLEAR_TRANSACTION_DATA:
       return {

@@ -6,7 +6,8 @@ import {
   CHECK_PAYMENT,
   SEND_PAYMENT,
   CLEAR_TRANSACTION_DATA,
-  GET_TRANSACTION
+  GET_TRANSACTION,
+  GET_TRANSACTIONS
 } from '../types';
 import { returnErrors } from '../errors/errorActions';
 
@@ -99,6 +100,26 @@ export const getTransaction = (txId) => {
         dispatch({
           type: GET_TRANSACTION,
           transaction: response.data
+        });
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+      });
+  };
+};
+
+export const getTransactions = (params) => {
+  return async (dispatch, getState) => {
+    const config = tokenConfig(getState);
+    config.params = params;
+    axios
+      .get(process.env.REACT_APP_SERVER_API + '/transaction', config)
+      .then((response) => {
+        dispatch({
+          type: GET_TRANSACTIONS,
+          transactions: response.data.transactions,
+          totalItems: response.data.total_items,
+          totalPages: response.data.total_pages
         });
       })
       .catch((err) => {

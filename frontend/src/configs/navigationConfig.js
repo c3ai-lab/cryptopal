@@ -26,6 +26,14 @@ const navigationConfig = [
     navLink: '/dashboard'
   },
   {
+    id: 'transactions',
+    title: 'Transactions',
+    type: 'item',
+    icon: <Icon.Archive size={20} />,
+    permissions: ['buyer', 'merchant', 'admin'],
+    navLink: '/transactions'
+  },
+  {
     id: 'sendTokens',
     title: 'Send Payment',
     type: 'item',
