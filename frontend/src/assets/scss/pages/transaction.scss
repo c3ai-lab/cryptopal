@@ -1,6 +1,6 @@
 // ================================================================================================
-//  File Name: invoice.scss
-//  Description: Invoice Layout page layouts SCSS.
+//  File Name: transaction.scss
+//  Description: transaction Layout page layouts SCSS.
 //  ----------------------------------------------------------------------------------------------
 //  Item Name: Vuexy React Admin Template
 //  Version: 1.0
@@ -9,18 +9,18 @@
 // ================================================================================================
 
 // Core variables and mixins
-@import "~bootstrap/scss/_functions.scss";
-@import "~bootstrap/scss/mixins";
-@import "../bootstrap-extended/mixins";
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/mixins';
+@import '../bootstrap-extended/mixins';
 
 // Load variable overrides
-@import "../core/variables/variables";
-@import "~bootstrap/scss/_variables.scss";
+@import '../core/variables/variables';
+@import '~bootstrap/scss/_variables.scss';
 
 // Overrides user variable
-@import "../core/variables/components-variables";
+@import '../core/variables/components-variables';
 
-.invoice-page {
+.transaction-page {
   padding: 2.2rem;
 
   .recipient-info,
@@ -33,8 +33,8 @@
     }
   }
 
-  .invoice-items-table,
-  .invoice-total-table {
+  .transaction-items-table,
+  .transaction-total-table {
     table {
       border: 2px solid $body-bg;
     }
@@ -50,18 +50,18 @@
   .header-navbar-shadow,
   .header-navbar,
   .content-header,
-  .invoice-header {
+  .transaction-header {
     display: none;
   }
-  .invoice-page {
+  .transaction-page {
     visibility: visible;
     background: black;
   }
   .content-wrapper,
   .app-content,
-  .invoice-page,
+  .transaction-page,
   .card-body,
-  .invoice-wrapper {
+  .transaction-wrapper {
     padding: 0;
     margin: 0;
   }

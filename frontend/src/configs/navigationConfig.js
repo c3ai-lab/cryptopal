@@ -34,6 +34,14 @@ const navigationConfig = [
     navLink: '/send'
   },
   {
+    id: 'transaction',
+    title: 'Transaction',
+    type: 'item',
+    icon: <Icon.DollarSign size={20} />,
+    permissions: ['guest', 'buyer', 'merchant', 'admin'],
+    navLink: '/transaction'
+  },
+  {
     id: 'accountSettings',
     title: 'Account Settings',
     type: 'item',
