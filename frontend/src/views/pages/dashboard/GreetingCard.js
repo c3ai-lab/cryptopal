@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardBody } from 'reactstrap';
 import { CheckCircle } from 'react-feather';
+import { history } from '../../../history';
 
 class GreetingCard extends React.Component {
   render() {
@@ -15,7 +16,9 @@ class GreetingCard extends React.Component {
       formattedDate = formatDate(date);
     }
     return (
-      <Card className="bg-greeting text-white greeting-card">
+      <Card
+        className="bg-greeting text-white greeting-card"
+        onClick={() => history.push('/transaction/tx=' + tx.id)}>
         <CardBody className="text-center">
           <div className="avatar avatar-xl bg-primary shadow avatar-dashboard mt-0">
             <div className="avatar-content">

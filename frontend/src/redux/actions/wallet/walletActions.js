@@ -5,7 +5,8 @@ import {
   SEND_TRANSACTION,
   CHECK_PAYMENT,
   SEND_PAYMENT,
-  CLEAR_TRANSACTION_DATA
+  CLEAR_TRANSACTION_DATA,
+  GET_TRANSACTION
 } from '../types';
 import { returnErrors } from '../errors/errorActions';
 
@@ -52,7 +53,7 @@ export const checkPaymentTransaction = (receiver) => {
     const config = tokenConfig(getState);
     await axios
       .post(
-        process.env.REACT_APP_SERVER_API + '/wallet/check-payment',
+        process.env.REACT_APP_SERVER_API + '/transaction/check-payment',
         { receiver },
         config
       )
@@ -73,7 +74,7 @@ export const sendPayment = (to, value, description) => {
     const config = tokenConfig(getState);
     await axios
       .post(
-        process.env.REACT_APP_SERVER_API + '/wallet/send-payment',
+        process.env.REACT_APP_SERVER_API + '/transaction/send-payment',
         { to, value, description },
         config
       )
@@ -81,6 +82,23 @@ export const sendPayment = (to, value, description) => {
         dispatch({
           type: SEND_PAYMENT,
           transaction: { hash: response.data }
+        });
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+      });
+  };
+};
+
+export const getTransaction = (txId) => {
+  return async (dispatch, getState) => {
+    const config = tokenConfig(getState);
+    axios
+      .get(process.env.REACT_APP_SERVER_API + '/transaction/' + txId, config)
+      .then((response) => {
+        dispatch({
+          type: GET_TRANSACTION,
+          transaction: response.data
         });
       })
       .catch((err) => {

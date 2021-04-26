@@ -62,6 +62,7 @@ exports.register = async (req, res) => {
     const wallet = new Wallet({
       user_id: savedUser._id,
       user_name: `${savedUser.given_name} ${savedUser.family_name}`,
+      user_email: savedUser.login_name,
       address,
       publicKey,
       privateKey,

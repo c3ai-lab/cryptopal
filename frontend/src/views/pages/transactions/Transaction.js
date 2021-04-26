@@ -3,11 +3,63 @@ import { Card, CardBody, Row, Col, Media, Table, Button } from 'reactstrap';
 import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
 import logo from '../../../assets/img/logo/logo.png';
 import { Mail, CreditCard, FileText, Download } from 'react-feather';
+import { connect } from 'react-redux';
+import {
+  getTransaction,
+  clearTransaction
+} from '../../../redux/actions/wallet/walletActions';
 
 import '../../../assets/scss/pages/transaction.scss';
 
 class Transaction extends React.Component {
+  state = {
+    _id: '',
+    sender: { name: '', email: '', address: '' },
+    receiver: { name: '', email: '', address: '' },
+    hash: '',
+    description: '',
+    date: '',
+    value: ''
+  };
+
+  componentDidMount() {
+    const url = new URL(window.location.href);
+    const txId = url.searchParams.get('tx');
+    this.props.getTransaction(txId);
+  }
+
+  // read parameters from redux state
+  componentDidUpdate(prevProps) {
+    const { transaction } = this.props;
+    if (transaction.hash !== prevProps.transaction.hash) {
+      const date = new Date(transaction.date);
+      const formatDate = new Intl.DateTimeFormat('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      }).format;
+      const formattedDate = formatDate(date);
+      this.setState({ ...transaction, date: formattedDate });
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.clearTransaction();
+  }
+
   render() {
+    let explorerLink;
+    switch (process.env.REACT_APP_NETWORK) {
+      case 'SOKOL':
+        explorerLink = process.env.REACT_APP_SOKOL_EXPLORER + this.state.hash;
+        break;
+      case 'KOVAN':
+        explorerLink = process.env.REACT_APP_KOVAN_EXPLORER + this.state.hash;
+        break;
+      default:
+        explorerLink = process.env.REACT_APP_SOKOL_EXPLORER + this.state.hash;
+        break;
+    }
     return (
       <React.Fragment>
         <Breadcrumbs
@@ -46,9 +98,9 @@ class Transaction extends React.Component {
                     <h1>Transaction</h1>
                     <div className="transaction-details mt-2">
                       <h6>TRANSACTION NO.</h6>
-                      <p>001/2020</p>
+                      <p>{this.state._id}</p>
                       <h6 className="mt-2">TRANSACTION DATE</h6>
-                      <p>10 Dec 2018</p>
+                      <p>{this.state.date}</p>
                     </div>
                   </Col>
                 </Row>
@@ -56,32 +108,32 @@ class Transaction extends React.Component {
                   <Col md="6" sm="12">
                     <h5>Sender</h5>
                     <div className="recipient-info">
-                      <p>Peter Stark</p>
+                      <p>{this.state.sender.name}</p>
                     </div>
                     <div className="recipient-contact pb-2">
                       <p>
                         <Mail size={15} className="mr-50" />
-                        peter@mail.com
+                        {this.state.sender.email}
                       </p>
                       <p>
                         <CreditCard size={15} className="mr-50" />
-                        0x000098juijuiji
+                        {this.state.sender.address}
                       </p>
                     </div>
                   </Col>
                   <Col md="6" sm="12" className="text-right">
                     <h5>Recipient</h5>
                     <div className="recipient-info">
-                      <p>Peter Stark</p>
+                      <p>{this.state.receiver.name}</p>
                     </div>
                     <div className="recipient-contact pb-2">
                       <p>
                         <Mail size={15} className="mr-50" />
-                        peter@mail.com
+                        {this.state.receiver.email}
                       </p>
                       <p>
                         <CreditCard size={15} className="mr-50" />
-                        0x000098juijuiji
+                        {this.state.receiver.address}
                       </p>
                     </div>
                   </Col>
@@ -97,21 +149,7 @@ class Transaction extends React.Component {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>
-                              Lorem ipsum dolor sit amet, consetetur sadipscing
-                              elitr, sed diam nonumy eirmod tempor invidunt ut
-                              labore et dolore magna aliquyam erat, sed diam
-                              voluptua. At vero eos et accusam et justo duo
-                              dolores et ea rebum. Stet clita kasd gubergren, no
-                              sea takimata sanctus est Lorem ipsum dolor sit
-                              amet. Lorem ipsum dolor sit amet, consetetur
-                              sadipscing elitr, sed diam nonumy eirmod tempor
-                              invidunt ut labore et dolore magna aliquyam erat,
-                              sed diam voluptua. At vero eos et accusam et justo
-                              duo dolores et ea rebum. Stet clita kasd
-                              gubergren, no sea takimata sanctus est Lorem ipsum
-                              dolor sit amet.
-                            </td>
+                            <td>{this.state.description}</td>
                           </tr>
                         </tbody>
                       </Table>
@@ -128,7 +166,7 @@ class Transaction extends React.Component {
                           <tr>
                             <th>TOTAL AMOUNT</th>
                             <td>
-                              <strong>30.00 USD</strong>
+                              <strong>{this.state.value} USD</strong>
                             </td>
                           </tr>
                         </tbody>
@@ -138,7 +176,7 @@ class Transaction extends React.Component {
                 </div>
                 <div className="text-center pt-3 transaction-footer">
                   <a
-                    href="https://kovan.etherscan.io/tx/0x72f36e77d50886125a03c4fbd1c8508b23ef70b124f21d72430dc0766ecdfe15"
+                    href={explorerLink}
                     target="_blank"
                     rel="noopener noreferrer">
                     Click here for the transaction details on the blockchain.
@@ -146,7 +184,7 @@ class Transaction extends React.Component {
                   <p className="bank-details mb-0">
                     <span className="mr-4">
                       Transactionhash:
-                      0xc7c3453ce78792b9eabd12f8e57d1c6a9ddec4245fca48d529f6a003586c6a97
+                      {this.state.hash}
                     </span>
                   </p>
                 </div>
@@ -158,5 +196,10 @@ class Transaction extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  transaction: state.wallet.transaction
+});
 
-export default Transaction;
+export default connect(mapStateToProps, { getTransaction, clearTransaction })(
+  Transaction
+);

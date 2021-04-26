@@ -15,4 +15,6 @@ app.use('/walletTest', require('./routes/walletTests'));
 
 app.use('/wallet', require('./routes/intern/wallet'));
 
+app.use('/transaction', require('./routes/intern/transaction'));
+
 module.exports = app;

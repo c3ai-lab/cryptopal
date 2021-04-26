@@ -50,8 +50,8 @@ class SendTokens extends React.Component {
   }
 
   // validate inputs and send check request to server
-  checkPayment() {
-    this.props.clearErrors();
+  async checkPayment() {
+    await this.props.clearErrors();
     this.props.clearTransaction();
     // reset values
     this.setState({
@@ -197,6 +197,7 @@ class SendTokens extends React.Component {
                   this.setState({ enteredReceiver: e.target.value })
                 }
                 id="receiver-input"
+                className="send-input"
                 placeholder="Receiver email or address"
               />
             </FormGroup>
@@ -205,6 +206,7 @@ class SendTokens extends React.Component {
             <FormGroup>
               <Label for="amount-input">Sending Amount</Label>
               <Input
+                className="send-input"
                 type="number"
                 value={this.state.amount || ''}
                 disabled={this.state.checked}
@@ -218,6 +220,7 @@ class SendTokens extends React.Component {
             <FormGroup>
               <Label for="description-input">Description</Label>
               <Input
+                className="send-input"
                 type="text"
                 value={this.state.description || ''}
                 disabled={this.state.checked}

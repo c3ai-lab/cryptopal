@@ -12,12 +12,14 @@ exports.saveTransaction = async (from, to, value, hash, description) => {
   const sender = {
     id: sendingWallet.user_id,
     name: sendingWallet.user_name,
+    email: sendingWallet.user_email,
     address: from,
   };
 
   const receiver = {
     id: receivingWallet ? receivingWallet.user_id : undefined,
     name: receivingWallet ? receivingWallet.user_name : 'External Wallet',
+    email: receivingWallet ? receivingWallet.user_email : undefined,
     address: to,
   };
 

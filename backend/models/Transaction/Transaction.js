@@ -19,6 +19,11 @@ const contactData = new mongoose.Schema(
       minlength: 1,
       maxlength: 255,
     },
+    email: {
+      type: String,
+      minlength: 1,
+      maxlength: 255,
+    },
   },
   { _id: false }
 );

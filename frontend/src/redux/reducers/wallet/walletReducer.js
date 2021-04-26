@@ -4,7 +4,8 @@ import {
   SEND_TRANSACTION,
   CHECK_PAYMENT,
   SEND_PAYMENT,
-  CLEAR_TRANSACTION_DATA
+  CLEAR_TRANSACTION_DATA,
+  GET_TRANSACTION
 } from '../../actions/types';
 const initialState = {
   address: '0x00',
@@ -31,6 +32,7 @@ const WalletReducer = (state = initialState, action) => {
       };
     case CHECK_PAYMENT:
     case SEND_PAYMENT:
+    case GET_TRANSACTION:
       return {
         ...state,
         transaction: action.transaction

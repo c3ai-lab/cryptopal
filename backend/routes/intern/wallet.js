@@ -13,10 +13,4 @@ router.get('/dashboard', verify.user, wallet.getDashboardData);
 // route to get some test tokens
 router.post('/faucet', verify.user, wallet.getToken);
 
-// route to get some test tokens
-router.post('/check-payment', verify.user, wallet.checkPayment);
-
-// route to get some test tokens
-router.post('/send-payment', verify.user, wallet.sendPayment);
-
 module.exports = router;

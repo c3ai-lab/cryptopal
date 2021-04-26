@@ -14,6 +14,11 @@ const walletSchema = new mongoose.Schema(
       minlength: 1,
       maxlength: 255,
     },
+    user_email: {
+      type: String,
+      minlength: 1,
+      maxlength: 255,
+    },
     address: {
       type: String,
       required: true,

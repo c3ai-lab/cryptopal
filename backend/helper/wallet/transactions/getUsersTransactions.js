@@ -22,6 +22,7 @@ exports.getUserTransactions = async (userId, limit, skip) => {
     }
     const returnTx = {
       type,
+      id: tx._id,
       name,
       value: tx.value,
       hash: tx.hash,

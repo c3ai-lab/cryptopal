@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardBody } from 'reactstrap';
 import { Check } from 'react-feather';
+import { history } from '../../../history';
 
 class Transaction extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class Transaction extends React.Component {
     }).format;
     const formattedDate = formatDate(date);
     return (
-      <Card>
+      <Card onClick={() => history.push('/transaction?tx=' + this.props.txId)}>
         <CardBody className="dash-transaction-card">
           <div
             className={

@@ -10,7 +10,8 @@ class TransactionTimeline extends React.Component {
       const tx = transactions[i];
       transactionList.push(
         <Transaction
-          key={'transaction-item' + i}
+          key={tx.id}
+          txId={tx.id}
           type={tx.type}
           amount={tx.value}
           name={tx.name}
