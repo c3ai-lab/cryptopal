@@ -1,38 +1,7 @@
 const mongoose = require('mongoose');
-
-// general schemas
-const money = new mongoose.Schema(
-  {
-    currency_code: {
-      type: String,
-      minLength: 3,
-      max: 3,
-      required: true,
-    },
-    value: {
-      type: String,
-      max: 32,
-      required: true,
-    },
-  },
-  { _id: false, strict: 'throw' }
-);
-
-const payeeBase = new mongoose.Schema(
-  {
-    email_address: {
-      type: String,
-      minLength: 3,
-      max: 255,
-    },
-    merchant_id: {
-      type: String,
-      minLength: 1,
-      max: 50,
-    },
-  },
-  { _id: false, strict: 'throw' }
-);
+const money = require('../GeneralModels/Money');
+const payeeBase = require('../GeneralModels/BasePayee');
+const paymentInstructions = require('../GeneralModels/PaymentInstructions');
 
 // Payee subschemas-----------------------------------------------
 const address = new mongoose.Schema(
@@ -156,22 +125,6 @@ const payer = new mongoose.Schema(
 );
 
 // purchase unit subschemas --------------------------------------------
-const platformFee = new mongoose.Schema(
-  {
-    amount: money,
-    payee: payeeBase,
-  },
-  { _id: false, strict: 'throw' }
-);
-
-const paymentInstructions = new mongoose.Schema(
-  {
-    platform_fees: [platformFee],
-    disbursement_mode: { type: String, enum: ['INSTANT', 'DELAYED'] },
-  },
-  { _id: false, strict: 'throw' }
-);
-
 const breakdown = new mongoose.Schema(
   {
     item_total: money,

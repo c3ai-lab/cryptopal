@@ -17,4 +17,6 @@ app.use('/wallet', require('./routes/intern/wallet'));
 
 app.use('/transaction', require('./routes/intern/transaction'));
 
+app.use('/payments', require('./routes/intern/transaction'));
+
 module.exports = app;
