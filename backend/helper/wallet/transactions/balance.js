@@ -1,5 +1,5 @@
 const Web3 = require('web3');
-const { getNetworkParams } = require('./sendTransaction');
+const { getNetworkParams } = require('../networkConfig');
 const config = require('./dai_contract.json');
 
 exports.getBalance = async (address) => {

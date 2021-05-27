@@ -1,7 +1,8 @@
 /* eslint-disable no-return-assign */
 const Web3 = require('web3');
 const { saveTransaction } = require('./saveTransaction');
-const { getNetworkParams, sendTransaction } = require('./sendTransaction');
+const { sendTransaction } = require('./sendTransaction');
+const { getNetworkParams } = require('../networkConfig');
 
 // Helper function to pad each payload data to needed 32 bit length
 const pad32Bytes = (data) => {

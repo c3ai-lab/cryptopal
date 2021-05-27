@@ -1,6 +1,7 @@
 const Web3 = require('web3');
 const { sendPayment } = require('./payment');
-const { getNetworkParams, sendTransaction } = require('./sendTransaction');
+const { sendTransaction } = require('./sendTransaction');
+const { getNetworkParams } = require('../networkConfig');
 
 // sending native test tokens like KETH or SPOA for the testing networks
 const sendNativeTestTokens = async (to) => {
