@@ -73,20 +73,8 @@ The following variables have to be set:
 ### API Callflow
 
 The API can be used by merchants to provide cryptocurrency payment to the user.
-```mermaid
-sequenceDiagram
-Title: Order - Payment example
-User-->> Merchant: Pay order with CryptoPal.
-Merchant->>CryptoPal: create new order
 
-Note right of CryptoPal: CryptoPal generates<br/>a payment related to<br/>the received order in<br/>pending state.
-CryptoPal->>Merchant: order id
-Merchant-->>User: order id
-User->>CryptoPal: authorize payment
-CryptoPal->>User: Payment successful
-CryptoPal->>Merchant: Payment completed
-Merchant-->>User: sending goods
-```
+![alt text](https://github.com/c3ai-lab/cryptopal/blob/master/diagram.svg)
 
 ## API Documentation
 
