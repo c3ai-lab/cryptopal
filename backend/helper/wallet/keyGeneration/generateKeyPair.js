@@ -4,8 +4,7 @@ const bip39 = require('bip39');
 /** *******************GENERATE PUBLIC AND PRIVATE KEY*********************** */
 exports.generateKeyPair = async (index) => {
   // path for ethereum wallets
-  const mnemonic =
-    'text index ability power inquiry easily vague lunch truly phrase fiscal inflict';
+  const { mnemonic } = process.env;
   // increment last index for next pair
   const path = `m/44'/60'/0'/0/${index}`;
 
