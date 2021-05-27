@@ -56,6 +56,9 @@ class Transaction extends React.Component {
       case 'KOVAN':
         explorerLink = process.env.REACT_APP_KOVAN_EXPLORER + this.state.hash;
         break;
+      case 'CUSTOM':
+        explorerLink = process.env.REACT_APP_CUSTOM_EXPLORER + this.state.hash;
+        break;
       default:
         explorerLink = process.env.REACT_APP_SOKOL_EXPLORER + this.state.hash;
         break;
