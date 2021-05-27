@@ -6,7 +6,7 @@ import Spinner from './components/@vuexy/spinner/Loading-spinner';
 import { ContextLayout } from './utility/context/Layout';
 
 // Route-based code splitting
-const Home = lazy(() => import('./views/pages/Home'));
+const Home = lazy(() => import('./views/pages/Home/Home'));
 const Page2 = lazy(() => import('./views/pages/Page2'));
 const accountSettings = lazy(() =>
   import('./views/pages/account-settings/AccountSettings')
