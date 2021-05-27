@@ -69,20 +69,29 @@ The following variables have to be set:
 
 - **FAUCET_PRIVATE_KEY** - the private key of the faucet account to make signing transactions possible
 
+
+### API Callflow
+
+The API can be used by merchants to provide cryptocurrency payment to the user.
+```mermaid
+sequenceDiagram
+Title: Order - Payment example
+User-->> Merchant: Pay order with CryptoPal.
+Merchant->>CryptoPal: create new order
+
+Note right of CryptoPal: CryptoPal generates<br/>a payment related to<br/>the received order in<br/>pending state.
+CryptoPal->>Merchant: order id
+Merchant-->>User: order id
+User->>CryptoPal: authorize payment
+CryptoPal->>User: Payment successful
+CryptoPal->>Merchant: Payment completed
+Merchant-->>User: sending goods
+```
+
 ## API Documentation
 
 The Docs repository holds the documentation of the Cryptopal api. The API is very similar to the PayPal API and easy to use straight away. It was created with React and Gatsby and serves only statical content. It is written with a mixture of HTML, Javascript and Markdown. A reference to the live demo can be found below.
 
-## API Callflow
-
-```uml-sequence-diagram  
-Title: Hello world example  
-Bob->Alice: Hello  
-Alice-->Bob: How are you?  
-Note left of Bob: Bob thinks  
-Bob->>Alice: I'm good, thanks! How about you?  
-Alice-->Bob: I'm doing great, thank you!  
-```
 ## Live demos
 
 As a live demonstration of the service we use the sokol network (xDai testnet) and Dai-ERC20 token for transferring value. To explore the functions of Cryptopal you can have a look at the live demos provided at the following urls:
