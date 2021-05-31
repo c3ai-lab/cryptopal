@@ -11,6 +11,13 @@
 
 /* Swiper css */
 /* ---------- */
+.swiper-container {
+  // border-radius: 2.5rem;
+  width: 102.5%;
+  margin-left: -1.5%;
+  margin-right: 1.5%;
+  margin-top: -1.5%;
+}
 
 .swiper-button-next,
 .swiper-button-prev {
@@ -34,6 +41,7 @@
 
 .slider-container {
   position: absolute;
+  text-align: center;
 
   h2 {
     color: white;
@@ -41,26 +49,11 @@
 
   h5 {
     color: white;
+    margin-bottom: 20px;
   }
 }
 
 .slider-container-1 {
-  top: 30%;
-  left: 5%;
-  margin: 0 auto;
-  width: 40%;
-  height: 300px;
-}
-
-.slider-container-2 {
-  top: 400px;
-  left: 60%;
-  margin: 0 auto;
-  width: 30%;
-  height: 50px;
-}
-
-.slider-container-3 {
   top: 200px;
   left: 60%;
   margin: 0 auto;
@@ -68,20 +61,20 @@
   height: 50px;
 }
 
-.slider-container-4 {
-  top: 130px;
-  left: 5%;
+.slider-container-2 {
+  top: 65%;
+  left: 60%;
   margin: 0 auto;
   width: 30%;
   height: 50px;
 }
 
-.slider-container-5 {
-  top: 130px;
+.slider-container-3 {
+  top: 30%;
   left: 5%;
   margin: 0 auto;
-  width: 30%;
-  height: 50px;
+  width: 40%;
+  height: 300px;
 }
 
 // Media query for medium screen

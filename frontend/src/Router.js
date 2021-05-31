@@ -7,7 +7,6 @@ import { ContextLayout } from './utility/context/Layout';
 
 // Route-based code splitting
 const Home = lazy(() => import('./views/pages/Home/Home'));
-const Page2 = lazy(() => import('./views/pages/Page2'));
 const accountSettings = lazy(() =>
   import('./views/pages/account-settings/AccountSettings')
 );
@@ -40,13 +39,7 @@ const forgotPassword = lazy(() =>
 const authorized = lazy(() => import('./views/pages/misc/NotAuthorized'));
 
 // Set Layout and Component Using App Route
-const RouteConfig = ({
-  component: Component,
-  fullLayout,
-  permission,
-  user,
-  ...rest
-}) => (
+const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
@@ -86,8 +79,7 @@ class AppRouter extends React.Component {
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
-          <AppRoute exact path="/" component={Home} />
-          <AppRoute path="/page2" component={Page2} />
+          <AppRoute exact path="/" component={Home} fullLayout blank="uggA" />
           <AppRoute path="/dashboard" component={dashboard} />
           <AppRoute path="/account-settings" component={accountSettings} />
           <AppRoute path="/products" component={products} />

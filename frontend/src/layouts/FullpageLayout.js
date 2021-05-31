@@ -1,14 +1,14 @@
 import React from 'react';
-import themeConfig from '../configs/themeConfig';
 import classnames from 'classnames';
+import { history } from '../history';
 
 const FullPageLayout = ({ children }) => {
   return (
     <div
       className={classnames(
-        'full-layout wrapper bg-full-screen-image blank-page dark-layout',
+        'full-layout wrapper bg-full-screen-image dark-layout',
         {
-          'layout-dark': themeConfig.layoutDark
+          'blank-page': history.location.pathname !== '/'
         }
       )}>
       <div className="app-content">

@@ -1,33 +1,33 @@
 import React from 'react';
-import { Card, CardBody, Row } from 'reactstrap';
-import { data } from './cardData';
+import { Card, CardBody, Col, Row } from 'reactstrap';
 
 class HomeCards extends React.Component {
   renderCards = () => {
+    const data = this.props.data;
     let result = data.map((item) => {
       return (
-        <Row key={item.id}>
-          <Card className="home-card">
+        <Col key={item.id}>
+          <Card>
             <CardBody className="text-center">
               <img
                 src={item.img}
                 alt={item.title}
-                className="mx-auto mb-2 img-float"
+                className="mx-auto mb-2"
                 width="180"
               />
-              <div className="prev-text">
+              <div className="home-argument-card">
                 <h4>{item.title.toUpperCase()}</h4>
                 <small className="text-dark">{item.text}</small>
               </div>
             </CardBody>
           </Card>
-        </Row>
+        </Col>
       );
     });
     return result;
   };
   render() {
-    return <div>{this.renderCards()}</div>;
+    return <Row>{this.renderCards()}</Row>;
   }
 }
 export default HomeCards;

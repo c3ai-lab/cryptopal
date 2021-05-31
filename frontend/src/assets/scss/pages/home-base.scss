@@ -45,19 +45,29 @@
   }
 }
 
-.home-card {
-  width: 50%;
-  margin-left: 25%;
+.home-section {
+  border-bottom: solid 1px gray;
+  margin-bottom: 50px;
 }
 
-.img-float {
-  float: left;
+.home-heading-card {
+  width: 80%;
+  margin-left: 10%;
+  text-align: center;
+
+  p {
+    font-size: 16px;
+    line-height: 150%;
+  }
 }
 
-.prev-text {
-  float: left;
-  margin-left: 20%;
-  margin-top: 50px;
+.row {
+  margin-right: 0px;
+}
+
+.home-argument-card {
+  width: 80%;
+  margin-left: 10%;
 }
 
 // make jumbotron card body padding
