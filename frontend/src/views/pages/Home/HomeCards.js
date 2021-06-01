@@ -4,24 +4,42 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 class HomeCards extends React.Component {
   renderCards = () => {
     const data = this.props.data;
+    const rows = this.props.rows;
+    const ElementType = rows ? Row : Col;
     let result = data.map((item) => {
       return (
-        <Col key={item.id}>
-          <Card>
-            <CardBody className="text-center">
+        <ElementType key={item.id}>
+          <Card className={rows ? 'tech-section' : ''}>
+            <CardBody
+              className={
+                'text-center home-card ' +
+                (rows ? 'home-rows-card ' : '') +
+                (item.id % 2 ? 'float-right' : '')
+              }>
               <img
                 src={item.img}
                 alt={item.title}
-                className="mx-auto mb-2"
+                className={
+                  'mx-auto mb-2 home-img ' + (rows ? 'float-right' : '')
+                }
                 width="180"
               />
-              <div className="home-argument-card">
+              <div>
                 <h4>{item.title.toUpperCase()}</h4>
-                <small className="text-dark">{item.text}</small>
+                <p className="text-dark">{item.text}</p>
+                {rows ? (
+                  <a
+                    className="link-more"
+                    target="_blank"
+                    href={item.link}
+                    rel="noopener noreferrer">
+                    Read more
+                  </a>
+                ) : null}
               </div>
             </CardBody>
           </Card>
-        </Col>
+        </ElementType>
       );
     });
     return result;

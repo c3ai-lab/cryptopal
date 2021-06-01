@@ -1,27 +1,30 @@
-import img1 from '../../../../assets/img/pages/graphic-1.png';
-import img2 from '../../../../assets/img/pages/graphic-2.png';
-import img3 from '../../../../assets/img/pages/graphic-3.png';
+import img1 from '../../../../assets/img/custom/blockchain.jpg';
+import img2 from '../../../../assets/img/custom/xdai.jpg';
+import img3 from '../../../../assets/img/custom/docs.jpg';
 
 export const data = [
   {
     id: 1,
     img: img1,
-    title: 'blockchain technologie',
+    title: 'blockchain technology',
     text:
-      'CryptoPal offers the lowest transaction fees as a payment provider. This helps you to get the most out of your business'
+      'Blockchain technology is most simply defined as a decentralized, distributed ledger that records the provenance of a digital asset. By inherent design, the data on a blockchain is unable to be modified, which makes it a legitimate disruptor for industries like payments.',
+    link: 'https://builtin.com/blockchain'
   },
   {
     id: 2,
     img: img2,
     title: 'xdai chain',
     text:
-      'Create an account and transfer value for free. We don`t charge registration or transaction fees for customers.'
+      'xDai is a cryptocurrency that is pegged to the US dollar. The xDai chain is a stable payment blockchain that is designed for fast and inexpensive transactions. xDai was created by the POA Network, an open-source public side-chain of Ethereum founded in April 2017. It is secured by proof-of-stake consensus.',
+    link: 'https://www.xdaichain.com/'
   },
   {
     id: 3,
     img: img3,
-    title: 'documentation',
+    title: 'API integration',
     text:
-      'CryptoPal is based on blockchain technology and uses xDai. This makes payment stable, secure and instant.'
+      'CryptoPal offers an easy to integrate API to use the service in your application. For developers we provide a full documentation of the API.',
+    link: 'https://docs.bluecryptopal.com'
   }
 ];

@@ -46,13 +46,18 @@
 }
 
 .home-section {
-  border-bottom: solid 1px gray;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
+}
+
+.tech-section {
+  background-color: #f0f8ff;
 }
 
 .home-heading-card {
+  padding-top: 30px;
   width: 80%;
   margin-left: 10%;
+  margin-right: 10%;
   text-align: center;
 
   p {
@@ -63,11 +68,102 @@
 
 .row {
   margin-right: 0px;
+  margin-left: 0px;
+  width: 100%;
 }
 
-.home-argument-card {
-  width: 80%;
-  margin-left: 10%;
+.card {
+  width: 100%;
+}
+
+.home-card {
+  width: 70% !important;
+  margin-left: 15%;
+}
+
+.home-rows-card {
+  display: flex;
+  align-items: center;
+  border: solid 0.5px lightgray;
+  border-radius: 1rem;
+  width: 100%;
+  background-color: white;
+
+  img {
+    float: left;
+  }
+  div {
+    width: 70%;
+  }
+}
+
+.float-right {
+  flex-direction: row-reverse;
+}
+
+.link-more {
+  color: $primary;
+}
+
+.mobile-button {
+  display: none;
+  width: 15rem;
+}
+
+.home-img {
+  box-shadow: 10px 10px 5px #ccc;
+  border-radius: 25%;
+}
+
+.home-img:hover {
+  opacity: 0.5;
+}
+
+.home-closing {
+  display: flex;
+  height: 33vh;
+  overflow: hidden;
+}
+
+.closing-img {
+  position: relative;
+  object-fit: cover;
+  filter: brightness(70%);
+  width: 100%;
+  height: 100%;
+}
+
+.closing-phrase {
+  position: absolute;
+  text-align: center;
+  left: 30%;
+  top: 30%;
+
+  h2 {
+    color: white;
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .mobile-button {
+    display: block;
+  }
+
+  .home-rows-card {
+    flex-direction: column;
+    margin: 5%;
+    width: 90% !important;
+    padding: 5px;
+  }
+
+  .closing-phrase {
+    left: 10%;
+  }
+
+  .closing-img {
+    filter: brightness(50%);
+  }
 }
 
 // make jumbotron card body padding

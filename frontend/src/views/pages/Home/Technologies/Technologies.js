@@ -6,19 +6,20 @@ import { data } from './technologiesCardData';
 class Technologies extends React.Component {
   render() {
     return (
-      <div>
+      <div className="tech-section">
         <Row>
-          <Card className="home-heading-card">
+          <Card className="home-heading-card tech-section">
             <h3>Take advantage of blockchain technology.</h3>
             <p>
-              CryptoPal offers the lowest fees on the market to be the payment
-              provider of your business. With an easy to integrate solution we
-              offer fast and secure payments all over the world. Start
-              integrating CryptoPal today and increase your profits!
+              CryptoPal is a payment provider fully build on blockchain
+              technology. It provides an easy to use gateway to cryptocurrency
+              for customers and merchants. The service relies on xDai, a stable
+              coin which is directly bound to the USD to ensure secure and
+              stable instant payments.
             </p>
           </Card>
         </Row>
-        <HomeCards data={data} />
+        <HomeCards data={data} rows />
       </div>
     );
   }

@@ -1,6 +1,6 @@
-import img1 from '../../../../assets/img/pages/graphic-1.png';
-import img2 from '../../../../assets/img/pages/graphic-2.png';
-import img3 from '../../../../assets/img/pages/graphic-3.png';
+import img1 from '../../../../assets/img/custom/fees.png';
+import img2 from '../../../../assets/img/custom/free.jpg';
+import img3 from '../../../../assets/img/custom/safe.png';
 
 export const data = [
   {
