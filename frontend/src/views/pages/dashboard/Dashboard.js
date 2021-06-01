@@ -37,7 +37,7 @@ class Dashboard extends React.Component {
         <h1 className="mb-2 ml-5">
           Welcome back {this.props.user.given_name}!
         </h1>
-        <Row className="ml-4 mr-4">
+        <Row>
           <Col lg="7" md="12">
             <GreetingCard
               transaction={

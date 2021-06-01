@@ -105,11 +105,6 @@
   color: $primary;
 }
 
-.mobile-button {
-  display: none;
-  width: 15rem;
-}
-
 .home-img {
   box-shadow: 10px 10px 5px #ccc;
   border-radius: 25%;
@@ -146,10 +141,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .mobile-button {
-    display: block;
-  }
-
   .home-rows-card {
     flex-direction: column;
     margin: 5%;

@@ -68,7 +68,13 @@ class RegisterCredentials extends React.Component {
           <Label>Confirm Password</Label>
           <FormFeedback>Password does not match</FormFeedback>
         </FormGroup>
-        <div className="d-flex justify-content-between">
+        <div className="one-line">
+          <p>Already signed up? </p>
+          <p className="link" onClick={() => history.push('/login')}>
+            Click here to log in!
+          </p>
+        </div>
+        <div className="d-flex justify-content-between clear-both">
           <Button.Ripple
             color="primary"
             outline

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Button,
-  Media,
   Form,
   FormGroup,
   Input,
@@ -10,8 +9,6 @@ import {
   Col,
   Alert
 } from 'reactstrap';
-import img from '../../../assets/img/portrait/small/avatar-s-11.jpg';
-import Avatar from '../../../components/@vuexy/avatar/AvatarComponent';
 import { connect } from 'react-redux';
 import { updateUser } from '../../../redux/actions/auth/authActions';
 import { clearErrors } from '../../../redux/actions/errors/errorActions';
@@ -98,43 +95,6 @@ class General extends React.Component {
     const { feedback, ...user } = this.state;
     return (
       <React.Fragment>
-        <Media>
-          <Media className="mr-1" left href="#">
-            {/* images not supported yet - user.img is always false */}
-            {user.img ? (
-              <Media
-                className="rounded-circle"
-                object
-                src={img}
-                alt="User"
-                height="64"
-                width="64"
-              />
-            ) : (
-              <Avatar
-                className="mr-1"
-                content={this.state.credentials}
-                size="lg"
-              />
-            )}
-          </Media>
-          <Media className="mt-25" body>
-            <div className="d-flex flex-sm-row flex-column justify-content-start px-0">
-              <Button.Ripple
-                tag="label"
-                className="mr-50 cursor-pointer"
-                color="primary"
-                outline>
-                Upload Photo
-                <Input type="file" name="file" id="uploadImg" hidden />
-              </Button.Ripple>
-              <Button.Ripple color="flat-danger">Remove</Button.Ripple>
-            </div>
-            <p className="text-muted mt-50">
-              <small>Allowed JPG, GIF or PNG. Max size of 800kB</small>
-            </p>
-          </Media>
-        </Media>
         {feedback.msg ? (
           <Alert color={feedback.type}>{feedback.msg}</Alert>
         ) : null}

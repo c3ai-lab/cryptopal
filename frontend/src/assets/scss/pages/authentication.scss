@@ -48,6 +48,15 @@
   color: $primary;
 }
 
+.clear-both {
+  clear: both;
+}
+
+.one-line p {
+  float: left;
+  margin-right: 10px;
+}
+
 // Unlock btn spacing in sm
 
 @media (max-width: 400px) {

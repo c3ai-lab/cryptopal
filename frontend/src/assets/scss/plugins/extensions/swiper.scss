@@ -83,10 +83,22 @@
 
 @media only screen and (max-width: 600px) {
   .slider-container {
-    Button {
-      display: none;
+    width: 90%;
+    margin-left: 5%;
+    left: 0;
+    top: 25%;
+
+    h2 {
+      font-size: 200%;
+      font-weight: bold;
+      margin-bottom: 30px;
     }
   }
+
+  .img-relative {
+    filter: brightness(50%);
+  }
+
   .swiper-button-prev {
     display: none;
   }
@@ -108,10 +120,6 @@
 
 @media only screen and (max-width: 830px) {
   .slider-container {
-    h2 {
-      font-size: 120%;
-    }
-
     h5 {
       display: none;
     }

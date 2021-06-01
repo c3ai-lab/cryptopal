@@ -2,22 +2,6 @@ import React from 'react';
 import * as Icon from 'react-feather';
 const navigationConfig = [
   {
-    id: 'home',
-    title: 'Home',
-    type: 'item',
-    icon: <Icon.Home size={20} />,
-    permissions: ['guest', 'buyer', 'merchant', 'admin'],
-    navLink: '/'
-  },
-  {
-    id: 'page2',
-    title: 'Page 2',
-    type: 'item',
-    icon: <Icon.File size={20} />,
-    permissions: ['guest', 'buyer', 'merchant', 'admin'],
-    navLink: '/page2'
-  },
-  {
     id: 'dashboard',
     title: 'Dashboard',
     type: 'item',
