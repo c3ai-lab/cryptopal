@@ -1,6 +1,6 @@
-import img1 from '../../../../assets/img/custom/blockchain.jpg';
-import img2 from '../../../../assets/img/custom/xdai.jpg';
-import img3 from '../../../../assets/img/custom/docs.jpg';
+import img1 from '../../../../assets/img/home/blockchain.jpg';
+import img2 from '../../../../assets/img/home/xdai.jpg';
+import img3 from '../../../../assets/img/home/docs.jpg';
 
 export const data = [
   {

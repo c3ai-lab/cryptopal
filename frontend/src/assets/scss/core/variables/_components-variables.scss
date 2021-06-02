@@ -16,8 +16,8 @@
 //  ================================================================================================
 
 // Bootstrap  variables
-@import "~bootstrap/scss/_variables.scss";
-@import "variables";
+@import '~bootstrap/scss/_variables.scss';
+@import 'variables';
 
 $base-font-size: 14px;
 $body-direction: ltr; // Default ltr, change it to rtl for Right To Left support.
@@ -154,19 +154,6 @@ $blank-bg-color: #eff2f7;
 //  -------------------------------
 
 $datatable-bg-color: #f8f8f8;
-
-//  -------------------------------
-//  Chips
-//  -------------------------------
-
-$chip-min-height: 1.857rem;
-$chip-min-width: $chip-min-height;
-$chip-font-size: 0.8rem;
-$chip-border-radius: 1.428rem;
-$chip-avatar-min-height: 1.714rem;
-$chip-avatar-min-width: $chip-avatar-min-height;
-$chip-closeable-min-height: 1.428rem;
-$chip-closeable-min-width: $chip-closeable-min-height;
 
 //  -------------------------------
 //  Tables

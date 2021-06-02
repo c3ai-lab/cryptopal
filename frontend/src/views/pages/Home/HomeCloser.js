@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button } from 'reactstrap';
 import '../../../assets/scss/pages/home-base.scss';
 import { history } from '../../../history';
-import background from '../../../assets/img/custom/closing.jpg';
+import background from '../../../assets/img/home/closing.jpg';
 
 class HomeCloser extends React.Component {
   render() {

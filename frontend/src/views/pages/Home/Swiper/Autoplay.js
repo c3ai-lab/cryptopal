@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, CardBody, Button } from 'reactstrap';
 import { history } from '../../../../history';
 import Swiper from 'react-id-swiper';
-import img3 from '../../../../assets/img/custom/slider1.jpg';
-import img2 from '../../../../assets/img/custom/slider2.jpg';
-import img1 from '../../../../assets/img/custom/slider3.jpg';
+import img3 from '../../../../assets/img/home/slider1.jpg';
+import img2 from '../../../../assets/img/home/slider2.jpg';
+import img1 from '../../../../assets/img/home/slider3.jpg';
 
 const params = {
   spaceBetween: 30,
