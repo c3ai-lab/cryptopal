@@ -1,11 +1,6 @@
 // ===============================================================================================
-//  File Name: knowledge-base.scss
-//  Description: Knowledge Base Page Content SCSS
-//  ----------------------------------------------------------------------------------------------
-//  Item Name: Vuexy React Admin Template
-//  Version: 1.0
-//  Author: PIXINVENT
-//  Author URL: http://www.themeforest.net/user/pixinvent
+//  File Name: home-base.scss
+//  Description: SCSS Layout for landing page (Home)
 // ================================================================================================
 
 @import '~bootstrap/scss/_functions.scss';
@@ -18,36 +13,23 @@
 
 @import '../core/variables/components-variables';
 
-// knowledge-base-category, knowledge-base-question - list-group-items
-.knowledge-base-category,
-.knowledge-base-question {
-  .list-group-item {
-    padding: 0.5rem 0;
-    &:hover {
-      background-color: transparent;
-    }
-  }
+// all home sections (arguments and technologies
+.home-card {
+  width: 70% !important;
+  margin-left: 15%;
 }
 
-// Question Page - article question list
-.article-question {
-  li {
-    margin-bottom: 0.5rem;
-    display: flex;
-  }
-  svg {
-    margin: 0 0.5rem;
-  }
-}
-
+// arguments section
 .home-section {
   margin-bottom: 70px;
 }
 
+// technologies information section
 .tech-section {
   background-color: #f0f8ff;
 }
 
+// Headings of sections
 .home-heading-card {
   padding-top: 30px;
   width: 80%;
@@ -61,21 +43,18 @@
   }
 }
 
+// reset margin of each part
 .row {
   margin-right: 0px;
   margin-left: 0px;
   width: 100%;
+
+  .card {
+    width: 100%;
+  }
 }
 
-.card {
-  width: 100%;
-}
-
-.home-card {
-  width: 70% !important;
-  margin-left: 15%;
-}
-
+// layout for cards in tech esction
 .home-rows-card {
   display: flex;
   align-items: center;
@@ -92,14 +71,17 @@
   }
 }
 
+// to switch position of the image to right side
 .float-right {
   flex-direction: row-reverse;
 }
 
+// link to articles
 .link-more {
   color: $primary;
 }
 
+// images in sections cards
 .home-img {
   box-shadow: 10px 10px 5px #ccc;
   border-radius: 25%;
@@ -109,6 +91,7 @@
   opacity: 0.5;
 }
 
+// closing image section with phrase
 .home-closing {
   display: flex;
   height: 33vh;
@@ -135,6 +118,7 @@
   }
 }
 
+// layout for mobile
 @media only screen and (max-width: 600px) {
   .home-rows-card {
     flex-direction: column;
@@ -149,22 +133,5 @@
 
   .closing-img {
     filter: brightness(50%);
-  }
-}
-
-// make jumbotron card body padding
-@media only screen and (min-width: 992px) {
-  .knowledge-base-bg {
-    .card-body {
-      padding: 8rem !important;
-    }
-  }
-}
-// make jumbotron card body padding
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .knowledge-base-bg {
-    .card-body {
-      padding: 6rem !important;
-    }
   }
 }

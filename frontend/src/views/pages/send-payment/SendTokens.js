@@ -171,7 +171,7 @@ class SendTokens extends React.Component {
       );
     }
     return (
-      <div className="send-tokens-container">
+      <div>
         {/* render loading spinner */}
         {this.state.loading ? (
           <div className="spinner-container">

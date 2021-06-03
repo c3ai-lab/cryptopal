@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: ChangeRoleComp.js
+// 	Description:
+//  This component contains a button to send a change role (from customer to merchant and the other
+//  way around) request to the server and shows its feedback.
+// ================================================================================================
 import React from 'react';
 import { Alert, Button } from 'reactstrap';
 
@@ -10,13 +16,11 @@ class ChangeRoleComp extends React.Component {
     super(props);
     this.onButtonClick = this.onButtonClick.bind(this);
   }
+
+  // keep track of server feedback
   state = {
     feedback: { type: 'success', msg: null }
   };
-
-  componentDidMount() {
-    console.log(this.props);
-  }
 
   // check for request error
   componentDidUpdate(prevProps) {
@@ -27,6 +31,7 @@ class ChangeRoleComp extends React.Component {
     }
   }
 
+  // call change role route with redux actions and set feedback
   onButtonClick() {
     let message = 'Upgrade successful!';
     if (this.props.userRole === 'merchant') {
@@ -38,6 +43,7 @@ class ChangeRoleComp extends React.Component {
     this.setState({ feedback: { type: 'success', msg: message } });
   }
 
+  // render component with a button to send a request for changing users role and show server feedback
   render() {
     const { feedback } = this.state;
     const userRole = this.props.userRole;
@@ -61,6 +67,8 @@ class ChangeRoleComp extends React.Component {
     );
   }
 }
+
+// connect with redux
 const mapStateToProps = (state) => ({
   userRole: state.auth.userRole
 });

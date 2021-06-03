@@ -1,3 +1,8 @@
+// ================================================================================================
+// 	File Name: send-tokens.scss
+// 	Description: SCSS file for the layout of the sending payment page
+// ================================================================================================
+
 // Core variables and mixins
 @import '~bootstrap/scss/_functions.scss';
 @import '~bootstrap/scss/mixins';
@@ -10,6 +15,7 @@
 // Overrides user variable
 @import '../core/variables/components-variables';
 
+// wrapper card for component
 .send-tokens-card {
   position: absolute;
   text-align: center;
@@ -23,18 +29,21 @@
   }
 }
 
+// all input elements
 .send-input {
   width: 70%;
   margin-left: 15%;
   text-align: center;
 }
 
+// send button
 .payment-buttons-container {
   Button {
     margin-left: 20px;
   }
 }
 
+// loading spinner on send
 .spinner-container {
   position: absolute;
   z-index: 1;
@@ -47,10 +56,12 @@
   align-items: center;
 }
 
+// dialog on send
 .modal-dialog-centered {
   overflow-wrap: break-word;
 }
 
+// layout for smaller devices
 @media (max-width: 515px) {
   .payment-buttons-container {
     Button {
@@ -62,10 +73,10 @@
 @media (max-width: 1200px) {
   .send-tokens-card {
     width: 90%;
-    margin-left: 5%;
+    margin-left: calc(-30px + 5%);
   }
 
-  #receiver-input {
+  .send-input {
     width: 90%;
     margin-left: 5%;
   }

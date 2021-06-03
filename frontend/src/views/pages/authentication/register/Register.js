@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: Register.js
+// 	Description:
+//  This component represents the wrapper for all registration data with a navigation bar and renders
+//  conditionally diffrent input components such as credentials, address and personal data.
+// ================================================================================================
 import React from 'react';
 import {
   Card,
@@ -25,6 +31,7 @@ import { register } from '../../../../redux/actions/auth/authActions';
 import { clearErrors } from '../../../../redux/actions/errors/errorActions';
 
 class Register extends React.Component {
+  // keep track of selected tab and server response
   state = {
     activeTab: '1',
     registerData: {},
@@ -73,6 +80,7 @@ class Register extends React.Component {
     }
   }
 
+  // renders navigation bar and conditonally input forms
   render() {
     const { msg } = this.state;
     return (
@@ -92,6 +100,7 @@ class Register extends React.Component {
               </Col>
               <Col lg="6" md="12" className="p-0">
                 <Card className="rounded-0 mb-0 p-2">
+                  {/* show title and server feedback */}
                   <CardHeader className="pb-1 pt-50">
                     <CardTitle>
                       <h4 className="mb-0">Create Account</h4>
@@ -101,6 +110,8 @@ class Register extends React.Component {
                     Fill the below form to create a new account.
                   </p>
                   {msg ? <Alert color="danger">{msg}</Alert> : null}
+
+                  {/* navigation bar for different registration sections */}
                   <Nav tabs className="px-2">
                     <NavItem>
                       <NavLink
@@ -138,6 +149,8 @@ class Register extends React.Component {
                       </NavLink>
                     </NavItem>
                   </Nav>
+
+                  {/* conditional rendered content */}
                   <CardBody className="pt-1 pb-50">
                     <TabContent activeTab={this.state.activeTab}>
                       <TabPane tabId="1">
@@ -161,6 +174,7 @@ class Register extends React.Component {
   }
 }
 
+// connect with redux state
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error

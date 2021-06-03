@@ -13,11 +13,14 @@ exports.sendTransaction = async (
   networkInfo,
   sk
 ) => {
+  console.log('ST: inside');
   // get current network parameters for function call
   const txCount = await web3.eth.getTransactionCount(from);
   const gasPrice = await web3.eth.getGasPrice();
+  console.log(`ST: GasPrice: ${gasPrice}`);
 
   // define transaction data
+  console.log(`ST: ${web3.utils.toHex(txCount)}`);
   const rawTx = {
     nonce: web3.utils.toHex(txCount),
     gasPrice: web3.utils.toHex(gasPrice),
@@ -28,6 +31,7 @@ exports.sendTransaction = async (
   };
 
   // sign transaction
+  console.log('ST: sign tx');
   const tx = new EthereumTx(rawTx, networkInfo);
   const privateKey = Buffer.from(sk, 'hex');
   tx.sign(privateKey);
@@ -38,18 +42,25 @@ exports.sendTransaction = async (
   const serializedTx = `0x${tx.serialize().toString('hex')}`;
   await web3.eth.sendSignedTransaction(serializedTx, (err, hash) => {
     if (err) {
-      console.log(err);
+      console.log('ST: err');
+      console.log(err.message);
       error = err;
     } else {
+      console.log('ST: send successfull');
+      console.log(hash);
       txHash = hash;
     }
   });
 
+  console.log('ST: create promise');
+
   // return promise
   return new Promise((resolve, reject) => {
     if (error) {
+      console.log('ST: reject');
       reject(error);
     } else {
+      console.log('ST: resolve');
       resolve(txHash);
     }
   });

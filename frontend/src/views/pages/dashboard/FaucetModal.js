@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: FaucetModal.js
+// 	Description:
+//  This component represents a modal to request some tokens. It contains an inpt field for the
+//  requested amount of tokens and a request button. It also shows a loading spinner while the
+//  request is pending an the server response.
+// ================================================================================================
 import React from 'react';
 import {
   Alert,
@@ -27,6 +34,7 @@ class FaucetModal extends React.Component {
 
   state = { clicked: false, msg: null, success: false };
 
+  // send request, show loading spinner and later response
   onSubmit() {
     const value = document.getElementById('amount').value;
     this.props.getBalanceTokens(value);
@@ -43,7 +51,7 @@ class FaucetModal extends React.Component {
     });
   }
 
-  // reset to default on close
+  // reset to default on closing the modal
   closeModal() {
     this.props.clearErrors();
     this.props.clearTransaction();
@@ -70,6 +78,7 @@ class FaucetModal extends React.Component {
     }
   }
 
+  // show input field for amount and feedback message
   render() {
     const wallet = this.props.wallet;
     const { clicked, msg, success } = this.state;
@@ -85,6 +94,8 @@ class FaucetModal extends React.Component {
             on ramping service for getting token as balance.
           </p>
           <p>Enter an amount (max 1000):</p>
+
+          {/* show feedback when user hits the button */}
           {clicked ? (
             success ? (
               <Alert>
@@ -96,6 +107,8 @@ class FaucetModal extends React.Component {
               <Alert color="danger">{msg ? msg : ''}</Alert>
             )
           ) : null}
+
+          {/* input field for amount */}
           <FormGroup>
             <Label for="amount">Amount:</Label>
             <Input type="number" id="amount" placeholder="Money amount" />
@@ -103,6 +116,8 @@ class FaucetModal extends React.Component {
           <p>Or send tokens to the following address</p>
           <p>{this.props.wallet.address}</p>
         </ModalBody>
+
+        {/* request button */}
         <ModalFooter>
           <Button
             color="primary"
@@ -116,6 +131,7 @@ class FaucetModal extends React.Component {
   }
 }
 
+// connect to redux state
 const mapStateToProps = (state) => ({
   wallet: state.wallet,
   error: state.error

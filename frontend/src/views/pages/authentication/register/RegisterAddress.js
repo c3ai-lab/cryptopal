@@ -1,9 +1,16 @@
+// ================================================================================================
+// 	File Name: RegisterAddress.js
+// 	Description:
+//  This component represents the input field for all data belonging to the users address. This
+//  includes street address, postal code, locality, region and country.
+// ================================================================================================
 import React from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import { history } from '../../../../history';
 import countries from 'countries-list';
 
 class RegisterAddress extends React.Component {
+  // keep track of entered values
   state = {
     street_address: '',
     postal_code: '',
@@ -12,12 +19,14 @@ class RegisterAddress extends React.Component {
     country: ''
   };
 
+  // call register function to switch to next tab
   handleRegister = (e) => {
     e.preventDefault();
     this.props.register({ address: this.state });
   };
 
   render() {
+    // create option dropdown for all countries
     const countryCodes = Object.keys(countries.countries);
     const countriesOptions = [];
     countryCodes.map((code) =>
@@ -25,8 +34,11 @@ class RegisterAddress extends React.Component {
         <option key={code}>{countries.countries[code].name}</option>
       )
     );
+
+    // render form with all needed input fields
     return (
       <Form action="/" onSubmit={this.handleRegister}>
+        {/* street address input field */}
         <FormGroup className="form-label-group">
           <Input
             autoFocus
@@ -38,6 +50,8 @@ class RegisterAddress extends React.Component {
           />
           <Label>Street address</Label>
         </FormGroup>
+
+        {/* postal code input field */}
         <FormGroup className="form-label-group">
           <Input
             type="text"
@@ -48,6 +62,8 @@ class RegisterAddress extends React.Component {
           />
           <Label>Postal code</Label>
         </FormGroup>
+
+        {/* locality input field */}
         <FormGroup className="form-label-group">
           <Input
             type="text"
@@ -58,6 +74,8 @@ class RegisterAddress extends React.Component {
           />
           <Label>Locality</Label>
         </FormGroup>
+
+        {/* region input field */}
         <FormGroup className="form-label-group">
           <Input
             type="text"
@@ -67,6 +85,8 @@ class RegisterAddress extends React.Component {
           />
           <Label>Region</Label>
         </FormGroup>
+
+        {/* country input field with option dropdown*/}
         <FormGroup className="form-label-group">
           <Input
             type="select"
@@ -75,6 +95,8 @@ class RegisterAddress extends React.Component {
           </Input>
           <Label>Country</Label>
         </FormGroup>
+
+        {/* action buttons */}
         <div className="d-flex justify-content-between">
           <Button.Ripple
             color="primary"

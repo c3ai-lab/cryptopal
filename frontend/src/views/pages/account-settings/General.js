@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: General.js
+// 	Description:
+//  This components represents a form for changing general user information. Field for changing
+//  informations are given name, last name, email and company.
+// ================================================================================================
 import React from 'react';
 import {
   Button,
@@ -14,12 +20,14 @@ import { updateUser } from '../../../redux/actions/auth/authActions';
 import { clearErrors } from '../../../redux/actions/errors/errorActions';
 
 class General extends React.Component {
+  // keep track of input data and server feedback
   state = {
     ...this.props.user,
     credentials: '',
     feedback: { type: 'success', msg: null }
   };
 
+  // fetch credentials from redux state
   componentDidMount() {
     // get credentials of user to display as an avatar
     if (this.props.user) {
@@ -30,6 +38,7 @@ class General extends React.Component {
     }
   }
 
+  // send changing data to server and set its feedback
   onChangeSubmit(e) {
     e.preventDefault();
     // get change data from state
@@ -50,8 +59,6 @@ class General extends React.Component {
       emails,
       phone
     }))(this.state);
-
-    console.log(updateData);
 
     let message = 'Successfully changed data!';
     // check if email was changed
@@ -91,6 +98,8 @@ class General extends React.Component {
     }
   }
 
+  // renders a form with all general data of the user
+  // (given name, last name, email and company)
   render() {
     const { feedback, ...user } = this.state;
     return (

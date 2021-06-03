@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: RegisterCredentials.js
+// 	Description:
+//  This component shows input fields for the user credentials. This contains email, password and
+//  password confirmation.
+// ================================================================================================
 import React from 'react';
 import {
   Form,
@@ -10,12 +16,14 @@ import {
 import { history } from '../../../../history';
 
 class RegisterCredentials extends React.Component {
+  // keep track of entered credentials
   state = {
     email: '',
     password: '',
     confirmPassword: ''
   };
 
+  // select next tab for registration navigation
   handleNext = (e) => {
     e.preventDefault();
     // check if password confimation is successful
@@ -25,9 +33,11 @@ class RegisterCredentials extends React.Component {
     }
   };
 
+  // render input fields for credentials
   render() {
     return (
       <Form action="/" onSubmit={this.handleNext}>
+        {/* email input field */}
         <FormGroup className="form-label-group">
           <Input
             autoFocus
@@ -39,6 +49,8 @@ class RegisterCredentials extends React.Component {
           />
           <Label>Email</Label>
         </FormGroup>
+
+        {/* password input field */}
         <FormGroup className="form-label-group">
           <Input
             type="password"
@@ -51,6 +63,8 @@ class RegisterCredentials extends React.Component {
           />
           <Label>Password</Label>
         </FormGroup>
+
+        {/* password confirmation field */}
         <FormGroup className="form-label-group">
           <Input
             type="password"
@@ -68,12 +82,16 @@ class RegisterCredentials extends React.Component {
           <Label>Confirm Password</Label>
           <FormFeedback>Password does not match</FormFeedback>
         </FormGroup>
+
+        {/* switch to log in page */}
         <div className="one-line">
           <p>Already signed up? </p>
           <p className="link" onClick={() => history.push('/login')}>
             Click here to log in!
           </p>
         </div>
+
+        {/* action buttons */}
         <div className="d-flex justify-content-between clear-both">
           <Button.Ripple
             color="primary"

@@ -1,8 +1,15 @@
+// ================================================================================================
+// 	File Name: ChangePassword.js
+// 	Description:
+//  This component represents a form for changing password and uses data validation with formik.
+// ================================================================================================
 import React from 'react';
 import axios from 'axios';
 import { Button, FormGroup, Row, Col, Alert } from 'reactstrap';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+
+// form schema to validate input data of passwords
 const formSchema = Yup.object().shape({
   oldpass: Yup.string()
     .required('Required')
@@ -16,11 +23,13 @@ const formSchema = Yup.object().shape({
 });
 
 class ChangePassword extends React.Component {
+  // state to keep track of feedback messages
   state = {
     type: '',
     message: null
   };
 
+  // send http request to server with changing password data
   onChangePassword(values, resetValues) {
     const id = this.props.user._id;
 
@@ -66,7 +75,11 @@ class ChangePassword extends React.Component {
               Fill in the form to change your password. Do not forget to safe
               the changes.
             </p>
+
+            {/* show feddback message from server */}
             {message ? <Alert color={type}>{message}</Alert> : null}
+
+            {/* use formik to show input feedback with validation schema */}
             <Formik
               initialValues={{
                 oldpass: '',
@@ -77,8 +90,10 @@ class ChangePassword extends React.Component {
               onSubmit={(values, functions) =>
                 this.onChangePassword(values, functions.resetForm)
               }>
+              {/* render form fields with input feedback*/}
               {({ errors, touched }) => (
                 <Form>
+                  {/* old password input field */}
                   <FormGroup>
                     <Field
                       name="oldpass"
@@ -93,6 +108,8 @@ class ChangePassword extends React.Component {
                       <div className="text-danger">{errors.oldpass}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* new password input field */}
                   <FormGroup>
                     <Field
                       name="newpass"
@@ -107,6 +124,8 @@ class ChangePassword extends React.Component {
                       <div className="text-danger">{errors.newpass}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* confirm password input field */}
                   <FormGroup>
                     <Field
                       name="confirmpass"
@@ -123,6 +142,8 @@ class ChangePassword extends React.Component {
                       <div className="text-danger">{errors.confirmpass}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* render buttons */}
                   <div className="d-flex justify-content-start flex-wrap">
                     <Button.Ripple
                       className="mr-1 mb-1"

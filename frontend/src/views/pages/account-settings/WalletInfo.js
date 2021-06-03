@@ -1,3 +1,8 @@
+// ================================================================================================
+// 	File Name: WalletInfo.js
+// 	Description:
+//  This components shows users wallet address with a copy button and users balance.
+// ================================================================================================
 import React from 'react';
 import {
   Card,
@@ -14,12 +19,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../../../assets/scss/plugins/extensions/toastr.scss';
 
 class WalletInfo extends React.Component {
+  // copies wallet address to clipboard on clicking button
   onCopy = () => {
     toast.success('Text Copied Successfully', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2000
     });
   };
+
+  // renders users wallet address with copy-button and balance
   render() {
     return (
       <React.Fragment>

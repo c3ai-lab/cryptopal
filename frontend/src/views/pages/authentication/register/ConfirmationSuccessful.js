@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: ConfirmationSuccessful.js
+// 	Description:
+//  This view shows a static successfull registration page with navigation button. The user will
+//  be redirected to this page after validation the email address.
+// ================================================================================================
 import React from 'react';
 import { Card, CardBody, Button, Row, Col } from 'reactstrap';
 import { history } from '../../../../history';

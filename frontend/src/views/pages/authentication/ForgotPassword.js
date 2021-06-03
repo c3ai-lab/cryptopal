@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: ForgotPassword.js
+// 	Description:
+//  This component shows a page to restore users password. Input fields are email and family name
+//  On action it sends a request to the server which sends an reset email.
+// ================================================================================================
 import React from 'react';
 import {
   Card,
@@ -19,12 +25,14 @@ import '../../../assets/scss/pages/authentication.scss';
 import Axios from 'axios';
 
 class ForgotPassword extends React.Component {
+  // keep track of inputs and server feedback
   state = {
     email: '',
     family_name: '',
     feedback: { type: 'success', message: null }
   };
 
+  // send request to the server and show response message
   onSubmit(e) {
     e.preventDefault();
     const { email, family_name } = this.state;
@@ -33,7 +41,6 @@ class ForgotPassword extends React.Component {
       family_name
     })
       .then((res) => {
-        console.log(res);
         this.setState({
           feedback: {
             type: 'success',
@@ -48,6 +55,7 @@ class ForgotPassword extends React.Component {
       });
   }
 
+  // render page with input fields
   render() {
     const { feedback } = this.state;
     return (
@@ -60,11 +68,14 @@ class ForgotPassword extends React.Component {
           className="d-flex justify-content-center">
           <Card className="bg-authentication rounded-0 mb-0 w-100">
             <Row className="m-0">
+              {/* render image */}
               <Col
                 lg="6"
                 className="d-lg-block d-none text-center align-self-center">
                 <img src={fgImg} alt="fgImg" />
               </Col>
+
+              {/* heading of card */}
               <Col lg="6" md="12" className="p-0">
                 <Card className="rounded-0 mb-0 px-2 py-1">
                   <CardHeader className="pb-1">
@@ -76,11 +87,14 @@ class ForgotPassword extends React.Component {
                     Please enter your email address and we'll send you
                     instructions on how to reset your password.
                   </p>
+
+                  {/* show feedback */}
                   <CardBody className="pt-1 pb-0">
                     {feedback.message ? (
                       <Alert color={feedback.type}>{feedback.message}</Alert>
                     ) : null}
                     <Form>
+                      {/* email input field */}
                       <FormGroup className="form-label-group">
                         <Input
                           type="text"
@@ -93,6 +107,8 @@ class ForgotPassword extends React.Component {
                         />
                         <Label>Email</Label>
                       </FormGroup>
+
+                      {/* family name input field */}
                       <FormGroup className="form-label-group">
                         <Input
                           type="text"
@@ -105,6 +121,8 @@ class ForgotPassword extends React.Component {
                         />
                         <Label>Family Name</Label>
                       </FormGroup>
+
+                      {/* action buttons */}
                       <div className="float-md-left d-block mb-1">
                         <Button.Ripple
                           color="primary"

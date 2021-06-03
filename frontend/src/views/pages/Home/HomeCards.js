@@ -19,9 +19,7 @@ class HomeCards extends React.Component {
               <img
                 src={item.img}
                 alt={item.title}
-                className={
-                  'mx-auto mb-2 home-img ' + (rows ? 'float-right' : '')
-                }
+                className="mx-auto mb-2 home-img "
                 width="180"
               />
               <div>

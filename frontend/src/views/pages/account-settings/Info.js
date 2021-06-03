@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: Info.js
+// 	Description:
+//  This components represents a form for changing user address information. Field for changing
+//  informations are street address, postal code, locality and country. This component uses
+//  formik to validate input data.
+// ================================================================================================
 import React from 'react';
 import { Button, FormGroup, Row, Col, Alert, Label } from 'reactstrap';
 import countries from 'countries-list';
@@ -9,6 +16,8 @@ import '../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss';
 
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+
+// form schema for validating input data
 const formSchema = Yup.object().shape({
   street_address: Yup.string().required('Required').max(255, 'Too long'),
   postal_code: Yup.string().required('Required').max(255, 'Too long'),
@@ -20,10 +29,12 @@ const formSchema = Yup.object().shape({
 });
 
 class InfoTab extends React.Component {
+  //keep track of server response state
   state = {
     feedback: { type: 'success', msg: null }
   };
 
+  // fetch all data from form and send a change request with redux action
   onChangesSubmit(values) {
     // send request to server
     const { website, phone, ...address } = values;
@@ -73,6 +84,7 @@ class InfoTab extends React.Component {
     }
   }
 
+  // renders all needed input fields for changing information data
   render() {
     // get current values and set as initial values
     const { address, phone, website } = this.props.user ? this.props.user : {};
@@ -100,11 +112,14 @@ class InfoTab extends React.Component {
               onSubmit={(values) => {
                 this.onChangesSubmit(values);
               }}>
+              {/* render form with all required fields */}
               {({ errors, touched }) => (
                 <Form>
                   {feedback.msg ? (
                     <Alert color={feedback.type}>{feedback.msg}</Alert>
                   ) : null}
+
+                  {/* street address input field */}
                   <FormGroup>
                     <Label for="street_address">Street Address</Label>
                     <Field
@@ -121,6 +136,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.streetAddress}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* postal code input field */}
                   <FormGroup>
                     <Label for="postal_code">Postal Code</Label>
                     <Field
@@ -135,6 +152,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.postalCode}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* locality input field */}
                   <FormGroup>
                     <Label for="Locality">Locality</Label>
                     <Field
@@ -149,6 +168,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.locality}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* region input field */}
                   <FormGroup>
                     <Label for="region">Region</Label>
                     <Field
@@ -163,6 +184,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.region}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* country input field */}
                   <FormGroup>
                     <Label for="country">Country</Label>
                     <Field
@@ -179,6 +202,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.country}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* phone input field */}
                   <FormGroup>
                     <Label for="phone">Phone</Label>
                     <Field
@@ -193,6 +218,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.phone}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* website input field */}
                   <FormGroup>
                     <Label for="website">Website</Label>
                     <Field
@@ -207,6 +234,8 @@ class InfoTab extends React.Component {
                       <div className="text-danger">{errors.website}</div>
                     ) : null}
                   </FormGroup>
+
+                  {/* submit button for sending request */}
                   <div className="d-flex justify-content-start flex-wrap">
                     <Button.Ripple
                       className="mr-1 mb-1"

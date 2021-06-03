@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: RegisterPersonalData.js
+// 	Description:
+//  This component shows input fields for the users personal data. Input fields are given name,
+//  last name, company, website, phone number and confirm terms of condition.
+// ================================================================================================
 import React from 'react';
 import {
   Form,
@@ -12,6 +18,7 @@ import { Check } from 'react-feather';
 import { history } from '../../../../history';
 
 class RegisterPersonalData extends React.Component {
+  // keep track of input data
   state = {
     given_name: '',
     family_name: '',
@@ -38,9 +45,11 @@ class RegisterPersonalData extends React.Component {
     }
   };
 
+  // show all input fields belonging to users personal data
   render() {
     return (
       <Form action="/" onSubmit={this.handleNext}>
+        {/* given name input field */}
         <FormGroup className="form-label-group">
           <Input
             autoFocus
@@ -52,6 +61,8 @@ class RegisterPersonalData extends React.Component {
           />
           <Label>Given name</Label>
         </FormGroup>
+
+        {/* last name input field */}
         <FormGroup className="form-label-group">
           <Input
             type="text"
@@ -62,6 +73,8 @@ class RegisterPersonalData extends React.Component {
           />
           <Label>Family Name</Label>
         </FormGroup>
+
+        {/* company input field */}
         <FormGroup className="form-label-group">
           <Input
             type="text"
@@ -71,6 +84,8 @@ class RegisterPersonalData extends React.Component {
           />
           <Label>Company</Label>
         </FormGroup>
+
+        {/* company website input field */}
         <FormGroup className="form-label-group">
           <Input
             type="text"
@@ -80,6 +95,8 @@ class RegisterPersonalData extends React.Component {
           />
           <Label>Company Website</Label>
         </FormGroup>
+
+        {/* phone number input field */}
         <FormGroup className="form-label-group">
           <Input
             type="number"
@@ -90,6 +107,8 @@ class RegisterPersonalData extends React.Component {
           />
           <Label>Phone</Label>
         </FormGroup>
+
+        {/* accept terms of licence input field */}
         <FormGroup>
           <Checkbox
             color="primary"
@@ -105,6 +124,8 @@ class RegisterPersonalData extends React.Component {
           />
           <FormFeedback>You need to confirm Terms</FormFeedback>
         </FormGroup>
+
+        {/* action buttons */}
         <div className="d-flex justify-content-between">
           <Button.Ripple
             color="primary"

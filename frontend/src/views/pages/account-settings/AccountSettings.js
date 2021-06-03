@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: account-settings.js
+// 	Description:
+//  This view renders a container with navigation bar for the different settings components like
+//  user info, wallet info or changing password.
+// ================================================================================================
 import React from 'react';
 import {
   TabContent,
@@ -21,22 +27,25 @@ import ChangeRoleComp from './ChangeRoleComp';
 import WalletInfo from './WalletInfo';
 
 class AccountSettings extends React.Component {
+  // keep track of the current width and selected tab
   state = {
     activeTab: '1',
-    windowWidth: null,
-    test: ''
+    windowWidth: null
   };
 
+  // toggle diffrent sections of settings
   toggle = (tab) => {
     this.setState({
       activeTab: tab
     });
   };
 
+  // automatically update window width
   updateWidth = () => {
     this.setState({ windowWidth: window.innerWidth });
   };
 
+  // adjust current with on mount
   componentDidMount() {
     if (window !== undefined) {
       this.updateWidth();
@@ -44,6 +53,7 @@ class AccountSettings extends React.Component {
     }
   }
 
+  // conditionally render content component of selected tab and navbar
   render() {
     let { windowWidth } = this.state;
     return (
@@ -56,7 +66,9 @@ class AccountSettings extends React.Component {
           className={`${
             windowWidth >= 769 ? 'nav-vertical' : 'account-setting-wrapper'
           }`}>
+          {/* render navigation section of settings */}
           <Nav className="account-settings-tab nav-left mr-0 mr-sm-3" tabs>
+            {/* nav link for general settings */}
             <NavItem>
               <NavLink
                 className={classnames({
@@ -71,6 +83,8 @@ class AccountSettings extends React.Component {
                 </span>
               </NavLink>
             </NavItem>
+
+            {/* nav link for user info settings */}
             <NavItem>
               <NavLink
                 className={classnames({
@@ -85,6 +99,8 @@ class AccountSettings extends React.Component {
                 </span>
               </NavLink>
             </NavItem>
+
+            {/* nav link for change password settings */}
             <NavItem>
               <NavLink
                 className={classnames({
@@ -99,6 +115,8 @@ class AccountSettings extends React.Component {
                 </span>
               </NavLink>
             </NavItem>
+
+            {/* nav link for change role settings */}
             <NavItem>
               <NavLink
                 className={classnames({
@@ -113,6 +131,8 @@ class AccountSettings extends React.Component {
                 </span>
               </NavLink>
             </NavItem>
+
+            {/* nav link for wallet info settings */}
             <NavItem>
               <NavLink
                 className={classnames({
@@ -128,6 +148,8 @@ class AccountSettings extends React.Component {
               </NavLink>
             </NavItem>
           </Nav>
+
+          {/* conditionally render content components */}
           <Card>
             <CardBody>
               <TabContent activeTab={this.state.activeTab}>
@@ -158,6 +180,7 @@ class AccountSettings extends React.Component {
   }
 }
 
+// get data from redux
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   wallet: state.wallet

@@ -1,3 +1,8 @@
+// ================================================================================================
+// 	File Name: data-list.scss
+// 	Description: SCSS file for the layout of products page for merchants
+// ================================================================================================
+
 // Core variables and mixin
 @import "~bootstrap/scss/_functions.scss";
 @import "~bootstrap/scss/mixins";
@@ -90,8 +95,6 @@
         &:hover {
           transform: translateY(-4px);
         }
-        // .rdt_TableCell {
-        // }
       }
     }
     & ~ .rdt_Pagination {

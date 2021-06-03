@@ -1,3 +1,8 @@
+// ================================================================================================
+// 	File Name: Login.js
+// 	Description:
+//  This view shows a simple login form with feedback and sends a request with redux actions.
+// ================================================================================================
 import React from 'react';
 import {
   Button,
@@ -22,14 +27,15 @@ import { login } from '../../../../redux/actions/auth/authActions';
 import { clearErrors } from '../../../../redux/actions/errors/errorActions';
 
 class Login extends React.Component {
+  // keep track of entered credentials
   state = {
-    email: '',
-    password: '',
+    email: 'lars.ra@web.de',
+    password: 'lololo',
     msg: null
   };
 
+  // send login request with redux actions
   onLogin(e) {
-    // send request to server
     e.preventDefault();
 
     const { email, password } = this.state;
@@ -50,6 +56,7 @@ class Login extends React.Component {
     }
   }
 
+  // render login page with input fields for email and password
   render() {
     const { msg } = this.state;
     return (
@@ -72,8 +79,12 @@ class Login extends React.Component {
                   <CardBody>
                     <h4>Login</h4>
                     <p>Welcome back, please login to your account.</p>
+                    {/* show server feddback on error */}
                     {msg ? <Alert color="danger">{msg}</Alert> : null}
+
+                    {/* render form with input fields */}
                     <Form onSubmit={(e) => this.onLogin(e)}>
+                      {/* email input field */}
                       <FormGroup className="form-label-group position-relative has-icon-left">
                         <Input
                           type="email"
@@ -89,6 +100,8 @@ class Login extends React.Component {
                         </div>
                         <Label>Email</Label>
                       </FormGroup>
+
+                      {/* password input field */}
                       <FormGroup className="form-label-group position-relative has-icon-left">
                         <Input
                           type="password"
@@ -105,6 +118,8 @@ class Login extends React.Component {
                         </div>
                         <Label>Password</Label>
                       </FormGroup>
+
+                      {/* forgot password link */}
                       <FormGroup className="d-flex justify-content-between align-items-center">
                         <div />
                         <div className="float-right">
@@ -115,6 +130,8 @@ class Login extends React.Component {
                           </p>
                         </div>
                       </FormGroup>
+
+                      {/* buttons to log in or switch to register page */}
                       <div className="d-flex justify-content-between">
                         <Button.Ripple
                           color="primary"
@@ -137,6 +154,8 @@ class Login extends React.Component {
     );
   }
 }
+
+// connect with redux state
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error

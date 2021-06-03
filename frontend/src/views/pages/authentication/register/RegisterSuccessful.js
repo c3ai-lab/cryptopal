@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: RegisterSuccessfull.js
+// 	Description:
+//  This component shows a static page which shows text for successfull registration. The only
+//  action for users is to resend the confirmation email. After a user sends a registration
+//  request this component shows up and the user needs to confirm his email.
+// ================================================================================================
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -5,9 +12,13 @@ import { Card, CardBody, Button, Row, Col } from 'reactstrap';
 import registerImage from '../../../../assets/img/pages/graphic-2.png';
 
 class RegisterSuccessful extends React.Component {
+  // variable to disable resend spamming
   state = {
     disabled: false
   };
+
+  // resend confirmation email on button click
+  // is limited to one request every 2 minutes
   resendConfirmation() {
     axios.get(
       `${process.env.REACT_APP_SERVER_API}/auth/resend-confirmation/${this.props.user.email}`
@@ -15,6 +26,8 @@ class RegisterSuccessful extends React.Component {
     this.setState({ disabled: true });
     setTimeout(() => this.setState({ disabled: false }), 2 * 60 * 1000);
   }
+
+  // renders static page for successful registration with resend button
   render() {
     return (
       <Row className="m-0">
@@ -51,6 +64,7 @@ class RegisterSuccessful extends React.Component {
   }
 }
 
+// get user from redux state
 const mapStateToProps = (state) => ({
   user: state.auth.user
 });

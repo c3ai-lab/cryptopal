@@ -1,3 +1,8 @@
+// ================================================================================================
+// 	File Name: dashboard.scss
+// 	Description: SCSS file for the layout of the main user dashboard
+// ================================================================================================
+
 // Core variables and mixins
 @import '~bootstrap/scss/_functions.scss';
 @import '~bootstrap/scss/mixins';
@@ -10,7 +15,7 @@
 // Overrides user variable
 @import '../core/variables/components-variables';
 
-// dashboard-geeting
+// dashboard-geeting (first card)
 .greeting-card {
   cursor: pointer;
   // backgound color to card
@@ -26,7 +31,7 @@
   }
 }
 
-// dashboard-send
+// card to send payment
 .send-card {
   .avatar {
     margin-bottom: 2rem;
@@ -46,7 +51,7 @@
   }
 }
 
-// dashboard-details
+// card for showing details like balance and name
 .details-card {
   padding: 20px;
   .balance {
@@ -58,12 +63,14 @@
   }
 }
 
-// dashboard-transactions
+// card with a list of recent transactions
 .dash-transaction-card {
   display: flex;
   width: 100%;
   border-bottom: solid 1px lightgray;
   cursor: pointer;
+
+  // icon on the left
   .dash-transaction-icon {
     margin-top: 10px;
     margin-right: 20px;
@@ -88,6 +95,8 @@
     }
   }
 }
+
+// button to show all transactions
 .dash-tansacton-button {
   width: 100%;
   height: 5px;
@@ -96,7 +105,4 @@
 
 .modal-dialog-centered {
   overflow-wrap: break-word;
-}
-
-@media only screen and (max-width: 600px) {
 }

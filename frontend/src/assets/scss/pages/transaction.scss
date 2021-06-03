@@ -1,11 +1,6 @@
 // ================================================================================================
-//  File Name: transaction.scss
-//  Description: transaction Layout page layouts SCSS.
-//  ----------------------------------------------------------------------------------------------
-//  Item Name: Vuexy React Admin Template
-//  Version: 1.0
-//  Author: PIXINVENT
-//  Author URL: http://www.themeforest.net/user/pixinvent
+// 	File Name: transaction.scss
+// 	Description: SCSS file for the layout of a single transaction
 // ================================================================================================
 
 // Core variables and mixins
@@ -20,6 +15,7 @@
 // Overrides user variable
 @import '../core/variables/components-variables';
 
+// page wrapper
 .transaction-page {
   padding: 2.2rem;
 

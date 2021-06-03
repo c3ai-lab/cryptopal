@@ -1,5 +1,9 @@
-/*** Account Settings ***/
+// ===============================================================================================
+//  File Name: account-settings.scss
+//  Description: SCSS Layout for account settings page
+// ================================================================================================
 
+// positioning account settings section
 .account-settings-tab {
   box-shadow: none;
   .nav-item {
@@ -30,12 +34,14 @@
   }
 }
 
+// layout for wallet info view
 .wallet-info-address {
   display: flex;
   align-items: flex-end;
   margin-bottom: 20px;
 }
 
+// fix field length for wallet address
 #address {
   width: 350px;
   margin-right: 10px;
@@ -46,6 +52,7 @@
 }
 
 @media (max-width: 576px) {
+  // switch navbar for small devices
   .account-settings-tab {
     .nav-item {
       .nav-link.active {
@@ -54,5 +61,17 @@
         }
       }
     }
+  }
+
+  // switch view of address for small devices
+  .wallet-info-address {
+    display: block;
+  }
+
+  #address {
+    margin-left: -25px;
+    margin-bottom: 15px;
+    width: 280px;
+    font-size: 80%;
   }
 }
