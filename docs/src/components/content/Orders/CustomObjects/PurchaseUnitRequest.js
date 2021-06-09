@@ -10,7 +10,7 @@ class PurchaseUnitRequest extends React.Component {
             <Parameter 
             name="reference_id" 
             type="string" 
-            description="The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through PATCH. If you omit this value and the order contains only one purchase unit, PayPal sets this value to default."
+            description="The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through PATCH. If you omit this value and the order contains only one purchase unit, CryptoPal sets this value to default."
             maxLength="256"/>
 
             <hr></hr>
@@ -19,7 +19,7 @@ class PurchaseUnitRequest extends React.Component {
             type={<a href="#amount_with_breakdown">object</a>} 
             description="The total order amount with an optional breakdown that provides details, such as the total item amount, total tax amount, shipping, handling, insurance, and discounts, if any.
             If you specify amount.breakdown, the amount equals item_total plus tax_total plus shipping plus handling plus insurance minus shipping_discount minus discount.
-            The amount must be a positive number. For listed of supported currencies and decimal precision, see the PayPal REST APIs Currency Codes." 
+            The amount must be a positive number. For listed of supported currencies and decimal precision, see the CryptoPal REST APIs Currency Codes." 
             required/> 
 
             <hr></hr>
@@ -32,7 +32,7 @@ class PurchaseUnitRequest extends React.Component {
             <Parameter 
             name="payment_instruction" 
             type={<a href="#payment_instruction">object</a>} 
-            description="Any additional payment instructions for PayPal Commerce Platform customers. Enables features for the PayPal Commerce Platform, such as delayed disbursement and collection of a platform fee. Applies during order creation for captured payments or during capture of authorized payments." /> 
+            description="Any additional payment instructions for CryptoPal Commerce Platform customers. Enables features for the CryptoPal Commerce Platform, such as delayed disbursement and collection of a platform fee. Applies during order creation for captured payments or during capture of authorized payments." /> 
             
             <hr></hr>
             <Parameter 

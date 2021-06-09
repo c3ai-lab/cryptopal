@@ -18,7 +18,7 @@ class ShowDetailsResponse extends React.Component {
         <Box>
             <Parameter 
             name="amount" 
-            type="object" 
+            type= {<a href="/payments/custom-objects#money" target="_blank">object</a>}  
             description={amountDescription}/>    
 
             <hr></hr>

@@ -58,7 +58,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="status_details" 
-            type="object" 
+            type={<a href="/payments/custom-objects#authorization_status_details" target="_blank">object</a>}  
             description="The details of the authorized order pending status." 
             readonly/>    
 
@@ -72,7 +72,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="amount" 
-            type="object" 
+            type={<a href="/payments/custom-objects#money" target="_blank">object</a>}  
             description="The amount for this authorized payment." 
             readonly/>    
 
@@ -103,7 +103,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="links" 
-            type="array (contains the link_description object)" 
+            type={<p>array (contains the <a href="/payments/custom-objects#link" target="_blank">link</a> object)</p>}
             description='An array of related HATEOAS links.'
             readonly />   
 

@@ -34,7 +34,7 @@ class Payer extends React.Component {
             <Parameter 
             name="phone" 
             type={<a href="#phone">object</a>} 
-            description="The phone number of the customer. Available only when you enable the Contact Telephone Number option in the Profile & Settings for the merchant's PayPal account. The phone.phone_number supports only national_number."/>
+            description="The phone number of the customer. Available only when you enable the Contact Telephone Number option in the Profile & Settings for the merchant's CryptoPal account. The phone.phone_number supports only national_number."/>
 
             <hr></hr>
             <Parameter 

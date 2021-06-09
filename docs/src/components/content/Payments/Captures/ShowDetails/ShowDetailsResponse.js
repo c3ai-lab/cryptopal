@@ -14,7 +14,7 @@ class ShowDetailsResponse extends React.Component {
                 <ul>
                     <li>
                         <span className="highlight-code">COMPLETED</span>. 
-                        The funds for this captured payment were credited to the payee's PayPal account.
+                        The funds for this captured payment were credited to the payee's CryptoPal account.
                     </li>
                     <li>
                         <span className="highlight-code">DECLINED</span>.  
@@ -26,7 +26,7 @@ class ShowDetailsResponse extends React.Component {
                     </li>
                     <li>
                         <span className="highlight-code">PENDING</span>. 
-                        The funds for this captured payment was not yet credited to the payee's PayPal account. For more information, see status.details.
+                        The funds for this captured payment was not yet credited to the payee's CryptoPal account. For more information, see status.details.
                     </li>
                     <li>
                         <span className="highlight-code">REFUNDED</span>. 
@@ -76,7 +76,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="status_details" 
-            type="object" 
+            type={<a href="/payments/custom-objects#capture_status_details" target="_blank">object</a>}  
             description="The details of the captured payment status." 
             readonly/>    
 
@@ -90,7 +90,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="amount" 
-            type="object" 
+            type={<a href="/payments/custom-objects#money" target="_blank">object</a>}  
             description="The amount for this captured payment." 
             readonly/>    
 
@@ -111,7 +111,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="seller_protection" 
-            type="object" 
+            type={<a href="/payments/custom-objects#seller_protection" target="_blank">object</a>}  
             description="The level of protection offered as defined by CryptoPal Seller Protection for Merchants." 
             readonly/>
 
@@ -124,7 +124,7 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="seller_receivable_breakdown" 
-            type="object" 
+            type={<a href="/payments/custom-objects#seller_receivable_breakdown" target="_blank">object</a>}  
             description="The detailed breakdown of the capture activity."
             readonly/>
 
@@ -137,21 +137,9 @@ class ShowDetailsResponse extends React.Component {
             <hr></hr>
             <Parameter 
             name="links" 
-            type="array (contains the link_description object)" 
+            type={<p>array (contains the <a href="/payments/custom-objects#link" target="_blank">link</a> object)</p>}
             description='An array of related HATEOAS links.'
             readonly />
-
-            <hr></hr>
-            <Parameter 
-            name="processor_response" 
-            type="object" 
-            description='An object that provides additional processor information for a direct credit card transaction.' /> 
-
-            <hr></hr>
-            <Parameter 
-            name="supplementary_data" 
-            type="" 
-            description='An object that provides supplementary/additional data for a payment transaction that might be sent to the processor if a credit card is involved. This object is designed to pass information that depending on the type of data passed and use case can lead to an improvement in conversion rates, manage risk and ensure compliance. Currently this object allows the API caller to specify airline_itineraries if the transaction includes an airline ticket purchase.' />   
 
             <hr></hr>
             <Parameter 

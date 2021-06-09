@@ -47,7 +47,7 @@ class CreateOrderResponse extends React.Component {
                     </li>
                     <li>
                         <span className="highlight-code">APPROVED</span>. 
-                        The customer approved the payment through the PayPal wallet or another form of guest 
+                        The customer approved the payment through the CryptoPal wallet or another form of guest 
                         or unbranded payment. For example, a card, bank account, or so on.
                     </li>
                     <li>
@@ -133,7 +133,7 @@ class CreateOrderResponse extends React.Component {
             <Parameter 
             name="links" 
             type="array (contains the link_description object)" 
-            description='An array of request-related HATEOAS links. To complete payer approval, use the approve link to redirect the payer. The API caller has 3 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 3 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include application_context.return_url is specified or you will get "We are sorry, Things donnot appear to be working at the moment" after the payer approves the payment.'
+            description='An array of request-related HATEOAS links. To complete payer approval, use the approve link to redirect the payer. The API caller has 3 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 3 hours for the payer to approve the order and either authorize or capture the order. If you are not using the CryptoPal JavaScript SDK to initiate CryptoPal Checkout (in context) ensure that you include application_context.return_url is specified or you will get "We are sorry, Things donnot appear to be working at the moment" after the payer approves the payment.'
             readonly />   
         </Box>
         );

@@ -32,7 +32,7 @@ class CapturePaymentRequest extends React.Component {
             <hr></hr>
             <Parameter 
             name="amount" 
-            type="object" 
+            type={<a href="/payments/custom-objects#money" target="_blank">object</a>}  
             description="The amount to capture. To capture a portion of the full authorized amount, specify an amount. If amount is not specified, the full authorized amount is captured. The amount must be a positive number and in the same currency as the authorization against which the payment is being captured." />
 
             <hr></hr>
@@ -44,8 +44,8 @@ class CapturePaymentRequest extends React.Component {
             <hr></hr>
             <Parameter 
             name="payment_instructions" 
-            type="object" 
-            description="Any additional payment instructions for PayPal Commerce Platform customers. Enables features for the PayPal Commerce Platform, such as delayed disbursement and collection of a platform fee. Applies during order creation for captured payments or during capture of authorized payments." />    
+            type={<a href="/payments/custom-objects#payment_instruction" target="_blank">object</a>}  
+            description="Any additional payment instructions for CryptoPal Commerce Platform customers. Enables features for the CryptoPal Commerce Platform, such as delayed disbursement and collection of a platform fee. Applies during order creation for captured payments or during capture of authorized payments." />    
 
             <hr></hr>
             <Parameter 

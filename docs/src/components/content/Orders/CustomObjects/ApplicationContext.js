@@ -17,7 +17,7 @@ class ApplicationContext extends React.Component {
             <Parameter 
             name="locale" 
             type="string" 
-            description="The BCP 47-formatted locale of pages that the PayPal payment experience shows. PayPal supports a five-character code. For example, da-DK, he-IL, id-ID, ja-JP, no-NO, pt-BR, ru-RU, sv-SE, th-TH, zh-CN, zh-HK, or zh-TW."
+            description="The BCP 47-formatted locale of pages that the CryptoPal payment experience shows. CryptoPal supports a five-character code. For example, da-DK, he-IL, id-ID, ja-JP, no-NO, pt-BR, ru-RU, sv-SE, th-TH, zh-CN, zh-HK, or zh-TW."
             minLength="2"
             maxLength="10"
             pattern="^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$" />
@@ -29,24 +29,24 @@ class ApplicationContext extends React.Component {
             required
             description={
                 <div>
-                    The type of landing page to show on the PayPal site for customer checkout.
+                    The type of landing page to show on the CryptoPal site for customer checkout.
                     <br></br><br></br>
                     The possible values are:
                     <ul>
                         <li>
                             <span className="highlight-code">LOGIN</span>. When the customer clicks 
-                            CryptoPal Checkout, the customer is redirected to a page to log in to PayPal and approve the payment.
+                            CryptoPal Checkout, the customer is redirected to a page to log in to CryptoPal and approve the payment.
                         </li>
                         <li>
-                            <span className="highlight-code">BILLING</span>. When the customer clicks PayPal Checkout, the customer 
+                            <span className="highlight-code">BILLING</span>. When the customer clicks CryptoPal Checkout, the customer 
                             is redirected to a page to enter credit or debit card and other relevant billing information required to 
                             complete the purchase.
                         </li>
                         <li>
-                            <span className="highlight-code">NO_PREFERENCE</span>. When the customer clicks PayPal Checkout, 
-                            the customer is redirected to either a page to log in to PayPal and approve the payment or to a page to 
+                            <span className="highlight-code">NO_PREFERENCE</span>. When the customer clicks CryptoPal Checkout, 
+                            the customer is redirected to either a page to log in to CryptoPal and approve the payment or to a page to 
                             enter credit or debit card and other relevant billing information required to complete the purchase, 
-                            depending on their previous interaction with PayPal.
+                            depending on their previous interaction with CryptoPal.
                         </li>
                     </ul>
                 </div>
@@ -61,7 +61,7 @@ class ApplicationContext extends React.Component {
                     The shipping preference:
                     <ul>
                         <li>Displays the shipping address to the customer.</li>
-                        <li>Enables the customer to choose an address on the PayPal site.</li>
+                        <li>Enables the customer to choose an address on the CryptoPal site.</li>
                         <li>Restricts the customer from changing the address during the payment-approval process.</li>
                     </ul>
                     <br></br><br></br>
@@ -69,15 +69,15 @@ class ApplicationContext extends React.Component {
                     <ul>
                         <li>
                             <span className="highlight-code">GET_FROM_FILE</span>. Use the customer-provided shipping address 
-                            on the PayPal site.
+                            on the CryptoPal site.
                         </li>
                         <li>
-                            <span className="highlight-code">NO_SHIPPING</span>.Redact the shipping address from the PayPal site. 
+                            <span className="highlight-code">NO_SHIPPING</span>.Redact the shipping address from the CryptoPal site. 
                             Recommended for digital goods.
                         </li>
                         <li>
                             <span className="highlight-code">SET_PROVIDED_ADDRESS</span>. Use the merchant-provided address. 
-                            The customer cannot change this address on the PayPal site.
+                            The customer cannot change this address on the CryptoPal site.
                         </li>
                     </ul>
                 </div>
@@ -94,13 +94,13 @@ class ApplicationContext extends React.Component {
                     The possible values are:
                     <ul>
                         <li>
-                            <span className="highlight-code">CONTINUE</span>.  After you redirect the customer to the PayPal 
+                            <span className="highlight-code">CONTINUE</span>.  After you redirect the customer to the CryptoPal 
                             payment page, a Continue button appears. Use this option when the final amount is not known when 
                             the checkout flow is initiated and you want to redirect the customer to the merchant page without 
                             processing the payment.
                         </li>
                         <li>
-                            <span className="highlight-code">PAY_NOW</span>.After you redirect the customer to the PayPal 
+                            <span className="highlight-code">PAY_NOW</span>.After you redirect the customer to the CryptoPal 
                             payment page, a Pay Now button appears. Use this option when the final amount is known when the 
                             checkout is initiated and you want to process the payment immediately when the customer clicks Pay Now.
                         </li>

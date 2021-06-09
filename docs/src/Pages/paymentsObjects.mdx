@@ -1,0 +1,69 @@
+---
+name: Custom Objects
+route: /payments/custom-objects
+menu: Payments
+---
+
+import Money from "../components/content/Orders/CustomObjects/Money.js";
+import PaymentInstruction from "../components/content/Orders/CustomObjects/PaymentInstruction.js";
+import PlatformFee from "../components/content/Orders/CustomObjects/PlatformFee.js";
+import Payee from "../components/content/Orders/CustomObjects/Payee.js";
+
+import Link from "../components/content/Payments/CustomObjects/Link.js";
+import AuthorizationStatus from "../components/content/Payments/CustomObjects/AuthorizationStatus.js";
+import SellerProtection from "../components/content/Payments/CustomObjects/SellerProtection.js";
+import DisputeCategory from "../components/content/Payments/CustomObjects/DisputeCategory.js";
+import CaptureStatus from "../components/content/Payments/CustomObjects/CaptureStatus.js";
+import SellerBreakdown from "../components/content/Payments/CustomObjects/SellerBreakdown.js";
+import SellerPBreakdown from "../components/content/Payments/CustomObjects/SellerPBreakdown.js";
+import RefundStatus from "../components/content/Payments/CustomObjects/RefundStatus.js";
+
+<h2>Custom Objects</h2>
+
+## money
+
+<Money />
+
+## link
+
+<Link />
+
+## authorization_status_details
+
+<AuthorizationStatus />
+
+## seller_protection
+
+<SellerProtection />
+
+## dispute_category
+
+<DisputeCategory />
+
+## payment_instruction
+
+<PaymentInstruction />
+
+## platform_fee
+
+<PlatformFee />
+
+## payee
+
+<Payee />
+
+## capture_status_details
+
+<CaptureStatus />
+
+## seller_receivable_breakdown
+
+<SellerBreakdown />
+
+## seller_payable_breakdown
+
+<SellerPBreakdown />
+
+## refund_status_details
+
+<RefundStatus />
