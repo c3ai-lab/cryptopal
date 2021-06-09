@@ -1,0 +1,76 @@
+---
+name: Refunds
+route: /payments/refunds
+menu: Payments
+---
+
+import Route from "../components/layout/Route/Route.js";
+import RequestHeader from "../components/content/RequestHeader/RequestHeader.js";
+import ShowDetailsPath from "../components/content/Payments/Refunds/ShowDetails/ShowDetailsPath.js";
+import RefundPaymentResponse from "../components/content/Payments/Captures/RefundPayment/RefundPaymentResponse.js";
+
+# Payments API
+
+Call the Payments API to authorize payments, capture authorized payments, refund payments that have already been captured, and show payment information. Use the Payments API in conjunction with the Orders API.
+
+<h2>Refunds</h2>
+
+Use the /refunds resource to show refund details.
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "-------------------------------SHOW DETAILS--------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Show refund details
+
+<Route method="GET" path="/payments/refunds/{refund_id}" />
+
+Shows details for a refund, by ID.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<ShowDetailsPath />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 200 OK</span> status code and a JSON response
+  body that shows refund details.
+</div>
+<RefundPaymentResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "------------------------REFUND CAPTURED PAYMENT-------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Refund captured payment
+
+<Route method="POST" path="/payments/captures/{capture_id}/refund" />
+
+Refunds a captured payment, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an amount object in the JSON request body.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<ShowDetailsPath />
+
+### Request body
+
+<RefundPaymentRequest />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 201 Created</span> status code and a JSON
+  response body that shows refund details.
+</div>
+<RefundPaymentResponse />
