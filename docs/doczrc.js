@@ -9,5 +9,6 @@ export default {
       { name: 'Catalog Products', menu: ['Products'] },
       { name: 'Identity', menu: ['Userinfo'] },
       { name: 'Orders', menu: ['Orders', 'Custom Objects'] },
+      { name: 'Payments', menu: ['Authorizations', 'Captures', 'Custom Objects'] },
     ]
   }

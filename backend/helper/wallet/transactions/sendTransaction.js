@@ -46,7 +46,7 @@ exports.sendTransaction = async (
       console.log(err.message);
       error = err;
     } else {
-      console.log('ST: send successfull');
+      console.log('ST: send TX successfull');
       console.log(hash);
       txHash = hash;
     }

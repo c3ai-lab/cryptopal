@@ -1,0 +1,107 @@
+---
+name: Authorizations
+route: /payments/authorizations
+menu: Payments
+---
+
+import Route from "../components/layout/Route/Route.js";
+import RequestHeader from "../components/content/RequestHeader/RequestHeader.js";
+import ShowDetailsPath from "../components/content/Payments/Authorizations/ShowDetails/ShowDetailsPath.js";
+import ShowDetailsResponse from "../components/content/Payments/Authorizations/ShowDetails/ShowDetailsResponse.js";
+import CapturePaymentRequest from "../components/content/Payments/Authorizations/CapturePayment/CapturePaymentRequest.js";
+import CapturePaymentResponse from "../components/content/Payments/Authorizations/CapturePayment/CapturePaymentResponse.js";
+
+# Payments API
+
+Call the Payments API to authorize payments, capture authorized payments, refund payments that have already been captured, and show payment information. Use the Payments API in conjunction with the Orders API.
+
+<h2>Authorizations</h2>
+
+Use the /authorizations resource to show details for, capture payment for, reauthorize, and void authorized payments.
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "-------------------------------SHOW DETAILS--------------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Show details for authorized payment
+
+<Route method="POST" path="payments/authorizations/{authorization_id}" />
+
+Shows details for an authorized payment, by ID.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<ShowDetailsPath />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 200 OK</span> status code and a JSON response
+  body that shows authorization details.
+</div>
+<ShowDetailsResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "------------------------CAPTURE AUTHORIZED PAYMENT-------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Capture authorized payment
+
+<Route
+  method="POST"
+  path="/payments/authorizations/{authorization_id}/capture"
+/>
+
+Captures an authorized payment, by ID.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<ShowDetailsPath />
+
+### Request body
+
+<CapturePaymentRequest />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 201 Created</span> status code and a JSON
+  response body that shows captured payment details.
+</div>
+<CapturePaymentResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "--------------------------VOID AUTHORIZED PAYMENT--------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Void authorized payment
+
+<Route method="GET" path="payments/authorizations/{authorization_id}/void" />
+
+Voids, or cancels, an authorized payment, by ID. You cannot void an authorized payment that has been fully captured.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<ShowDetailsPath />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 204 No Content</span> status code with no
+  JSON response body.
+</div>
