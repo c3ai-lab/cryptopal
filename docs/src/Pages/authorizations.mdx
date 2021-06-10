@@ -86,7 +86,7 @@ Captures an authorized payment, by ID.
 
 ## Void authorized payment
 
-<Route method="GET" path="payments/authorizations/{authorization_id}/void" />
+<Route method="POST" path="payments/authorizations/{authorization_id}/void" />
 
 Voids, or cancels, an authorized payment, by ID. You cannot void an authorized payment that has been fully captured.
 

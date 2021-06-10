@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const money = require('../GeneralModels/Money');
-const paymentInstructions = require('../GeneralModels/PaymentInstructions');
+const {
+  paymentInstructions,
+  platformFee,
+} = require('../GeneralModels/PaymentInstructions');
 
 const statusDetails = new mongoose.Schema(
   {
@@ -30,6 +33,18 @@ const sellerProtection = new mongoose.Schema(
   { _id: false, strict: 'throw' }
 );
 
+const sellerReceivableBreakdown = new mongoose.Schema(
+  {
+    gross_amount: money,
+    cryptopal_fee: money,
+    net_amount: money,
+    receivable_amount: money,
+    exchange_rate: money,
+    platform_fees: [platformFee],
+  },
+  { _id: false, strict: 'throw' }
+);
+
 const paymentSchema = new mongoose.Schema({
   status: {
     type: String,
@@ -51,11 +66,23 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     minLength: 1,
   },
+  order_id: {
+    type: String,
+    minLength: 1,
+  },
   custom_id: {
     type: String,
     max: 127,
   },
+  final_capture: {
+    type: Boolean,
+  },
   seller_protection: sellerProtection,
+  disbursement_mode: {
+    type: String,
+    enum: ['INSTANT', 'DELAYED'],
+  },
+  seller_receivable_breakdown: sellerReceivableBreakdown,
   expiration_time: {
     type: String,
     minLength: 20,
@@ -79,6 +106,9 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     minLength: 20,
     max: 64,
+  },
+  transaction_hash: {
+    type: String,
   },
   links: [
     {

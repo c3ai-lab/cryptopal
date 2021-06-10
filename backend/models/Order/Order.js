@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const money = require('../GeneralModels/Money');
 const payeeBase = require('../GeneralModels/BasePayee');
-const paymentInstructions = require('../GeneralModels/PaymentInstructions');
+const { paymentInstructions } = require('../GeneralModels/PaymentInstructions');
 
 // Payee subschemas-----------------------------------------------
 const address = new mongoose.Schema(
@@ -39,11 +39,9 @@ const taxInfo = new mongoose.Schema(
     tax_id: {
       type: String,
       max: 14,
-      required: true,
     },
     tax_id_type: {
       type: String,
-      required: true,
       enum: ['BR_CPF', 'BR_CNPJ'],
     },
   },

@@ -106,3 +106,57 @@ Shows details for an order, by ID.
   response body that shows product details.
 </div>
 <CreateOrderResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "-----------------------AUTHORIZE PAYMENT FOR ORDER-------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Authorize payment for order
+
+<Route method="POST" path="/orders/{id}/authorize" />
+
+Authorizes payment for an order. To successfully authorize payment for an order, the buyer must first approve the order.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateOrderPath />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 201 Created</span> status code and a JSON
+  response body that shows authorized payment details.
+</div>
+<CreateOrderResponse />
+
+[//]: # "---------------------------------------------------------------------------"
+[//]: # "------------------------CAPTURE PAYMENT FOR ORDER--------------------------"
+[//]: # "---------------------------------------------------------------------------"
+
+## Capture payment for order
+
+<Route method="POST" path="/orders/{id}/capture" />
+
+Captures payment for an order. To successfully capture payment for an order, the buyer must first approve the order.
+
+### Header parameters
+
+<RequestHeader />
+
+### Path parameters
+
+<UpdateOrderPath />
+
+### Response
+
+<div>
+  A successful request returns the
+  <span className="highlight-code">HTTP 201 Created</span> status code and a JSON
+  response body that shows captured payment details.
+</div>
+<CreateOrderResponse />

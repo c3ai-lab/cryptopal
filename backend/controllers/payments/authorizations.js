@@ -1,12 +1,16 @@
-const Payment = require('../../models/Payments/payment');
+const Payment = require('../../models/Payment/Payment');
 
 /** **********************CAPTURE PAYMENT HANDLER*********************** */
 exports.capturePayment = async (req, res) => {
   const requestedPayment = await Payment.findById(req.params.id);
   const updateTime = new Date().toISOString();
 
-  if (requestedPayment.final_capture) {
-    return res.status(400).send('Payment already captured!');
+  if (requestedPayment.status !== 'CREATED') {
+    return res
+      .status(400)
+      .send(
+        `Cannot capture payment. Payment status: ${requestedPayment.status}`
+      );
   }
 
   // ################### send transaction ###############

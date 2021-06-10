@@ -18,4 +18,4 @@ const paymentInstructions = new mongoose.Schema(
   { _id: false, strict: 'throw' }
 );
 
-module.exports = paymentInstructions;
+module.exports = { paymentInstructions, platformFee };

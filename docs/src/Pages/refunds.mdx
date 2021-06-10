@@ -43,34 +43,3 @@ Shows details for a refund, by ID.
   body that shows refund details.
 </div>
 <RefundPaymentResponse />
-
-[//]: # "---------------------------------------------------------------------------"
-[//]: # "------------------------REFUND CAPTURED PAYMENT-------------------------"
-[//]: # "---------------------------------------------------------------------------"
-
-## Refund captured payment
-
-<Route method="POST" path="/payments/captures/{capture_id}/refund" />
-
-Refunds a captured payment, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an amount object in the JSON request body.
-
-### Header parameters
-
-<RequestHeader />
-
-### Path parameters
-
-<ShowDetailsPath />
-
-### Request body
-
-<RefundPaymentRequest />
-
-### Response
-
-<div>
-  A successful request returns the
-  <span className="highlight-code">HTTP 201 Created</span> status code and a JSON
-  response body that shows refund details.
-</div>
-<RefundPaymentResponse />

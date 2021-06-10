@@ -1,6 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 const Order = require('../models/Order/Order');
+const Payment = require('../models/Payment/Payment');
+const Wallet = require('../models/Wallets/Wallet');
+const { sendPayment } = require('../helper/wallet/transactions/payment');
 
 // creates the response object out of the orders object
 // in the correct format for sending back to client
@@ -173,4 +176,106 @@ exports.updateOrder = async (req, res) => {
   } catch (err) {
     res.status(400).send(err.message);
   }
+};
+
+/** ********************AUTHORIZE PAYMENT FOR ORDER HANDLER********************** */
+exports.authorizePayment = async (req, res) => {
+  const requestedOrder = await Order.findById(req.params.id);
+
+  // update order with payer information
+  const { user } = req;
+  const payer = {
+    email_address: user.login_name,
+    payer_id: user._id,
+    name: {
+      given_name: user.given_name,
+      middle_name: '',
+      surname: user.family_name,
+      full_name: `${user.given_name} ${user.family_name}`,
+    },
+    phone: {
+      phone_type: 'HOME',
+      phone_number: {
+        national_number: user.phone,
+      },
+    },
+    tax_info: {
+      tax_id: '',
+      tax_id_type: 'BR_CPF',
+    },
+    address: {
+      address_line_1: user.address.street_address,
+      address_line_2: `${user.address.postal_code} ${user.address.locality}`,
+      admin_area_1: user.address.region,
+      country: user.address.country,
+    },
+  };
+  requestedOrder.payer = payer;
+
+  // calculate total price of order for payment
+  let totalAmount = 0;
+  const currencyCode = requestedOrder.purchase_units[0].amount.currency_code;
+  requestedOrder.purchase_units.forEach((purchaseUnit) => {
+    totalAmount += parseFloat(purchaseUnit.amount.value);
+  });
+
+  // calculate expiration date for payment
+  const creationTime = new Date().toISOString();
+  const expirationDate = new Date();
+  const days = 3;
+  expirationDate.setTime(expirationDate.getTime() + days * 24 * 60 * 60 * 1000);
+
+  // create payment object for order
+  const payment = new Payment({
+    status: 'CREATED',
+    amount: { value: totalAmount, currency_code: currencyCode },
+    order_id: req.params.id,
+    final_capture: false,
+    disbursement_mode: 'INSTANT',
+    expiration_time: expirationDate.toISOString(),
+    create_time: creationTime,
+    update_time: creationTime,
+  });
+
+  // save new payment in database
+  try {
+    const savedPayment = await payment.save();
+    await requestedOrder.save();
+    res.status(201).send(savedPayment);
+  } catch (err) {
+    res.status(400).send('Failed saving Payment.');
+  }
+};
+
+/** ********************CAPTURE PAYMENT FOR ORDER HANDLER********************** */
+exports.capturePayment = async (req, res) => {
+  const requestedOrder = await Order.findById(req.params.id);
+  const payment = await Payment.findOne({ order_id: req.params.id });
+  const currentTimestamp = new Date().toISOString();
+
+  // send transaction from payer to merchant
+  const { user } = req;
+  // const to = requestedOrder.payyee_address;
+  const to = '0xffee70c267896c9202998c9ccebce015c1ec0061';
+  const { value } = payment.amount;
+  const description = `Order number ${req.params.id}`;
+
+  const wallet = await Wallet.findOne({ user_id: user._id });
+  const from = wallet.address;
+  const sk = wallet.privateKey;
+
+  await sendPayment(from, to, value, sk, description)
+    .then(async (hash) => {
+      payment.status = 'CAPTURED';
+      payment.final_capture = true;
+      payment.update_time = currentTimestamp;
+      payment.transaction_hash = hash;
+      await payment.save();
+
+      requestedOrder.update_time = currentTimestamp;
+      requestedOrder.status = 'COMPLETED';
+      await requestedOrder.save();
+      res.status(200).send(requestedOrder);
+    })
+    .catch((err) => res.status(400).send(err.message));
 };

@@ -66,8 +66,8 @@ exports.createOrderValidation = (req, res, next) => {
   });
 
   const taxInfo = Joi.object({
-    tax_id: Joi.string().required().max(14),
-    tax_id_type: Joi.string().required().valid('BR_CPF', 'BR_CNPJ'),
+    tax_id: Joi.string().max(14),
+    tax_id_type: Joi.string().valid('BR_CPF', 'BR_CNPJ'),
   });
 
   const phoneNumber = Joi.object({
