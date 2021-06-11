@@ -371,6 +371,12 @@ const orderSchema = new mongoose.Schema({
     minLength: 20,
     max: 64,
   },
+  payee_address: {
+    type: String,
+    required: true,
+    minlength: 42,
+    maxlength: 42,
+  },
 });
 
 module.exports = mongoose.model('Order', orderSchema);

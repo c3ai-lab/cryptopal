@@ -23,7 +23,7 @@ const createResponseFormat = (orderData) => {
     create_time,
     update_time,
     id: _id,
-    payment_source: { network: 'ethereum' },
+    payment_source: { network: 'evm' },
     intent,
     payer,
     purchase_units,
@@ -111,6 +111,9 @@ const addParameter = (order, patchItem) => {
 
 /** **********************CREATE ORDER HANDLER*********************** */
 exports.createOrder = async (req, res) => {
+  const { user } = req;
+  const payeeWallet = await Wallet.findOne({ user_id: user._id });
+
   // create new order with received data
   const creationTime = new Date().toISOString();
   const order = new Order({
@@ -118,6 +121,7 @@ exports.createOrder = async (req, res) => {
     status: 'CREATED',
     create_time: creationTime,
     update_time: creationTime,
+    payee_address: payeeWallet.address,
   });
 
   try {
@@ -144,7 +148,7 @@ exports.getOrder = async (req, res) => {
   }
 };
 
-/** **********************CREATE ORDER HANDLER*********************** */
+/** **********************UPDATE ORDER HANDLER*********************** */
 exports.updateOrder = async (req, res) => {
   const patchRequest = req.body.patch_request;
   try {
@@ -253,10 +257,9 @@ exports.capturePayment = async (req, res) => {
   const payment = await Payment.findOne({ order_id: req.params.id });
   const currentTimestamp = new Date().toISOString();
 
-  // send transaction from payer to merchant
+  // get transaction related data
   const { user } = req;
-  // const to = requestedOrder.payyee_address;
-  const to = '0xffee70c267896c9202998c9ccebce015c1ec0061';
+  const to = requestedOrder.payee_address;
   const { value } = payment.amount;
   const description = `Order number ${req.params.id}`;
 
@@ -264,6 +267,7 @@ exports.capturePayment = async (req, res) => {
   const from = wallet.address;
   const sk = wallet.privateKey;
 
+  // send transaction from payer to merchant
   await sendPayment(from, to, value, sk, description)
     .then(async (hash) => {
       payment.status = 'CAPTURED';
