@@ -1,4 +1,5 @@
 const Web3 = require('web3');
+const CryptoJS = require('crypto-js');
 const { sendPayment } = require('./payment');
 const { sendTransaction } = require('./sendTransaction');
 const { getNetworkParams } = require('../networkConfig');
@@ -11,7 +12,10 @@ const sendNativeTestTokens = async (to) => {
   const web3 = new Web3(provider);
 
   const from = process.env.FAUCET_ADDRESS;
-  const sk = process.env.FAUCET_PRIVATE_KEY;
+  const sk = CryptoJS.AES.encrypt(
+    process.env.FAUCET_PRIVATE_KEY,
+    process.env.SECRET_PRIVATE_KEY
+  ).toString();
   const value = '0.005';
   const payload = '00';
 
@@ -22,7 +26,10 @@ exports.getTokens = async (to, value) => {
   let error;
   let txHashes;
   const from = process.env.FAUCET_ADDRESS;
-  const sk = process.env.FAUCET_PRIVATE_KEY;
+  const sk = CryptoJS.AES.encrypt(
+    process.env.FAUCET_PRIVATE_KEY,
+    process.env.SECRET_PRIVATE_KEY
+  ).toString();
 
   // get erc20 tokens as stable coin for payment
   const description = 'Getting liquidity from CryptoPal Token faucet.';

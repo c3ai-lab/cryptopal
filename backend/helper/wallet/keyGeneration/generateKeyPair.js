@@ -1,5 +1,6 @@
 const { hdkey } = require('ethereumjs-wallet');
 const bip39 = require('bip39');
+const CryptoJS = require('crypto-js');
 
 /** *******************GENERATE PUBLIC AND PRIVATE KEY*********************** */
 exports.generateKeyPair = async (index) => {
@@ -14,9 +15,15 @@ exports.generateKeyPair = async (index) => {
 
   // get next address, private and public key for wallet
   const wallet = hdwallet.derivePath(path).getWallet();
-  const privateKey = wallet.getPrivateKeyString().slice(2);
+  let privateKey = wallet.getPrivateKeyString().slice(2);
   const publicKey = wallet.getPublicKeyString().slice(2);
   const address = `0x${wallet.getAddress().toString('hex')}`;
+
+  // encode private key
+  privateKey = CryptoJS.AES.encrypt(
+    privateKey,
+    process.env.SECRET_PRIVATE_KEY
+  ).toString();
 
   return { address, publicKey, privateKey };
 };

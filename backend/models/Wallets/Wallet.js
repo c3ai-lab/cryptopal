@@ -35,7 +35,6 @@ const walletSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 64,
-      maxlength: 64,
     },
   },
   { strict: 'throw' }

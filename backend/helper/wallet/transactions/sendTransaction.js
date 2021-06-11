@@ -1,4 +1,5 @@
 const EthereumTx = require('ethereumjs-tx').Transaction;
+const CryptoJS = require('crypto-js');
 
 /*
  * function to send a transaction with the passed values to the passed network
@@ -30,13 +31,20 @@ exports.sendTransaction = async (
     data: `0x${payload}`,
   };
 
-  // sign transaction
+  // encode private key and convert to hex format
+  const encodedKeyBytes = CryptoJS.AES.decrypt(
+    sk,
+    process.env.SECRET_PRIVATE_KEY
+  );
+  const encodedKey = encodedKeyBytes.toString(CryptoJS.enc.Utf8);
+  const privateKey = Buffer.from(encodedKey, 'hex');
+
+  // sign transaction for network
   console.log('ST: sign tx');
   const tx = new EthereumTx(rawTx, networkInfo);
-  const privateKey = Buffer.from(sk, 'hex');
   tx.sign(privateKey);
 
-  // sending transaction
+  // sending transaction to network
   let error;
   let txHash;
   const serializedTx = `0x${tx.serialize().toString('hex')}`;
