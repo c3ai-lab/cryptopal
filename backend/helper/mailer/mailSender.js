@@ -2,7 +2,13 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'mail.gmx.net',
+  port: 587,
+  tls: {
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false,
+  },
+  debug: true,
   auth: {
     user: process.env.EMAILADDRESS_SENDER,
     pass: process.env.EMAILPASSWORD,
@@ -24,6 +30,7 @@ exports.sendRegisterConfirmationEmail = (user) => {
 
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
+      console.log(error.message);
       throw new Error('Failed to send email');
     }
   });
