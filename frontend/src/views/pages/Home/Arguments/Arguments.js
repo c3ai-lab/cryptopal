@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: Arguments.js
+// 	Description:
+//  This is a static component, which renders text elements for the landing page (home). It
+//  represents the arguments section showing heading and argument cards for using the service.
+// ================================================================================================
 import React from 'react';
 import { Card, Row } from 'reactstrap';
 import HomeCards from '../HomeCards';

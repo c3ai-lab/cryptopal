@@ -1,3 +1,13 @@
+// ================================================================================================
+// 	File Name: SendTokens.js
+// 	Description:
+//  This view represents the send payment page. It shows input fields for receiver, sending amount
+//  and a optional description of the payment. A user enteres data and sends first a request for
+//  checking receiver email or address. If the user is registered on cryptopal the receiver name
+//  and address is shown, otherwise a warning for exernal transaction is shown. Next the user has
+//  to confirm the transaction to send a payment. Afterwards the SendPaymentModal will be opened
+//  showing feedback to the payment transaction from server.
+// ================================================================================================
 import React from 'react';
 import {
   Card,
@@ -30,6 +40,7 @@ class SendTokens extends React.Component {
     this.sendPayment = this.sendPayment.bind(this);
   }
 
+  // initial component state
   state = {
     loading: false,
     checked: false,
@@ -43,17 +54,18 @@ class SendTokens extends React.Component {
     hash: undefined
   };
 
+  // fetch address of receiver if user clicked on send again button
   componentDidMount() {
     const urlParams = new URLSearchParams(window.location.search);
     const address = urlParams.get('address');
     if (address) this.setState({ enteredReceiver: address });
   }
 
-  // validate inputs and send check request to server
+  // validate inputs and send check request for checking receiver to server
   async checkPayment() {
     await this.props.clearErrors();
     this.props.clearTransaction();
-    // reset values
+    // reset state values
     this.setState({
       loading: true,
       err: null,
@@ -70,7 +82,7 @@ class SendTokens extends React.Component {
       return;
     }
 
-    // send request
+    // send request for checking receiver address
     this.props.checkPaymentTransaction(this.state.enteredReceiver);
   }
 
@@ -80,7 +92,7 @@ class SendTokens extends React.Component {
     this.props.clearTransaction();
   }
 
-  // send payment request to server
+  // send payment request to server - opens SendPaymentModal with feedback
   sendPayment() {
     this.props.clearTransaction();
 
@@ -90,6 +102,7 @@ class SendTokens extends React.Component {
       this.state.description
     );
 
+    // resetting state
     this.setState({
       loading: false,
       checked: false,
@@ -104,7 +117,7 @@ class SendTokens extends React.Component {
     });
   }
 
-  // check for state updates
+  // check for state updates in redux and set state variables
   componentDidUpdate(prevProps) {
     // set error message if exists
     const { error } = this.props;

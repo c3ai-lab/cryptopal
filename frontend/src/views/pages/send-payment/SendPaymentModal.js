@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: SendPaymentModal.js
+// 	Description:
+//  This component show a modal for initilized payments and renders a feedback of the payment status.
+//  Feedback can be a loading spinner on initilization, and the response from the server. On
+//  Success the modal shows he transaction hash of the corresponding blockchain transaction.
+// ================================================================================================
 import React from 'react';
 import {
   Button,

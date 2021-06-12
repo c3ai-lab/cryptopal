@@ -1,4 +1,9 @@
-// action types for authentication
+// ================================================================================================
+// 	File Name: types.js
+// 	Description:
+//  This class holds all types of actions. If an action type name should be changed, it has only
+//  to be changed here. The class only holds naming conventions for all redux actions.
+// ================================================================================================
 export const USER_LOADING = 'USER_LOADING';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';

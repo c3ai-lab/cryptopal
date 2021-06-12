@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: HomeCloser.js
+// 	Description:
+//  This component displays the footer on the landing page containing an image with a heading and
+//  an action button.
+// ================================================================================================
 import React from 'react';
 import { Card, Button } from 'reactstrap';
 import '../../../assets/scss/pages/home-base.scss';

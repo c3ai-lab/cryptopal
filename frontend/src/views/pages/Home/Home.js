@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: Home.js
+// 	Description:
+//  This view represents the langing page ("/"). It is a wrapper for he swiper, argument section,
+//  technologies section and the closing section.
+// ================================================================================================
 import React from 'react';
 import { Card } from 'reactstrap';
 import Arguments from './Arguments/Arguments';

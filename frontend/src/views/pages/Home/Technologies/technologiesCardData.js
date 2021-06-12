@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: technologiesCardData.js
+// 	Description:
+//  This class holds the data rendered in the technologies section on the landing page. Each card data
+//  has a title, an image and a short description text.
+// ================================================================================================
 import img1 from '../../../../assets/img/home/blockchain.jpg';
 import img2 from '../../../../assets/img/home/xdai.jpg';
 import img3 from '../../../../assets/img/home/docs.jpg';

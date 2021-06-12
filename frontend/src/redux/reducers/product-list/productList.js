@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: productList.js
+// 	Description:
+//  This class handles holds and sets all variables related to the products globally in
+//  redux state. The variables are the total displayed items, total pages and filter parameters
+//  to load products conditionally.
+// ================================================================================================
 /* eslint-disable no-case-declarations */
 const initialState = {
   data: [],

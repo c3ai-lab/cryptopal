@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: DataListConfig.js
+// 	Description:
+//  This component configures the table of products. It contains an action header for the user
+//  controlling displayed elements and a table showing all filtered products. It defines as well
+//  the apearance of a single element in the table. To switch pages react paginate is used.
+// ================================================================================================
 import React, { Component } from 'react';
 import {
   Button,
@@ -31,6 +38,7 @@ import Checkbox from '../../../components/@vuexy/checkbox/CheckboxesVuexy';
 import '../../../assets/scss/plugins/extensions/react-paginate.scss';
 import '../../../assets/scss/pages/data-list.scss';
 
+// style of selected table row (selected product)
 const selectedStyle = {
   rows: {
     selectedHighlighStyle: {
@@ -44,6 +52,7 @@ const selectedStyle = {
   }
 };
 
+// action components for each entry rendered in each row of table
 const ActionsComponent = (props) => {
   return (
     <div className="data-list-action">
@@ -65,6 +74,9 @@ const ActionsComponent = (props) => {
   );
 };
 
+// header of the page containing contolling elements for table data
+// Controlling elements are actions on selected element and a dropdown
+// controlling number of elements displayed on one page.
 const CustomHeader = (props) => {
   return (
     <div className="data-list-header d-flex justify-content-between flex-wrap">
@@ -115,7 +127,9 @@ const CustomHeader = (props) => {
   );
 };
 
+// configure the table displaying products
 class DataListConfig extends Component {
+  // check if redux state changed and set variables
   static getDerivedStateFromProps(props, state) {
     if (props.productList.totalItems !== state.data.totalItems) {
       return {
@@ -129,6 +143,7 @@ class DataListConfig extends Component {
     return null;
   }
 
+  // state of the table
   state = {
     data: [],
     totalPages: 0,
@@ -180,10 +195,13 @@ class DataListConfig extends Component {
 
   thumbView = this.props.thumbView;
 
+  // initially fetch all data with redux
+  // pass in filter, which say how many elements should be loaded
   componentDidMount() {
     this.props.getData(this.state.parsedFilter);
   }
 
+  // define rows for the table and map to related data
   componentDidUpdate() {
     if (this.thumbView) {
       this.thumbView = false;
@@ -242,6 +260,7 @@ class DataListConfig extends Component {
     }
   }
 
+  // switch number of elements displayed in the table at a time
   handleRowsPerPage = (value) => {
     this.setState(
       (prevState) => ({
@@ -253,19 +272,23 @@ class DataListConfig extends Component {
     );
   };
 
+  // toggle sidebar for editing and handle selected data
   handleSidebar = (boolean, addNew = false) => {
     this.setState({ sidebar: boolean });
     if (addNew === true) this.setState({ currentData: null, addNew: true });
   };
 
+  // delete data with redux on click
   handleDelete = (row) => {
     this.props.deleteData(row);
   };
 
+  // fetch data for editing in sidebar on click
   handleCurrentData = (obj) => {
     this.setState({ currentData: obj }, () => this.handleSidebar(true));
   };
 
+  // siwth page of table - render next products
   handlePagination = (currentPage) => {
     this.setState(
       (prevState) => ({
@@ -295,6 +318,7 @@ class DataListConfig extends Component {
         className={`data-list ${
           this.props.thumbView ? 'thumb-view' : 'list-view'
         }`}>
+        {/* table with all feched products with configurations */}
         <DataTable
           columns={columns}
           data={data}
@@ -347,6 +371,7 @@ class DataListConfig extends Component {
             size: 'sm'
           }}
         />
+        {/* sidebar for editing products */}
         <Sidebar
           show={sidebar}
           data={currentData}
@@ -367,12 +392,14 @@ class DataListConfig extends Component {
   }
 }
 
+// get state from redux
 const mapStateToProps = (state) => {
   return {
     productList: state.productList
   };
 };
 
+// connect to redux
 export default connect(mapStateToProps, {
   getData,
   deleteData,

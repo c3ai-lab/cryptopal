@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: authReducer.js
+// 	Description:
+//  This class handles holds and sets all variables related to the authentification globally in
+//  redux state. The variables are the users authentification token, if he is autheticated, his role
+//  (user or merchant) and its user data (name, address, ...).
+// ================================================================================================
 import {
   USER_LOADED,
   USER_LOADING,

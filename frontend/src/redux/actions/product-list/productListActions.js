@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: productListActions.js
+// 	Description:
+//  This class handles all actions related to the products list in products section. This includes
+//  functions for the common CRUD operations. All requests are send with axios to the server.
+// ================================================================================================
 import axios from 'axios';
 import { tokenConfig } from '../headers';
 

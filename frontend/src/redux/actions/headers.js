@@ -1,4 +1,9 @@
-// Setup config/headers and token
+// ================================================================================================
+// 	File Name: headers.js
+// 	Description:
+//  This class handles sets the headers for all server requests. The headers includes the current
+//  authentification token of the user and the content typ.
+// ================================================================================================
 export const tokenConfig = (getState) => {
   // Get token from localstorage
   const token = getState().auth.token;

@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: argumentCardData.js
+// 	Description:
+//  This class holds the data rendered in the argument section on the landing page. Each card data
+//  has a title, an image and a short description text.
+// ================================================================================================
 import img1 from '../../../../assets/img/home/fees.png';
 import img2 from '../../../../assets/img/home/free.jpg';
 import img3 from '../../../../assets/img/home/safe.png';

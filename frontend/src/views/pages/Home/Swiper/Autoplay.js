@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: Autoplay.js
+// 	Description:
+//  This component represents the slider on top of the landing page (home). It holds three
+//  different images with headings and short text. It switches the slides automatically every
+//  5 seconds. The user is able to switch the sides on his own as well.
+// ================================================================================================
 import React from 'react';
 import { Card, CardBody, Button } from 'reactstrap';
 import { history } from '../../../../history';
@@ -6,6 +13,7 @@ import img3 from '../../../../assets/img/home/slider1.jpg';
 import img2 from '../../../../assets/img/home/slider2.jpg';
 import img1 from '../../../../assets/img/home/slider3.jpg';
 
+// slider configurations with navigation buttons and pagination
 const params = {
   spaceBetween: 30,
   centeredSlides: true,
@@ -29,6 +37,7 @@ class AutoPlay extends React.Component {
       <Card>
         <CardBody>
           <Swiper {...params}>
+            {/* represents first slide of the swiper */}
             <div>
               <img
                 src={img1}
@@ -50,6 +59,7 @@ class AutoPlay extends React.Component {
                 </Button.Ripple>
               </div>
             </div>
+            {/* represents second slide of the swiper */}
             <div>
               <img
                 src={img2}
@@ -70,6 +80,7 @@ class AutoPlay extends React.Component {
                 </Button.Ripple>
               </div>
             </div>
+            {/* represents third slide of the swiper */}
             <div>
               <img
                 src={img3}

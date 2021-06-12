@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: customizer.js
+// 	Description:
+//  This class handles holds and sets all variables related to the site apperence globally in
+//  redux state. The variables are the color mode, navbar style and status and footer style.
+// ================================================================================================
 import themeConfig from '../../../configs/themeConfig';
 
 const customizerReducer = (state = themeConfig, action) => {

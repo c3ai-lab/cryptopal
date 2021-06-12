@@ -1,3 +1,11 @@
+// ================================================================================================
+// 	File Name: HomeCards.js
+// 	Description:
+//  This component renders cards for the sections on the landing page. By passing in an array of
+//  data, this component renders a styled card for each element of the array displaying an image,
+//  a heading and a short description text. It renders the cards conditionally for argument and
+//  technologies section in a different direction (vertically and horizontally ordered).
+// ================================================================================================
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 

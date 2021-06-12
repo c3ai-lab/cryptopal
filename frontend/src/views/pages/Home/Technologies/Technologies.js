@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: Technologies.js
+// 	Description:
+//  This is a static component, which renders text elements for the landing page (home). It
+//  represents the technologies section showing heading and technology cards describing the service.
+// ================================================================================================
 import React from 'react';
 import { Card, Row } from 'reactstrap';
 import HomeCards from '../HomeCards';

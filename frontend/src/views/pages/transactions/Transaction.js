@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: Transaction.js
+// 	Description:
+//  This view renders a receipt with given transaction data. The receipt shows the senders and
+//  receivers emails, names and wallet addresses as well as the send amount and description.
+//  A reference to the related blockchain transaction is shown as well.
+// ================================================================================================
 import React from 'react';
 import { Card, CardBody, Row, Col, Media, Table, Button } from 'reactstrap';
 import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
@@ -12,6 +19,7 @@ import {
 import '../../../assets/scss/pages/transaction.scss';
 
 class Transaction extends React.Component {
+  // properties of the transaction receipt
   state = {
     _id: '',
     sender: { name: '', email: '', address: '' },
@@ -22,6 +30,7 @@ class Transaction extends React.Component {
     value: ''
   };
 
+  // get transaction data by id from server
   componentDidMount() {
     const url = new URL(window.location.href);
     const txId = url.searchParams.get('tx');
@@ -43,11 +52,13 @@ class Transaction extends React.Component {
     }
   }
 
+  // clear data on unmount
   componentWillUnmount() {
     this.props.clearTransaction();
   }
 
   render() {
+    // fetch link to blockchain explorer by set network to reference transaction
     let explorerLink;
     switch (process.env.REACT_APP_NETWORK) {
       case 'SOKOL':
@@ -65,6 +76,7 @@ class Transaction extends React.Component {
     }
     return (
       <React.Fragment>
+        {/* header and controlling elements to print or download receipt */}
         <Breadcrumbs
           breadCrumbTitle="Transaction"
           breadCrumbParent="Transactions"
@@ -88,6 +100,8 @@ class Transaction extends React.Component {
               <span className="align-middle ml-50">Download</span>
             </Button.Ripple>
           </Col>
+
+          {/* show document with receipt of transaction */}
           <Col className="transaction-wrapper" sm="12">
             <Card className="transaction-page">
               <CardBody>
@@ -97,6 +111,8 @@ class Transaction extends React.Component {
                       <img src={logo} alt="logo" />
                     </Media>
                   </Col>
+
+                  {/* general transaction data */}
                   <Col md="6" sm="12" className="text-right">
                     <h1>Transaction</h1>
                     <div className="transaction-details mt-2">
@@ -107,6 +123,8 @@ class Transaction extends React.Component {
                     </div>
                   </Col>
                 </Row>
+
+                {/* senders data */}
                 <Row className="pt-2">
                   <Col md="6" sm="12">
                     <h5>Sender</h5>
@@ -124,6 +142,8 @@ class Transaction extends React.Component {
                       </p>
                     </div>
                   </Col>
+
+                  {/* receiver data */}
                   <Col md="6" sm="12" className="text-right">
                     <h5>Recipient</h5>
                     <div className="recipient-info">
@@ -141,6 +161,8 @@ class Transaction extends React.Component {
                     </div>
                   </Col>
                 </Row>
+
+                {/* description field */}
                 <div className="transaction-items-table pt-1">
                   <Row>
                     <Col sm="12">
@@ -159,6 +181,8 @@ class Transaction extends React.Component {
                     </Col>
                   </Row>
                 </div>
+
+                {/* total amount send */}
                 <div className="transaction-total-table">
                   <Row>
                     <Col
@@ -177,6 +201,8 @@ class Transaction extends React.Component {
                     </Col>
                   </Row>
                 </div>
+
+                {/* reference to blockchain explorer showing transaction on chain */}
                 <div className="text-center pt-3 transaction-footer">
                   <a
                     href={explorerLink}
@@ -199,6 +225,8 @@ class Transaction extends React.Component {
     );
   }
 }
+
+// get state from redux
 const mapStateToProps = (state) => ({
   transaction: state.wallet.transaction
 });

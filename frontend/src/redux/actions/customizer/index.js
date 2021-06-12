@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: index.js
+// 	Description:
+//  This class handles all actions related to the style of the page. It stores in redux the
+//  current appearence.
+// ================================================================================================
 export const changeMode = (mode) => {
   return (dispatch) => dispatch({ type: 'CHANGE_MODE', mode });
 };

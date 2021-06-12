@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: authActions.js
+// 	Description:
+//  This class handles all actions related to authetication. This includes functions for register,
+//  login, logout, change users role from merchant to user or fetch users data. All request are send
+//  with axios to the server.
+// ================================================================================================
 import axios from 'axios';
 import { history } from '../../../history';
 import { returnErrors } from '../errors/errorActions';

@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: errorReducer.js
+// 	Description:
+//  This class handles holds and sets all variables related to the error responses globally in
+//  redux state. The variables are the error message, the error id and error status.
+// ================================================================================================
 import { GET_ERRORS, CLEAR_ERRORS } from '../../actions/types';
 
 const initialState = {

@@ -1,3 +1,9 @@
+// ================================================================================================
+// 	File Name: DataListSidebar.js
+// 	Description:
+//  This component represents the sidebar of the products table. It will be opened if the merchant
+//  wants to make changes to a product. It renders product related date input fields to change them.
+// ================================================================================================
 import React, { Component } from 'react';
 import { Label, Input, FormGroup, Button, Alert } from 'reactstrap';
 import { X } from 'react-feather';
@@ -5,6 +11,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import classnames from 'classnames';
 
 class DataListSidebar extends Component {
+  // initial properties of the product
   state = {
     _id: '',
     name: '',
@@ -16,6 +23,7 @@ class DataListSidebar extends Component {
     msg: null
   };
 
+  // fetch data from selected product
   componentDidUpdate(prevProps, prevState) {
     if (this.props.data !== null && prevProps.data === null) {
       if (this.props.data._id !== prevState._id) {
@@ -40,8 +48,8 @@ class DataListSidebar extends Component {
         this.setState({ home_url: this.props.data.home_url });
       }
     }
+    // reset data for creating a new product
     if (this.props.data === null && prevProps.data !== null) {
-      console.log('reset');
       this.setState({
         _id: '',
         name: '',
@@ -54,6 +62,8 @@ class DataListSidebar extends Component {
     }
   }
 
+  // on confirm send a request to server with redux props
+  // request can either be a product creation or a product update.
   handleSubmit = (obj) => {
     if (this.props.data !== null) {
       const { _id, description, category, img_url, home_url } = obj;
@@ -69,6 +79,7 @@ class DataListSidebar extends Component {
     this.props.handleSidebar(false, true);
   };
 
+  // renders a scrollable sidebar with all properties related inpu fields
   render() {
     let disableName = false;
     if (this.props.data != null && this.props.data.name) disableName = true;
@@ -91,6 +102,7 @@ class DataListSidebar extends Component {
           <h4>{data !== null ? 'UPDATE DATA' : 'ADD NEW DATA'}</h4>
           <X size={20} onClick={() => handleSidebar(false, true)} />
         </div>
+        {/* render scrollbar */}
         <PerfectScrollbar
           className="data-list-fields px-2 mt-3"
           options={{ wheelPropagation: false }}>
@@ -100,6 +112,8 @@ class DataListSidebar extends Component {
               <img className="img-fluid" src={img_url} alt={name} />
             </FormGroup>
           ) : null}
+
+          {/* name input field */}
           <FormGroup>
             <Label for="data-name">Name</Label>
             <Input
@@ -111,6 +125,8 @@ class DataListSidebar extends Component {
               id="data-name"
             />
           </FormGroup>
+
+          {/* description input field */}
           <FormGroup>
             <Label for="data-description">Description</Label>
             <Input
@@ -121,6 +137,8 @@ class DataListSidebar extends Component {
               id="data-description"
             />
           </FormGroup>
+
+          {/* type input field */}
           <FormGroup>
             <Label for="data-category">Type</Label>
             <Input
@@ -135,6 +153,8 @@ class DataListSidebar extends Component {
               <option value="SERVICE">SERVICE</option>
             </Input>
           </FormGroup>
+
+          {/* category input field */}
           <FormGroup>
             <Label for="data-category">Category</Label>
             <Input
@@ -148,6 +168,8 @@ class DataListSidebar extends Component {
               <option value="Fitness">Fitness</option>
             </Input>
           </FormGroup>
+
+          {/* image input field */}
           <FormGroup>
             <Label for="data-img-url">Image URL</Label>
             <Input
@@ -158,6 +180,8 @@ class DataListSidebar extends Component {
                 this.setState({ img_url: e.target.value })
               }></Input>
           </FormGroup>
+
+          {/* home url input field */}
           <FormGroup>
             <Label for="data-home-url">Home URL</Label>
             <Input
@@ -168,6 +192,7 @@ class DataListSidebar extends Component {
                 this.setState({ home_url: e.target.value })
               }></Input>
           </FormGroup>
+          {/* conditionally show last update time - only on editing */}
           {this.props.data ? (
             <FormGroup>
               <Label for="data-name">Last update</Label>
@@ -181,6 +206,8 @@ class DataListSidebar extends Component {
             </FormGroup>
           ) : null}
         </PerfectScrollbar>
+
+        {/* action buttons */}
         <div className="data-list-sidebar-footer px-2 d-flex justify-content-start align-items-center mt-1">
           <Button color="primary" onClick={() => this.handleSubmit(this.state)}>
             {data !== null ? 'Update' : 'Submit'}

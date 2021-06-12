@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: walletReducer.js
+// 	Description:
+//  This class handles holds and sets all variables related to the users wallet globally in
+//  redux state. The variables are the users wallet address, balance, latest transactions,
+//  recent contacts and the selected transaction.
+// ================================================================================================
 /* eslint-disable no-case-declarations */
 import {
   GET_WALLET_DATA,

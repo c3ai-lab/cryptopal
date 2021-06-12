@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: walletActions.js
+// 	Description:
+//  This class handles all actions related to the users wallet. This includes functions for getting
+//  users balance, address, sending and checking a transaction or requesting transaction data. All
+//  requests are send with axios and the responses are stored globally in redux.
+// ================================================================================================
 import axios from 'axios';
 import { tokenConfig } from '../headers';
 import {

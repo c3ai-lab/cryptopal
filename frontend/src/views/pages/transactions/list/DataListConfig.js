@@ -1,3 +1,10 @@
+// ================================================================================================
+// 	File Name: DataListConfig.js
+// 	Description:
+//  This components represents the table of all loaded transactions. It holds the configuration
+//  of the table defining which properties should be displayed in each row. The header holds
+//  controlling elements for displaying chosen number of transactions in the table on one page.
+// ================================================================================================
 import React, { Component } from 'react';
 import {
   UncontrolledDropdown,
@@ -15,6 +22,7 @@ import { history } from '../../../../history';
 import '../../../../assets/scss/plugins/extensions/react-paginate.scss';
 import '../../../../assets/scss/pages/data-list.scss';
 
+// style for selected row (selected transaction)
 const selectedStyle = {
   rows: {
     selectedHighlighStyle: {
@@ -28,6 +36,7 @@ const selectedStyle = {
   }
 };
 
+// header with dropdown menu for displaying different numbers of transactions on one site
 const CustomHeader = (props) => {
   return (
     <div className="data-list-header d-flex justify-content-between flex-wrap">
@@ -61,6 +70,7 @@ const CustomHeader = (props) => {
 };
 
 class DataListConfig extends Component {
+  // get state from redux props
   static getDerivedStateFromProps(props, state) {
     if (props.wallet.transactions !== state.data) {
       return {
@@ -74,6 +84,7 @@ class DataListConfig extends Component {
     return null;
   }
 
+  // define components initial state and table colums
   state = {
     data: [],
     totalPages: 0,
@@ -119,12 +130,15 @@ class DataListConfig extends Component {
     ]
   };
 
+  // initially get transactions with redux
   componentDidMount() {
     this.props.getTransactions(this.state.parsedFilter);
   }
 
+  // update table with loaded data for transactions
   componentDidUpdate(prevProps) {
     if (this.props.wallet.transactions !== prevProps.wallet.transactions) {
+      // get readyble date format
       const formatDate = new Intl.DateTimeFormat('en-GB', {
         day: 'numeric',
         month: 'short',
@@ -169,6 +183,7 @@ class DataListConfig extends Component {
     }
   }
 
+  // handle number of transaction shown on one page by selecting in dropdown
   handleRowsPerPage = (value) => {
     this.setState(
       (prevState) => ({
@@ -180,6 +195,7 @@ class DataListConfig extends Component {
     );
   };
 
+  // load requested transactions by changing page
   handlePagination = (currentPage) => {
     this.setState(
       (prevState) => ({
@@ -194,6 +210,7 @@ class DataListConfig extends Component {
     );
   };
 
+  // render table with given transactions and configured properties
   render() {
     let { columns, data, parsedFilter, totalPages, totalItems } = this.state;
     return (
@@ -247,6 +264,7 @@ class DataListConfig extends Component {
   }
 }
 
+// get state from redux
 const mapStateToProps = (state) => {
   return {
     wallet: state.wallet
