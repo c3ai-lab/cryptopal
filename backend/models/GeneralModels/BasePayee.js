@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: BasePayee.js
+//  Description:
+//  This file holds a mongoose schema for a payee object. This object is used by several other
+//  mongoose schema.
+// ================================================================================================
 const mongoose = require('mongoose');
 
 const payeeBase = new mongoose.Schema(

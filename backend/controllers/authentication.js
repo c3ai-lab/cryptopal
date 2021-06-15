@@ -1,3 +1,10 @@
+// ================================================================================================
+//  File Name: authentication.js
+//  Description:
+//  This file holds the diffrent functions for the authentication routes. These functions are called
+//  from routes/authentication.js. Functions are register new user, login existing user, confirm
+//  users registration, resend registration email, recover and reset users password.
+// ================================================================================================
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -12,7 +19,15 @@ const {
 } = require('../helper/wallet/keyGeneration/generateKeyPair');
 const Wallet = require('../models/Wallets/Wallet');
 
-/** **********************REGISTER HANDLER*********************** */
+/**
+ * Registers a new user with received user data. By registering a new user
+ * a new wallet is created, which is directly connected to the user. A
+ * confirmation email is send to the user to enable the account by verifing
+ * the email.
+ * @param  {Object} req The users request object with user data
+ * @param  {Object} res The response object
+ * @returns {Object} the users email
+ */
 exports.register = async (req, res) => {
   // check if the user is already in the database
   const emailExists = await User.findOne({ login_name: req.body.email });
@@ -22,9 +37,9 @@ exports.register = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-  const payerId = mongoose.Types.ObjectId(); // unique payerId
+  const payerId = mongoose.Types.ObjectId(); // generate unique payerId
 
-  // get confirmation token and send email
+  // get confirmation token and send confirmation email
   sendRegisterConfirmationEmail({
     id: payerId,
     email: req.body.email,
@@ -59,6 +74,8 @@ exports.register = async (req, res) => {
     // generate users wallet address and key pair
     const index = (await User.count()) + 10; // reserve first 10 wallets for system
     const { address, publicKey, privateKey } = await generateKeyPair(index);
+
+    // save wallet data for user
     const wallet = new Wallet({
       user_id: savedUser._id,
       user_name: `${savedUser.given_name} ${savedUser.family_name}`,
@@ -75,7 +92,11 @@ exports.register = async (req, res) => {
   }
 };
 
-/** *******************RESEND CONFIRMATION EMAIL HANDLER******************* */
+/**
+ * Resends the registration confirmation email with a jason web token.
+ * @param  {Object} req The users request object with email param
+ * @param  {Object} res The response object
+ */
 exports.resendConfirmationMail = async (req, res) => {
   // find user by entered email
   const user = await User.findOne({
@@ -96,7 +117,12 @@ exports.resendConfirmationMail = async (req, res) => {
   res.status(200).send('Successfully send email');
 };
 
-/** **********************CONFIRM REGISTRATION HANDLER*********************** */
+/**
+ * Confirms the registration with an json web token and verifies the user
+ * @param  {Object} req The users request object with token param
+ * @param  {Object} res The response object
+ * @return redirects to email confirmed page
+ */
 exports.confirmRegistration = async (req, res) => {
   const decodedUser = jwt.verify(
     req.params.token,
@@ -110,7 +136,13 @@ exports.confirmRegistration = async (req, res) => {
   res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
 };
 
-/** **********************LOGIN HANDLER*********************** */
+/**
+ * Logs the user in and generates a session token with jason web tokens
+ * for verifing the user in further requests.
+ * @param  {Object} req The users request object with login credentials
+ * @param  {Object} res The response object
+ * @return {Object} containing the authentication token and user data
+ */
 exports.login = async (req, res) => {
   // check if the user is already in the database
   const user = await User.findOne({ login_name: req.body.email });
@@ -141,7 +173,12 @@ exports.login = async (req, res) => {
   });
 };
 
-/** *******************CHANGE PASSWORD HANDLER*********************** */
+/**
+ * Changes the password by comparing the old password with the current passwort and setting
+ * the new password.
+ * @param  {Object} req The users request object with old and new password
+ * @param  {Object} res The response object
+ */
 exports.changePassword = async (req, res) => {
   // check if the user is already in the database
   const user = await User.findOne({ _id: req.body.id });
@@ -170,7 +207,12 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-/** *******************RECOVER PASSWORD HANDLER*********************** */
+/**
+ * Recovers the users password by setting a new random password and sending it
+ * to the users email address.
+ * @param  {Object} req The users request object with users email and family name
+ * @param  {Object} res The response object
+ */
 exports.recoverPassword = async (req, res) => {
   // check if the user is already in the database
   const user = await User.findOne({ login_name: req.body.email });

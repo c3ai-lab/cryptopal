@@ -1,14 +1,27 @@
+// ================================================================================================
+//  File Name: safeTransaction.js
+//  Description:
+//  This function saves all data related to passed in transaction in the database.
+// ================================================================================================
 const Transaction = require('../../../models/Transaction/Transaction');
 const Wallet = require('../../../models/Wallets/Wallet');
 
-/*
- * Function to get information about sender and receiver of transaction
- * and save transaction details in database.
+/**
+ * Fetch data related to passed in transaction data and save full
+ * transaction data in database.
+ * @param  {String} from The address of the sending wallet
+ * @param  {String} to The address of the reiceiving wallet
+ * @param  {String} value The amount of erc20 token to be sent
+ * @param  {String} hash The payload data attached to the transaction
+ * @param  {String} description The encrypted secret key of senders wallet
+ * @return {Promise} Containing the saved transaction hash
  */
 exports.saveTransaction = async (from, to, value, hash, description) => {
+  // fetching wallet data of receiver and sender
   const sendingWallet = await Wallet.findOne({ address: from });
   const receivingWallet = await Wallet.findOne({ address: to });
 
+  // create sender object
   const sender = {
     id: sendingWallet.user_id,
     name: sendingWallet.user_name,
@@ -16,6 +29,7 @@ exports.saveTransaction = async (from, to, value, hash, description) => {
     address: from,
   };
 
+  // create receiver object
   const receiver = {
     id: receivingWallet ? receivingWallet.user_id : undefined,
     name: receivingWallet ? receivingWallet.user_name : 'External Wallet',
@@ -26,6 +40,7 @@ exports.saveTransaction = async (from, to, value, hash, description) => {
   const status = 'pending';
   const date = new Date().toISOString();
 
+  // create new transaction object
   const transaction = new Transaction({
     sender,
     receiver,

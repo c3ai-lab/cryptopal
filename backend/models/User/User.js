@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: User.js
+//  Description:
+//  This file holds mongoose schemas for the user object. This object contains all important
+//  information about a user. Users will be saved this way in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({

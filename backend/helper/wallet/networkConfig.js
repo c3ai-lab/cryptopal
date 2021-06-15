@@ -1,9 +1,16 @@
-/*
- * Returns the parameters to connect to the selected chain. The chain has to be set
- * in the .env file. This function also returns the address of the erc20 token.
- */
+// ================================================================================================
+//  File Name: networkConfig.js
+//  Description:
+//  This function fetches the selected blockchain network from the .env file and returns related
+//  network configurations. These configurations have to be set in the .env file as well. This
+//  function is used by all blockchain relating operations such as sending a transaction.
+// ================================================================================================
 const Common = require('ethereumjs-common').default;
 
+/**
+ * Fetching network parameters for connecting to selected blockchain
+ * @return {Object} Containing the network address, contract address and network information
+ */
 exports.getNetworkParams = () => {
   const network = process.env.NETWORK;
   let contractAddress;

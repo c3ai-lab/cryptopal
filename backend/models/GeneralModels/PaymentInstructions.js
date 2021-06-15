@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: PaymentInstructions.js
+//  Description:
+//  This file holds mongoose schemas for a platformFee and a paymentInstructions object. This
+//  objects are used by several other mongoose schema.
+// ================================================================================================
 const mongoose = require('mongoose');
 const money = require('./Money');
 const payeeBase = require('./BasePayee');

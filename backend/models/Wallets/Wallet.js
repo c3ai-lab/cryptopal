@@ -1,3 +1,10 @@
+// ================================================================================================
+//  File Name: Wallet.js
+//  Description:
+//  This file holds mongoose schemas for the wallet object. This object contains all information
+//  about the blockchain wallet as well as user information. Transactions will be saved this way
+//  in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 
 const walletSchema = new mongoose.Schema(

@@ -1,15 +1,21 @@
-/*
- * Validation of send order data to reject
- * requests with wrong formated data
- */
+// ================================================================================================
+//  File Name: paymentValidation.js
+//  Description:
+//  This file holds functions for verifing request data with joi validation schemas. It creates
+//  joi validation schema objects and calls the validateSchema function to validate request data.
+//  This functions are used as a middleware on payment routes.
+// ================================================================================================
 const Joi = require('@hapi/joi');
 const money = require('../../../models/GeneralModels/Money');
 const paymentInstructions = require('../../../models/GeneralModels/PaymentInstructions');
 const { validateSchema } = require('../validateSchema');
 
-//----------------------------------------------------------------------
-//      set up joi validation of capture authorized payment data
-//----------------------------------------------------------------------
+/**
+ * Set up joi validation schema for capture authorized payment data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.captureAuthorizedPaymentValidation = (req, res, next) => {
   const catureReq = Joi.object({
     invoice_id: Joi.string().max(127),
@@ -23,9 +29,12 @@ exports.captureAuthorizedPaymentValidation = (req, res, next) => {
   validateSchema(req, res, next, catureReq);
 };
 
-//----------------------------------------------------------------------
-//      set up joi validation of void authorized payment data
-//----------------------------------------------------------------------
+/**
+ * Set up joi validation schema for refund payment data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.refundPaymentValidation = (req, res, next) => {
   const refundReq = Joi.object({
     invoice_id: Joi.string().max(127),

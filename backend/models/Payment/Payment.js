@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: Payment.js
+//  Description:
+//  This file holds mongoose schemas for the payment object. This object represents a payment
+//  created by a user. Payments will be saved this way in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 const money = require('../GeneralModels/Money');
 const {
@@ -45,6 +51,9 @@ const sellerReceivableBreakdown = new mongoose.Schema(
   { _id: false, strict: 'throw' }
 );
 
+//-------------------------------------------------------------------------------
+// ----------------------------PAYMENT SCHEMA------------------------------------
+//-------------------------------------------------------------------------------
 const paymentSchema = new mongoose.Schema({
   status: {
     type: String,

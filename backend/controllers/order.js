@@ -1,12 +1,24 @@
+// ================================================================================================
+//  File Name: order.js
+//  Description:
+//  This file holds the diffrent functions for the orders routes. These functions are called from
+//  routes/orders.js. Functions are creating, getting and updating an order by merchant as well as
+//  order realated payment authorization and capturing by the user.
+// ================================================================================================
+
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 const Order = require('../models/Order/Order');
 const Payment = require('../models/Payment/Payment');
 const Wallet = require('../models/Wallets/Wallet');
-const { sendPayment } = require('../helper/wallet/transactions/payment');
+const { sendPayment } = require('../helper/wallet/transactions/sendPayment');
 
-// creates the response object out of the orders object
-// in the correct format for sending back to client
+/**
+ * Creates the response object out of the orders object for sending back the
+ * correct format to the client.
+ * @param  {Object} orderDate The order object from database
+ * @returns {Object} New formatted order object for response.
+ */
 const createResponseFormat = (orderData) => {
   // fetch needed data from order object
   const {
@@ -33,8 +45,11 @@ const createResponseFormat = (orderData) => {
   return response;
 };
 
-// function use by update handler to check if an operation is
-// allowed on requested path. Returns a boolean
+/**
+ * Checks if an requested patch operation is on the specific path allowed
+ * @param  {Object} patchItem Item with path and operation to patch
+ * @returns {Boolean} If action is allowed
+ */
 const checkIfActionAllowed = (patchItem) => {
   const strArr = patchItem.path.split(/[\\[.]+/);
   const action = patchItem.op;
@@ -90,8 +105,12 @@ const checkIfActionAllowed = (patchItem) => {
   return allowed;
 };
 
-// function used by udpate handler to set a value of requested path
-// extract identifier of object out of path and set the values
+/**
+ * Set values of requested path used by update handler
+ * @param  {Object} order The order object to be changed
+ * @param  {Object} patchItem Item with path and operation to patch
+ * @returns {Object} The changed order object
+ */
 const addParameter = (order, patchItem) => {
   const strArr = patchItem.path.split(/[\\[.]+/);
   if (strArr.length > 1) {
@@ -109,7 +128,12 @@ const addParameter = (order, patchItem) => {
   return order;
 };
 
-/** **********************CREATE ORDER HANDLER*********************** */
+/**
+ * Create a new order and save it in database
+ * @param  {Object} req The request object with order data
+ * @param  {Object} res The response object
+ * @returns {Object} added order
+ */
 exports.createOrder = async (req, res) => {
   const { user } = req;
   const payeeWallet = await Wallet.findOne({ user_id: user._id });
@@ -136,7 +160,12 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-/** **********************GET ORDER HANDLER*********************** */
+/**
+ * Get an order from database by id
+ * @param  {Object} req The request object with id param
+ * @param  {Object} res The response object
+ * @returns {Object} requested order
+ */
 exports.getOrder = async (req, res) => {
   // fetch data from database and create response object
   try {
@@ -148,7 +177,12 @@ exports.getOrder = async (req, res) => {
   }
 };
 
-/** **********************UPDATE ORDER HANDLER*********************** */
+/**
+ * Update an order and save it in database
+ * @param  {Object} req The request object with order patch data
+ * @param  {Object} res The response object
+ * @returns {Object} updated order
+ */
 exports.updateOrder = async (req, res) => {
   const patchRequest = req.body.patch_request;
   try {
@@ -182,7 +216,13 @@ exports.updateOrder = async (req, res) => {
   }
 };
 
-/** ********************AUTHORIZE PAYMENT FOR ORDER HANDLER********************** */
+/**
+ * Authorize payment for an order. Adds the customer as payer to order and creates
+ * a new payment object for the requested order.
+ * @param  {Object} req The request object with order id param
+ * @param  {Object} res The response object
+ * @returns {Object} created payment
+ */
 exports.authorizePayment = async (req, res) => {
   const requestedOrder = await Order.findById(req.params.id);
 
@@ -251,7 +291,13 @@ exports.authorizePayment = async (req, res) => {
   }
 };
 
-/** ********************CAPTURE PAYMENT FOR ORDER HANDLER********************** */
+/**
+ * Captures an authorized/created payment. Sends the related amount from
+ * customer to merchant.
+ * @param  {Object} req The request object with order id param
+ * @param  {Object} res The response object
+ * @returns {Object} updated order
+ */
 exports.capturePayment = async (req, res) => {
   const requestedOrder = await Order.findById(req.params.id);
   const payment = await Payment.findOne({ order_id: req.params.id });

@@ -1,3 +1,11 @@
+// ================================================================================================
+//  File Name: authentication.js
+//  BasePath: /auth
+//  Description:
+//  This file holds the diffrent routes for managing users credentials. Registration, confirmation,
+//  login and password related requests are passed to the authentication controller after validating
+//  the request body data.
+// ================================================================================================
 const express = require('express');
 const authentication = require('../controllers/authentication');
 const validate = require('../middleware/Validation/authValidation/authValidation');

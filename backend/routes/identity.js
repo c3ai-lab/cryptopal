@@ -1,3 +1,12 @@
+// ================================================================================================
+//  File Name: identity.js
+//  BasePath: /identity
+//  Description:
+//  This file holds the diffrent routes for managing users information. Users can get users
+//  information, update personal information and change role between user and merchant. The verify
+//  middleware is used for access control. The requests are passed to the related functions in
+//  identity controller.
+// ================================================================================================
 const express = require('express');
 const identity = require('../controllers/identity');
 const verify = require('../middleware/verify');

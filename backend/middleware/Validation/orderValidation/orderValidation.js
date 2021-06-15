@@ -1,13 +1,22 @@
-/*
- * Validation of send order data to reject
- * requests with wrong formated data
- */
+// ================================================================================================
+//  File Name: orderValidation.js
+//  Description:
+//  This file holds functions for verifing request data with joi validation schemas. It creates
+//  joi validation schema objects and calls the validateSchema function to validate request data.
+//  This functions are used as a middleware on order routes.
+// ================================================================================================
 const Joi = require('@hapi/joi');
 const { validateSchema } = require('../validateSchema');
 
 //----------------------------------------------------------------------
 //            set up joi validation of update order data
 //----------------------------------------------------------------------
+/**
+ * Set up joi validation schema for update order data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.updateOrderValidation = (req, res, next) => {
   const patch = Joi.object({
     op: Joi.string().required().valid('add', 'remove', 'replace'),
@@ -42,6 +51,12 @@ exports.updateOrderValidation = (req, res, next) => {
 //----------------------------------------------------------------------
 //            set up joi validation of create order data
 //----------------------------------------------------------------------
+/**
+ * Set up joi validation schema for create order data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.createOrderValidation = (req, res, next) => {
   // general objects
   const money = Joi.object({

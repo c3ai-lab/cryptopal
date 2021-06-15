@@ -1,3 +1,12 @@
+// ================================================================================================
+//  File Name: product.js
+//  BasePath: /product
+//  Description:
+//  This file holds the diffrent routes for managing products. A merchant can do all CRUD operations
+//  on products. Access control is managed by verify middleware that only merchants can modify.
+//  products. Data validation is made by productValidation. All routes are passed to the related
+//  functions in product controller.
+// ================================================================================================
 const express = require('express');
 const product = require('../controllers/product');
 const verify = require('../middleware/verify');

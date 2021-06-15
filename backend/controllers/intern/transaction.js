@@ -1,15 +1,27 @@
+// ================================================================================================
+//  File Name: transaction.js
+//  Description:
+//  This file holds the diffrent functions for the transaction routes. These functions are called
+//  from routes/intern/transaction.js. Functions are checking transaction receiver, sending a
+//  transaction and getting transactions from database.
+// ================================================================================================
 const Web3 = require('web3');
-const { sendPayment } = require('../../helper/wallet/transactions/payment');
+const { sendPayment } = require('../../helper/wallet/transactions/sendPayment');
 const Wallet = require('../../models/Wallets/Wallet');
 const User = require('../../models/User/User');
 const Transaction = require('../../models/Transaction/Transaction');
 const {
   getUserTransactions,
 } = require('../../helper/wallet/transactions/getUsersTransactions');
-/** *******************CHECK PAYMENT INPUT*********************** */
-/*
- * Checks if the receiver input is a valid address or email and returns
- * the receivers information, if its a user from database
+
+/**
+ * Checks if the given receiver address is an email or wallet address. If it is
+ * an email it is checked if the email is from a registered user and returns
+ * the corresponding address. If it is an address, it is checked if the address
+ * is from a registered user or external or invalid.
+ * @param  {Object} req The request object with transaction receiver address
+ * @param  {Object} res The response object
+ * @returns Name and wallet address of registered user | external warning
  */
 exports.checkPayment = async (req, res) => {
   const { user } = req;
@@ -67,19 +79,33 @@ exports.checkPayment = async (req, res) => {
   return res.status(400).send('Receiver is not an email or valid address.');
 };
 
-/** *******************SEND PAYMENT*********************** */
+/**
+ * Sends a simple transfer transaction from the user to a entered receiver.
+ * @param  {Object} req The request object with transaction receiver address, value and description
+ * @param  {Object} res The response object
+ * @returns transaction hash | error message
+ */
 exports.sendPayment = async (req, res) => {
   const { user } = req;
   const { to, value, description } = req.body;
 
+  // get senders address and private key from database
   const wallet = await Wallet.findOne({ user_id: user._id });
   const from = wallet.address;
   const sk = wallet.privateKey;
+
+  // send payment
   sendPayment(from, to, value, sk, description)
     .then((hash) => res.status(201).send(hash))
     .catch((err) => res.status(400).send(err.message));
 };
 
+/**
+ * Gets transaction from database by id.
+ * @param  {Object} req The request object with transaction id param
+ * @param  {Object} res The response object
+ * @returns transaction object | error message
+ */
 exports.getTransaction = async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
@@ -89,6 +115,12 @@ exports.getTransaction = async (req, res) => {
   }
 };
 
+/**
+ * Gets multiple transactions from database queried by page and page size.
+ * @param  {Object} req The request object with page and page_size queries
+ * @param  {Object} res The response object
+ * @returns {Array} of transactions
+ */
 exports.getTransactions = async (req, res) => {
   const { user } = req;
 

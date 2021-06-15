@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: server.js
+//  Description:
+//  This is the main file of the server. It implements some middlewares for passing data, directs
+//  all routes to the router, connects to the mongodb and starts the server.
+// ================================================================================================
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');

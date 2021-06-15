@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: Transaction.js
+//  Description:
+//  This file holds mongoose schemas for the transaction object. This object represents a payment
+//  transaction between to users. Transactions will be saved this way in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 
 const contactData = new mongoose.Schema(

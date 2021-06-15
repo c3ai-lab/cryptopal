@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: Product.js
+//  Description:
+//  This file holds a mongoose schema for the product object. This object represents a product
+//  created by a merchant. Prducts will be saved this way in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({

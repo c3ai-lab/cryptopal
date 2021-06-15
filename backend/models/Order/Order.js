@@ -1,9 +1,17 @@
+// ================================================================================================
+//  File Name: Order.js
+//  Description:
+//  This file holds mongoose schemas for the order object. This object represents a order created
+//  by a merchant. Orders will be saved this way in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 const money = require('../GeneralModels/Money');
 const payeeBase = require('../GeneralModels/BasePayee');
 const { paymentInstructions } = require('../GeneralModels/PaymentInstructions');
 
-// Payee subschemas-----------------------------------------------
+//-------------------------------------------------------------------------------
+// ----------------------------PAYEE SUBSCHEMAS----------------------------------
+//-------------------------------------------------------------------------------
 const address = new mongoose.Schema(
   {
     address_line_1: {
@@ -122,7 +130,9 @@ const payer = new mongoose.Schema(
   { _id: false, strict: 'throw' }
 );
 
-// purchase unit subschemas --------------------------------------------
+//-------------------------------------------------------------------------------
+// ------------------------PURCHASE UNIT SUBSCHEMAS------------------------------
+//-------------------------------------------------------------------------------
 const breakdown = new mongoose.Schema(
   {
     item_total: money,
@@ -237,7 +247,10 @@ const purchaseUnit = new mongoose.Schema(
   },
   { _id: false, strict: 'throw' }
 );
-// application context subschemas-------------------------------------------
+
+//-------------------------------------------------------------------------------
+// ---------------APPLICATON CONTEXT SUBSCHEMAS----------------------------------
+//-------------------------------------------------------------------------------
 const paymentMethod = new mongoose.Schema(
   {
     payer_selected: {
@@ -338,7 +351,9 @@ const applicationContext = new mongoose.Schema(
   { _id: false, strict: 'throw' }
 );
 
-//   Order schema----------------------------------------------
+//-------------------------------------------------------------------------------
+// ----------------------------ORDER SCHEMA--------------------------------------
+//-------------------------------------------------------------------------------
 const orderSchema = new mongoose.Schema({
   intent: {
     type: String,

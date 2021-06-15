@@ -1,3 +1,10 @@
+// ================================================================================================
+//  File Name: wallet.js
+//  Description:
+//  This file holds the diffrent functions for the wallet routes. These functions are called
+//  from routes/intern/wallets.js. Functions are getting users balance, getting dashboard data
+//  for the front end and getting tokens from a faucet.
+// ================================================================================================
 const { getBalance } = require('../../helper/wallet/transactions/balance');
 const { getTokens } = require('../../helper/wallet/transactions/faucet');
 const {
@@ -6,7 +13,12 @@ const {
 } = require('../../helper/wallet/transactions/getUsersTransactions');
 const Wallet = require('../../models/Wallets/Wallet');
 
-/** *******************GET USERS WALLET ADDRESS******************* */
+/**
+ * Gets the current users balance
+ * @param  {Object} req The users request object with user id
+ * @param  {Object} res The response object
+ * @returns {Object} containing the users address
+ */
 exports.getAddress = async (req, res) => {
   const { user } = req;
 
@@ -15,7 +27,12 @@ exports.getAddress = async (req, res) => {
   res.status(200).send({ address: wallet.address });
 };
 
-/** *******************GET USER DASHBOARD DATA******************* */
+/**
+ * Gets users data needed for displaying on dashboard on the frondend
+ * @param  {Object} req The users request object with user id
+ * @param  {Object} res The response object
+ * @returns {Object} containing the users address, balance, recent contacts and recent transactions
+ */
 exports.getDashboardData = async (req, res) => {
   const { user } = req;
 
@@ -40,7 +57,13 @@ exports.getDashboardData = async (req, res) => {
   res.status(200).send(returnData);
 };
 
-/** *******************GET TOKENS FROM FAUCET*********************** */
+/**
+ * Faucet for getting some testnet tokens. This gets some native tokens for gas fees
+ * and some ERC20 tokens as payment tokens.
+ * @param  {Object} req The users request object with user id and requested amount
+ * @param  {Object} res The response object
+ * @returns {Object} containing the transaction hashes of both transactions
+ */
 exports.getToken = async (req, res) => {
   const { user } = req;
   const { value } = req.body;

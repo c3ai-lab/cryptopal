@@ -1,8 +1,20 @@
+// ================================================================================================
+//  File Name: identity.js
+//  Description:
+//  This file holds the diffrent functions for the identity routes. These functions are called from
+//  routes/indentity.js. Functions are getting and updating users information as well as changing
+//  the users role from and to merchant.
+// ================================================================================================
 const jwt = require('jsonwebtoken');
 const { sendChangeEmailConfirmation } = require('../helper/mailer/mailSender');
 const User = require('../models/User/User');
 
-/** *******************GET USER INFO HANDLER******************* */
+/**
+ * Get users information
+ * @param  {Object} req The users request object
+ * @param  {Object} res The response object
+ * @returns {Object} user information
+ */
 exports.getUserInfo = async (req, res) => {
   const { user } = req;
   const returnedUser = {
@@ -18,7 +30,12 @@ exports.getUserInfo = async (req, res) => {
   res.status(200).send(returnedUser);
 };
 
-/** *******************UPDATE USER INFO HANDLER******************* */
+/**
+ * Update users information. Sends an confirmation email if the email is changed
+ * @param  {Object} req The request object with user update data
+ * @param  {Object} res The response object
+ * @returns {Object} updated user information
+ */
 exports.updateUserInfo = async (req, res) => {
   const { user } = req;
   const updateData = req.body.user;
@@ -59,7 +76,12 @@ exports.updateUserInfo = async (req, res) => {
   }
 };
 
-/** *******************VALIDATE CHANGE EMAIL HANDLER******************* */
+/**
+ * Validates the email change by checking if the json web token is valid
+ * @param  {Object} req The users request object with token param
+ * @param  {Object} res The response object
+ * @returns redirects to email confirmed page
+ */
 exports.validateEmailChange = async (req, res) => {
   // check if token is valid
   const decodedUser = jwt.verify(
@@ -82,7 +104,12 @@ exports.validateEmailChange = async (req, res) => {
   }
 };
 
-/** *******************UPGRADE USER TO MERCHANT HANDLER******************* */
+/**
+ * Updates users role to a merchant
+ * @param  {Object} req The users request with user id
+ * @param  {Object} res The response object
+ * @returns {String} The merchant id
+ */
 exports.upgradeToMerchant = async (req, res) => {
   const { user } = req;
 
@@ -99,7 +126,11 @@ exports.upgradeToMerchant = async (req, res) => {
   }
 };
 
-/** *******************DOWNGRADE MERCHANT TO USER HANDLER******************* */
+/**
+ * Downgrades merchant to user role
+ * @param  {Object} req The users request with user id
+ * @param  {Object} res The response object
+ */
 exports.downgradeToUser = async (req, res) => {
   const { user } = req;
 

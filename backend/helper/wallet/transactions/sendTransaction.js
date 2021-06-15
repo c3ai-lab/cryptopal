@@ -1,9 +1,21 @@
+// ================================================================================================
+//  File Name: sendTransaction.js
+//  Description:
+//  This function sends a transaction with passed in data to the passed in blockchain.
+// ================================================================================================#
 const EthereumTx = require('ethereumjs-tx').Transaction;
 const CryptoJS = require('crypto-js');
 
-/*
- * function to send a transaction with the passed values to the passed network
- * with the passed private key.
+/**
+ * Creating a transaction with received data and send it to the blockchain
+ * @param  {any} web3 The id of the user
+ * @param  {String} from The address of the sending wallet
+ * @param  {String} to The address of the reiceiving wallet
+ * @param  {String} value The amount of erc20 token to be sent
+ * @param  {String} payload The payload data attached to the transaction
+ * @param  {Object} networkInfo The network information for sending a transaction
+ * @param  {String} sk The encrypted secret key of senders wallet
+ * @return {Promise} Containing the sent transaction hash
  */
 exports.sendTransaction = async (
   web3,
@@ -14,14 +26,11 @@ exports.sendTransaction = async (
   networkInfo,
   sk
 ) => {
-  console.log('ST: inside');
   // get current network parameters for function call
   const txCount = await web3.eth.getTransactionCount(from);
   const gasPrice = await web3.eth.getGasPrice();
-  console.log(`ST: GasPrice: ${gasPrice}`);
 
   // define transaction data
-  console.log(`ST: ${web3.utils.toHex(txCount)}`);
   const rawTx = {
     nonce: web3.utils.toHex(txCount),
     gasPrice: web3.utils.toHex(gasPrice),
@@ -40,7 +49,6 @@ exports.sendTransaction = async (
   const privateKey = Buffer.from(encodedKey, 'hex');
 
   // sign transaction for network
-  console.log('ST: sign tx');
   const tx = new EthereumTx(rawTx, networkInfo);
   tx.sign(privateKey);
 
@@ -50,25 +58,17 @@ exports.sendTransaction = async (
   const serializedTx = `0x${tx.serialize().toString('hex')}`;
   await web3.eth.sendSignedTransaction(serializedTx, (err, hash) => {
     if (err) {
-      console.log('ST: err');
-      console.log(err.message);
       error = err;
     } else {
-      console.log('ST: send TX successfull');
-      console.log(hash);
       txHash = hash;
     }
   });
 
-  console.log('ST: create promise');
-
   // return promise
   return new Promise((resolve, reject) => {
     if (error) {
-      console.log('ST: reject');
       reject(error);
     } else {
-      console.log('ST: resolve');
       resolve(txHash);
     }
   });

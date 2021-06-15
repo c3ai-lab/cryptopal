@@ -1,11 +1,19 @@
-/*
- * Validation of send authentification data to reject
- * requests with wrong formated data
- */
+// ================================================================================================
+//  File Name: authValidation.js
+//  Description:
+//  This file holds functions for verifing request data with joi validation schemas. It creates
+//  joi validation schema objects and calls the validateSchema function to validate request data.
+//  This functions are used as a middleware on authentication routes.
+// ================================================================================================
 const Joi = require('@hapi/joi');
 const { validateSchema } = require('../validateSchema');
 
-// set up joi validation of registration data
+/**
+ * Set up joi validation schema for registration data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.registerValidation = (req, res, next) => {
   const address = Joi.object({
     street_address: Joi.string().required(),
@@ -29,7 +37,12 @@ exports.registerValidation = (req, res, next) => {
   validateSchema(req, res, next, schema);
 };
 
-// set up joi validation of login data
+/**
+ * Set up joi validation schema for login data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.loginValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required(),
@@ -39,7 +52,12 @@ exports.loginValidation = (req, res, next) => {
   validateSchema(req, res, next, schema);
 };
 
-// set up joi validation of login data
+/**
+ * Set up joi validation schema for change password data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.changePasswordValidation = (req, res, next) => {
   const schema = Joi.object({
     id: Joi.string().required(),
@@ -50,7 +68,12 @@ exports.changePasswordValidation = (req, res, next) => {
   validateSchema(req, res, next, schema);
 };
 
-// set up joi validation of login data
+/**
+ * Set up joi validation schema for recover password data and call validate function.
+ * @param  {Object} req The request object
+ * @param  {Object} res The response object
+ * @param  {Function} next The function to proceed
+ */
 exports.recoverPasswordValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().required(),

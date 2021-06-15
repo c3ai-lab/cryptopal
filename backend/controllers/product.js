@@ -1,10 +1,23 @@
+// ================================================================================================
+//  File Name: product.js
+//  Description:
+//  This file holds the diffrent functions for the products routes. These functions are called from
+//  routes/products.js. Functions are adding, updating, deleting, getting one and getting all
+//  products.
+// ================================================================================================
 const mongoose = require('mongoose');
 const Product = require('../models/Product/Product');
 
-/** **********************ADD PRODUCT HANDLER*********************** */
+/**
+ * Adding a product to the database. Sending success/ error response
+ * @param  {Object} req The request object with product data sent by user
+ * @param  {Object} res The response object
+ * @returns {Object} added product
+ */
 exports.addProduct = async (req, res) => {
   const { user } = req;
 
+  // generate an id if the user does not provide one
   const id = req.body.id ? req.body.id : mongoose.Types.ObjectId();
   const creationTime = new Date().toISOString();
 
@@ -28,13 +41,17 @@ exports.addProduct = async (req, res) => {
       update_time: creationTime,
     });
   } catch (err) {
-    console.log(err);
     if (err.code === 11000) return res.status(400).send('Duplicated id.');
     res.status(400).send('Failed saving product.');
   }
 };
 
-/** **********************GET ALL PRODUCTS HANDLER*********************** */
+/**
+ * Get products from database. Amount is set by req.query.page and req.query.page_size.
+ * @param  {Object} req The request object send by user with page and page_size query
+ * @param  {Object} res The response object
+ * @returns {Array} Array of all requested products
+ */
 exports.getProducts = async (req, res) => {
   const { user } = req;
 
@@ -64,7 +81,12 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-/** **********************GET SINGLE PRODUCT HANDLER*********************** */
+/**
+ * Get a product from database by id.
+ * @param  {Object} req The request object with id param
+ * @param  {Object} res The response object
+ * @returns {Object} requested product
+ */
 exports.getProduct = async (req, res) => {
   try {
     // get product from database
@@ -80,7 +102,12 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-/** **********************UPDATE PRODUCT HANDLER*********************** */
+/**
+ * Update a product by id.
+ * @param  {Object} req The request object with id param and update data
+ * @param  {Object} res The response object
+ * @returns {Object} updated product
+ */
 exports.updateProduct = async (req, res) => {
   const { user } = req;
   // get product
@@ -106,7 +133,11 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-/** **********************DELETE PRODUCT HANDLER*********************** */
+/**
+ * Delete a product from database by id.
+ * @param  {Object} req The request object with id param
+ * @param  {Object} res The response object
+ */
 exports.deleteProduct = async (req, res) => {
   const { user } = req;
 

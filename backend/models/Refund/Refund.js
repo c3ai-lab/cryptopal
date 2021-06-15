@@ -1,3 +1,9 @@
+// ================================================================================================
+//  File Name: Refund.js
+//  Description:
+//  This file holds mongoose schemas for the refund object. This object represents a refund payment
+//  created by a merchant. Refunds will be saved this way in the database.
+// ================================================================================================
 const mongoose = require('mongoose');
 const money = require('../GeneralModels/Money');
 const platformFee = require('../GeneralModels/PaymentInstructions');
