@@ -138,7 +138,7 @@ exports.getTransactions = async (req, res) => {
     // get total items and pages if requested
     if (req.query.total_required) {
       const allTransactions = await Transaction.find({
-        merchant_id: user.merchant_id,
+        $or: [{ 'sender.id': user._id }, { 'receiver.id': user._id }],
       });
       const totalPages = Math.ceil(allTransactions.length / numberOfItems);
       res.status(200).send({
