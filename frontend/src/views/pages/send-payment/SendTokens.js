@@ -21,6 +21,7 @@ import {
 } from 'reactstrap';
 import { Search, CheckCircle, XCircle } from 'react-feather';
 import Avatar from '../../../components/@vuexy/avatar/AvatarComponent';
+import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
 import '../../../assets/scss/pages/send-tokens.scss';
 import SendPaymentModal from './SendPaymentModal';
 import {
@@ -185,6 +186,10 @@ class SendTokens extends React.Component {
     }
     return (
       <div>
+        <Breadcrumbs
+          breadCrumbTitle="Send Payment"
+          breadCrumbActive="SendPayment"
+        />
         {/* render loading spinner */}
         {this.state.loading ? (
           <div className="spinner-container">
