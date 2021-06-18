@@ -5,12 +5,12 @@ import { history } from '../history';
 const FullPageLayout = ({ children }) => {
   return (
     <div
-      className={classnames(
-        'full-layout wrapper bg-full-screen-image dark-layout',
-        {
-          'blank-page': history.location.pathname !== '/'
-        }
-      )}>
+      className={classnames('wrapper bg-full-screen-image dark-layout', {
+        'blank-page':
+          history.location.pathname !== '/' &&
+          history.location.pathname !== '/registered' &&
+          history.location.pathname !== '/email-confirmed'
+      })}>
       <div className="app-content">
         <div className="content-wrapper">
           <div className="content-body">

@@ -67,3 +67,16 @@
   margin: 0;
   padding: 0;
 }
+
+// layout for mobile
+@media only screen and (max-width: 600px) {
+  .transaction-page {
+    padding: 0;
+  }
+
+  .transaction-header {
+    button {
+      display: none;
+    }
+  }
+}

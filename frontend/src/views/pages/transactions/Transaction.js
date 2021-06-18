@@ -83,7 +83,6 @@ class Transaction extends React.Component {
           breadCrumbActive="Transaction"
         />
         <Row>
-          <Col className="mb-1 transaction-header" md="5" sm="12"></Col>
           <Col
             className="d-flex flex-column flex-md-row justify-content-end transaction-header mb-1"
             md="7"

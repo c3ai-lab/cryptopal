@@ -196,7 +196,7 @@ html {
     }
 
     .bg-full-screen-image {
-      background: url("../../../img/pages/vuesax-login-bg.jpg") no-repeat center
+      background: url('../../../img/pages/vuesax-login-bg.jpg') no-repeat center
         center;
       background-size: cover;
     }
@@ -224,12 +224,12 @@ html {
           align-items: center;
           height: 100vh;
           justify-content: center;
-          overflow: hidden;
+          // overflow: hidden;
         }
       }
     }
     //Remove left margin for 1 column layout
-    &[data-col="1-column"] {
+    &[data-col='1-column'] {
       .content,
       .footer {
         margin-left: 0px !important;
@@ -288,7 +288,7 @@ html {
     margin-top: $navbar-height + 1;
   }
   //left sticky sidebar
-  [data-col="content-left-sidebar"] {
+  [data-col='content-left-sidebar'] {
     .sticky-wrapper {
       float: left;
     }
@@ -337,14 +337,14 @@ html {
 }
 
 .vertical-layout {
-  .main-menu{
-    .navigation{
-      .menu-content{
-        li a{
-          svg:first-child{
+  .main-menu {
+    .navigation {
+      .menu-content {
+        li a {
+          svg:first-child {
             margin-right: 1.38rem !important;
           }
-          .menu-toggle-icon{
+          .menu-toggle-icon {
             right: 9px;
           }
         }

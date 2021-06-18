@@ -149,21 +149,13 @@ class DataListConfig extends Component {
           name: 'Name',
           selector: 'name',
           width: '25%',
-          cell: (row) => (
-            <p title={row.name} className="text-truncate text-bold-500 mb-0">
-              {row.name}
-            </p>
-          )
+          cell: (row) => `${row.name}`
         },
         {
           name: 'Date',
           selector: 'date',
           width: '25%',
-          cell: (row) => (
-            <p title={row.date} className="text-truncate text-bold-500 mb-0">
-              {formatDate(new Date(row.date))}
-            </p>
-          )
+          cell: (row) => `${formatDate(new Date(row.date))}`
         },
         {
           name: 'Type',
@@ -175,7 +167,7 @@ class DataListConfig extends Component {
           name: 'Value',
           selector: 'value',
           width: '25%',
-          cell: (row) => <p>{parseFloat(row.value).toFixed(2)} USD</p>
+          cell: (row) => `${parseFloat(row.value).toFixed(2)} USD`
         }
       ];
       const { totalPages, totalItems } = this.props.wallet;

@@ -4,16 +4,16 @@
 // ================================================================================================
 
 // Core variables and mixin
-@import "~bootstrap/scss/_functions.scss";
-@import "~bootstrap/scss/mixins";
-@import "../bootstrap-extended/mixins";
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/mixins';
+@import '../bootstrap-extended/mixins';
 
 // Load variable overrides
-@import "../core/variables/variables";
-@import "~bootstrap/scss/_variables.scss";
+@import '../core/variables/variables';
+@import '~bootstrap/scss/_variables.scss';
 
 // Overrides user variable
-@import "../core/variables/components-variables";
+@import '../core/variables/components-variables';
 
 // Data List
 
@@ -41,7 +41,7 @@
         max-width: 200px;
       }
       &:after {
-        content: "\e8bd";
+        content: '\e8bd';
         font-family: feather;
         position: absolute;
         left: 1rem;

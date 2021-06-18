@@ -15,6 +15,7 @@ class Transactions extends React.Component {
         <Breadcrumbs
           breadCrumbTitle="Transactions"
           breadCrumbActive="Transactions"
+          parentPath="/transactions"
         />
         <Row>
           <Col sm="12">
