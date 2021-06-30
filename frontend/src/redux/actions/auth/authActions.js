@@ -95,7 +95,6 @@ export const login = (user) => (dispatch) => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      history.push('/dashboard');
     })
     .catch((err) => {
       dispatch(

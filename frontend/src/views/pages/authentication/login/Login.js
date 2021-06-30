@@ -29,8 +29,8 @@ import { clearErrors } from '../../../../redux/actions/errors/errorActions';
 class Login extends React.Component {
   // keep track of entered credentials
   state = {
-    email: 'lars.ra@web.de',
-    password: 'lololo',
+    email: '',
+    password: '',
     msg: null
   };
 
@@ -51,8 +51,9 @@ class Login extends React.Component {
     }
 
     // clear errors if log in was successful
-    if (this.props.isAuthenticated && error.status) {
-      this.props.clearErrors();
+    if (this.props.isAuthenticated) {
+      if (error.status) this.props.clearErrors();
+      history.push('/dashboard');
     }
   }
 
