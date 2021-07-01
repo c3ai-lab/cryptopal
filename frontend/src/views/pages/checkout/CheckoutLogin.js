@@ -23,8 +23,8 @@ import '../../../assets/scss/pages/authentication.scss';
 class CheckoutLogin extends React.Component {
   // keep track of entered credentials
   state = {
-    email: 'lars.ra@web.de',
-    password: 'lololo'
+    email: '',
+    password: ''
   };
 
   // render login page with input fields for email and password

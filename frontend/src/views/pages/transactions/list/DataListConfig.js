@@ -204,7 +204,6 @@ class DataListConfig extends Component {
 
   // render table with given transactions and configured properties
   render() {
-    console.log(this.state);
     let { columns, data, parsedFilter, totalPages, totalItems } = this.state;
     return (
       <div className="data-list list-view">

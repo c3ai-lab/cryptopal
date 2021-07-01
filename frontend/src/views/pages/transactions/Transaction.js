@@ -17,6 +17,7 @@ import {
 } from '../../../redux/actions/wallet/walletActions';
 
 import '../../../assets/scss/pages/transaction.scss';
+import Axios from 'axios';
 
 class Transaction extends React.Component {
   // properties of the transaction receipt
@@ -27,7 +28,8 @@ class Transaction extends React.Component {
     hash: '',
     description: '',
     date: '',
-    value: ''
+    value: '',
+    items: null
   };
 
   // get transaction data by id from server
@@ -50,6 +52,37 @@ class Transaction extends React.Component {
       const formattedDate = formatDate(date);
       this.setState({ ...transaction, date: formattedDate });
     }
+
+    // get order data if transaction belongs to an order
+    if (transaction.description) {
+      const words = transaction.description.split(' ');
+      if (
+        words[0] === 'Order' &&
+        words[1] === 'number' &&
+        this.state.items === null
+      ) {
+        this.getOrderDetails(words[2]);
+      }
+    }
+  }
+
+  // get order details by id
+  getOrderDetails(orderId) {
+    // Headers
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        'cp-auth-token': this.props.token
+      }
+    };
+    Axios.get(process.env.REACT_APP_SERVER_API + '/orders/' + orderId, config)
+      .then((res) => {
+        console.log('got items');
+        this.setState({ items: res.data.purchase_units[0].items });
+      })
+      .catch(() => {
+        this.setState({ items: 'error' });
+      });
   }
 
   // clear data on unmount
@@ -74,6 +107,32 @@ class Transaction extends React.Component {
         explorerLink = process.env.REACT_APP_SOKOL_EXPLORER + this.state.hash;
         break;
     }
+
+    // create table with order details if transaction belongs to an order
+    let items = [];
+    if (this.state.items) {
+      this.state.items.forEach((item) => {
+        const itemData = (
+          <tr key={item.name}>
+            <td>{item.name}</td>
+            <td className="align-center">
+              ${parseFloat(item.unit_amount.value).toFixed(2)}
+            </td>
+            <td className="align-center">
+              {parseFloat(item.quantity).toFixed(2)}
+            </td>
+            <td className="align-center">
+              $
+              {(
+                parseFloat(item.quantity) * parseFloat(item.unit_amount.value)
+              ).toFixed(2)}
+            </td>
+          </tr>
+        );
+        items.push(itemData);
+      });
+    }
+
     return (
       <React.Fragment>
         {/* header and controlling elements to print or download receipt */}
@@ -177,6 +236,20 @@ class Transaction extends React.Component {
                           </tr>
                         </tbody>
                       </Table>
+                      {/* show order details if transaction belongs to an order */}
+                      {this.state.items ? (
+                        <Table responsive>
+                          <thead>
+                            <tr>
+                              <th>ITEM</th>
+                              <th className="align-center">PRICE</th>
+                              <th className="align-center">QUANTITY</th>
+                              <th className="align-center">TOTAL</th>
+                            </tr>
+                          </thead>
+                          <tbody>{items}</tbody>
+                        </Table>
+                      ) : null}
                     </Col>
                   </Row>
                 </div>
@@ -185,14 +258,14 @@ class Transaction extends React.Component {
                 <div className="transaction-total-table">
                   <Row>
                     <Col
-                      sm={{ size: 7, offset: 5 }}
+                      sm={{ size: 3, offset: 8 }}
                       xs={{ size: 7, offset: 5 }}>
                       <Table responsive borderless>
                         <tbody>
                           <tr>
                             <th>TOTAL AMOUNT</th>
                             <td>
-                              <strong>{this.state.value} USD</strong>
+                              <strong>${this.state.value}</strong>
                             </td>
                           </tr>
                         </tbody>
@@ -227,7 +300,8 @@ class Transaction extends React.Component {
 
 // get state from redux
 const mapStateToProps = (state) => ({
-  transaction: state.wallet.transaction
+  transaction: state.wallet.transaction,
+  token: state.auth.token
 });
 
 export default connect(mapStateToProps, { getTransaction, clearTransaction })(

@@ -35,6 +35,9 @@
       border: 2px solid $body-bg;
     }
   }
+  .align-center {
+    text-align: center;
+  }
 }
 
 // media query for print
@@ -78,5 +81,8 @@
     button {
       display: none;
     }
+  }
+  .content-wrapper {
+    padding: 0 !important;
   }
 }
