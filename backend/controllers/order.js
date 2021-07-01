@@ -145,7 +145,12 @@ exports.createOrder = async (req, res) => {
     status: 'CREATED',
     create_time: creationTime,
     update_time: creationTime,
-    payee_address: payeeWallet.address,
+    payee: {
+      address: payeeWallet.address,
+      company: user.company,
+      name: `${user.given_name} ${user.family_name}`,
+      email_address: user.login_name,
+    },
   });
 
   try {
@@ -305,7 +310,7 @@ exports.capturePayment = async (req, res) => {
 
   // get transaction related data
   const { user } = req;
-  const to = requestedOrder.payee_address;
+  const to = requestedOrder.payee.address;
   const { value } = payment.amount;
   const description = `Order number ${req.params.id}`;
 

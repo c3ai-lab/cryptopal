@@ -386,11 +386,24 @@ const orderSchema = new mongoose.Schema({
     minLength: 20,
     max: 64,
   },
-  payee_address: {
-    type: String,
-    required: true,
-    minlength: 42,
-    maxlength: 42,
+  payee: {
+    address: {
+      type: String,
+      required: true,
+      minlength: 42,
+      maxlength: 42,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    company: {
+      type: String,
+    },
+    email_address: {
+      type: String,
+      required: true,
+    },
   },
 });
 
