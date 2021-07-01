@@ -8,6 +8,7 @@
 const jwt = require('jsonwebtoken');
 const { sendChangeEmailConfirmation } = require('../helper/mailer/mailSender');
 const User = require('../models/User/User');
+const Wallet = require('../models/Wallets/Wallet');
 
 /**
  * Get users information
@@ -70,6 +71,11 @@ exports.updateUserInfo = async (req, res) => {
       { useFindAndModify: false }
     );
 
+    await Wallet.findOneAndUpdate(
+      { user_id: user._id },
+      { user_name: `${updateData.given_name} ${updateData.family_name}` }
+    );
+
     res.status(200).send(updateData);
   } catch (err) {
     res.status(400).send('Failed to update user!');
@@ -98,6 +104,12 @@ exports.validateEmailChange = async (req, res) => {
 
   try {
     await user.save();
+
+    await Wallet.findOneAndUpdate(
+      { user_id: user._id },
+      { user_email: req.query.email }
+    );
+
     res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`);
   } catch (err) {
     res.status(400).send('Failed Email change');
