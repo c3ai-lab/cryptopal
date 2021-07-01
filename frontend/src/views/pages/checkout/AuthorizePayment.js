@@ -9,10 +9,11 @@ import { Button, Card, CardBody, Row, Col } from 'reactstrap';
 import { history } from '../../../history';
 
 import '../../../assets/scss/pages/authentication.scss';
+import '../../../assets/scss/pages/checkout.scss';
 import Axios from 'axios';
 
 class AuthorizePayment extends React.Component {
-  // keep track of entered credentials
+  // safe order and error feedback
   state = {
     order: null,
     msg: null
@@ -33,7 +34,6 @@ class AuthorizePayment extends React.Component {
       config
     )
       .then((res) => {
-        console.log(res);
         this.setState({ order: res.data });
       })
       .catch((err) => {
@@ -41,16 +41,86 @@ class AuthorizePayment extends React.Component {
       });
   }
 
-  // render login page with input fields for email and password
-  render() {
-    const order = this.state.order;
-    let price = '';
-    if (order) price = order.purchase_units[0].amount.value;
+  // format date of order
+  getDateFormated(date) {
+    const formatDate = new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    }).format;
+    return formatDate(date);
+  }
 
+  // render review of order with prices and payee info
+  render() {
+    // get all information about items from order
+    const order = this.state.order;
+    let info = null;
+    let payee = null;
+    let items = [];
+    let totalPrice = '';
+    if (order) {
+      // order number and creation date
+      info = (
+        <tr>
+          <td>
+            Order: {this.props.orderId}
+            <br />
+            {this.getDateFormated(new Date(order.create_time))}
+          </td>
+        </tr>
+      );
+
+      // order payee data
+      payee = (
+        <tr>
+          <td>
+            {order.payee.company || ''}
+            <br />
+            {order.payee.name}
+            <br />
+            {order.payee.email_address}
+          </td>
+        </tr>
+      );
+      // order items with name, quantity and prices
+      order.purchase_units[0].items.forEach((item) => {
+        const element = (
+          <tr className="item" key={item.name}>
+            <td>{item.name}</td>
+
+            <td>${parseFloat(item.unit_amount.value).toFixed(2)}</td>
+
+            <td className="value-center">
+              {parseFloat(item.quantity).toFixed(2)}
+            </td>
+
+            <td className="value-center">
+              $
+              {(
+                parseFloat(item.quantity) * parseFloat(item.unit_amount.value)
+              ).toFixed(2)}
+            </td>
+          </tr>
+        );
+        items.push(element);
+      });
+
+      // order total price
+      totalPrice = parseFloat(order.purchase_units[0].amount.value).toFixed(2);
+    }
+
+    // create error message output if the order can not be found
     if (this.state.msg) {
       return (
         <div>
           <h1>Order cannot be found!</h1>
+        </div>
+      );
+    } else if (order && order.status === 'COMPLETED') {
+      return (
+        <div>
+          <h1>Order already completed!</h1>
         </div>
       );
     } else {
@@ -61,7 +131,41 @@ class AuthorizePayment extends React.Component {
               <CardBody>
                 <h4>Authorize payment</h4>
                 <p>Please check the order details and authorize payment.</p>
-                <div>{price}</div>
+                <div className="invoice-box">
+                  <table cellPadding="0" cellSpacing="0">
+                    <thead>
+                      <tr className="top">
+                        <td colSpan="4">
+                          <table>
+                            <tbody>{info}</tbody>
+                          </table>
+                        </td>
+                      </tr>
+
+                      <tr className="information">
+                        <td colSpan="2">
+                          <table>
+                            <tbody>{payee}</tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr className="heading">
+                        <td>Item</td>
+
+                        <td>Price</td>
+
+                        <td>Quantity</td>
+
+                        <td>Total</td>
+                      </tr>
+                      {items}
+                    </tbody>
+                  </table>
+                  <p className="total">Total Price: $ {totalPrice}</p>
+                </div>
                 {/* buttons to log in or switch to register page */}
                 <div className="d-flex justify-content-between">
                   <Button.Ripple
@@ -72,7 +176,9 @@ class AuthorizePayment extends React.Component {
                   </Button.Ripple>
                   <Button.Ripple
                     color="primary"
-                    onClick={this.props.onAuthorize}>
+                    onClick={(e) =>
+                      this.props.onAuthorize(e, order.payee, totalPrice)
+                    }>
                     Authorize
                   </Button.Ripple>
                 </div>

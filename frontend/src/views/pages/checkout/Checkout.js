@@ -13,21 +13,24 @@ import '../../../assets/scss/pages/authentication.scss';
 import { connect } from 'react-redux';
 import { login } from '../../../redux/actions/auth/authActions';
 import { clearErrors } from '../../../redux/actions/errors/errorActions';
-import Axios from 'axios';
 import CheckoutLogin from './CheckoutLogin';
 import AuthorizePayment from './AuthorizePayment';
+import CapturePayment from './CapturePayment';
+import Axios from 'axios';
 
 class Checkout extends React.Component {
   constructor() {
     super();
     this.onLogin = this.onLogin.bind(this);
+    this.onAuthorizePayment = this.onAuthorizePayment.bind(this);
   }
   // keep track of entered credentials
   state = {
     msg: null,
     authorizedPayment: false,
     orderId: null,
-    redirectId: null
+    payee: null,
+    price: ''
   };
 
   // send login request with redux actions
@@ -37,18 +40,38 @@ class Checkout extends React.Component {
   }
 
   // authorize payment for given order
-  onAuthorizePayment(e, orderId) {
+  onAuthorizePayment(e, payee, price) {
     e.preventDefault();
-    Axios.post();
-    this.setState({ authorizedPayment: true });
+    console.log(this.state.orderId);
+    // Headers
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        'cp-auth-token': this.props.token
+      }
+    };
+
+    Axios.post(
+      process.env.REACT_APP_SERVER_API +
+        '/orders/' +
+        this.state.orderId +
+        '/authorize',
+      {},
+      config
+    )
+      .then(() => {
+        this.setState({ authorizedPayment: true, payee, price });
+      })
+      .catch((err) => {
+        this.setState({ msg: err.message });
+      });
   }
 
   // get params from link
   componentDidMount() {
     const url = new URL(window.location.href);
-    const orderId = url.searchParams.get('cporder');
-    const redirectId = url.searchParams.get('wporder');
-    this.setState({ orderId, redirectId });
+    const orderId = url.searchParams.get('order');
+    this.setState({ orderId });
   }
 
   // check for login error
@@ -76,11 +99,18 @@ class Checkout extends React.Component {
         <AuthorizePayment
           token={this.props.token}
           orderId={this.state.orderId}
-          onAuthorize={this.props.onAuthorize}
+          onAuthorize={this.onAuthorizePayment}
         />
       );
       if (this.state.authorizedPayment) {
-        content = <h1>Authorized</h1>;
+        content = (
+          <CapturePayment
+            token={this.props.token}
+            orderId={this.state.orderId}
+            price={this.state.price}
+            payee={this.state.payee}
+          />
+        );
       }
     }
     return (

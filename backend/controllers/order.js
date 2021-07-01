@@ -29,6 +29,7 @@ const createResponseFormat = (orderData) => {
     payer,
     purchase_units,
     status,
+    payee,
   } = orderData;
   // send response object
   const response = {
@@ -41,6 +42,7 @@ const createResponseFormat = (orderData) => {
     purchase_units,
     status,
     links: [],
+    payee,
   };
   return response;
 };
