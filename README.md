@@ -1,4 +1,3 @@
-
 # Welcome to Cryptopal!
 
 Cryptopal is a provider for online cryptocurrency payments with stable coins. It makes payments on any network running the EVM (Ethereum virtual machine) with any ERC20 token possible. The service uses custodial wallets to make payments with cryptocurrency as easy as possible for the user. The user only needs to care about the logging in credentials to use the advantages of blockchain technologies.
@@ -15,11 +14,11 @@ After logging in the user can also see a transaction history and all details of 
 
 The Frontend repository holds a .env.example file. It is necessary to create an .env file based on this file with the custom configuration.
 
->The most important variable is **REACT_APP_SERVER_API** to make the service running.
+> The most important variable is **REACT_APP_SERVER_API** to make the service running.
 
 **REACT_APP_SERVER_API** should be an URL referencing to the running backend.
 
->The network and explorer variables are needed, if you want to access the on chain data via an explorer.
+> The network and explorer variables are needed, if you want to access the on chain data via an explorer.
 
 The explorer variables are predefined for sokol and kovan testnet. You can enter a custom explorer address. To select the right explorer set the **REACT_APP_NETWORK** variable.
 
@@ -43,9 +42,13 @@ The following variables have to be set:
 
 - **TOKEN_SECRET_CONFIRM** - a secret string to create JWT for email confirmation at registration
 
+- **SECRET_PRIVATE_KEY** - a secret string to encode/decode the stored private keys of the wallets
+
 - **SERVER_URL** - the URL where this service is running on
 
 - **FRONTEND_URL** - the URL where the frontend is running on for redirections
+
+- **EMAIL_PROVIDER** - the prodiver of the email account to send email from for the service
 
 - **EMAILADDRESS_SENDER** - email address of an email account for the service. This account is sending emails for verification when users are signing up or changing passwords.
 
@@ -67,14 +70,13 @@ The following variables have to be set:
 
 - **FAUCET_ADDRESS** - the address of the account holding the initial amount of the erc20 token acting as a faucet.
 
-- **FAUCET_PRIVATE_KEY** - the private key of the faucet account to make signing transactions possible
-
+- **FAUCET_PRIVATE_KEY** - the encrypted private key of the faucet account to make signing transactions possible (has to be encrypted with the SECRET_PRIVATE_KEY)
 
 ### API Callflow
 
 The API can be used by merchants to provide cryptocurrency payment to the user.
 
-![alt text](https://github.com/c3ai-lab/cryptopal/blob/master/diagram.svg)
+![alt text](https://github.com/c3ai-lab/cryptopal/blob/master/diagram.png)
 
 ## API Documentation
 
@@ -82,7 +84,7 @@ The Docs repository holds the documentation of the Cryptopal api. The API is ver
 
 ## Live demos
 
-As a live demonstration of the service we use the sokol network (xDai testnet) and Dai-ERC20 token for transferring value. To explore the functions of Cryptopal you can have a look at the live demos provided at the following urls:
+As a live demonstration of the service we use the kovan network and Dai-ERC20 token for transferring value. To explore the functions of Cryptopal you can have a look at the live demos provided at the following urls:
 
 live frontend demo: https://bluecryptopal.com
 
