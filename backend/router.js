@@ -20,6 +20,13 @@ app.use('/wallet', require('./routes/intern/wallet'));
 
 app.use('/transaction', require('./routes/intern/transaction'));
 
-app.use('/payments', require('./routes/intern/transaction'));
+app.use(
+  '/payments/authorizations',
+  require('./routes/payments/authorizations')
+);
+
+app.use('/payments/captures', require('./routes/payments/captures'));
+
+app.use('/payments/refund', require('./routes/payments/refund'));
 
 module.exports = app;

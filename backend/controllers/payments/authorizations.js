@@ -1,45 +1,86 @@
+// ================================================================================================
+//  File Name: authorizations.js
+//  Description:
+//  This file holds the diffrent functions for authorized payments routes. These functions are
+//  called from routes/payments/authorizations.js. Functions are capturing, getting or voiding an
+//  authorized payment.
+// ================================================================================================
 const Payment = require('../../models/Payment/Payment');
+const Wallet = require('../../models/Wallets/Wallet');
+const Order = require('../../models/Order/Order');
+const { sendPayment } = require('../../helper/wallet/transactions/sendPayment');
 
-/** **********************CAPTURE PAYMENT HANDLER*********************** */
+/**
+ * Capture an authorized payment by id
+ * @param  {Object} req The request object with payment id and user id
+ * @param  {Object} res The response object
+ * @returns {Object} captured payment
+ */
 exports.capturePayment = async (req, res) => {
-  const requestedPayment = await Payment.findById(req.params.id);
+  // get requested payment and user
+  const { user } = req;
+  const payment = await Payment.findById(req.params.id);
   const updateTime = new Date().toISOString();
 
-  if (requestedPayment.status !== 'CREATED') {
+  // check if payment status is valid for being captured
+  if (payment.status !== 'CREATED') {
     return res
       .status(400)
-      .send(
-        `Cannot capture payment. Payment status: ${requestedPayment.status}`
-      );
+      .send(`Cannot capture payment. Payment status: ${payment.status}`);
   }
 
-  // ################### send transaction ###############
-  requestedPayment.final_capture = true;
-  requestedPayment.status = 'COMPLETED';
-  requestedPayment.updateTime = updateTime;
+  // get sending wallet data
+  const wallet = await Wallet.findOne({ user_id: user._id });
+  const from = wallet.address;
+  const sk = wallet.privateKey;
 
-  try {
-    const savedPayment = await requestedPayment.save();
-    // ############### create response object ##################
-    res.status(201).send(savedPayment);
-  } catch (err) {
-    res.status(400).send('Failed saving payment.');
-  }
+  // get receiving wallet address and value from order
+  const order = await Order.findOne({ _id: payment.order_id });
+  const to = order.payee.address;
+  const { value } = order.purchase_units[0].amount;
+  const description = `Order number ${order._id}`;
+
+  // send transaction from payer to merchant
+  await sendPayment(from, to, value, sk, description)
+    .then(async (hash) => {
+      payment.status = 'CAPTURED';
+      payment.final_capture = true;
+      payment.update_time = updateTime;
+      payment.transaction_hash = hash;
+      await payment.save();
+
+      res.status(200).send(payment);
+    })
+    .catch((err) => res.status(400).send(err.message));
 };
 
-/** **********************GET AUTHORIZED PAYMENT HANDLER*********************** */
+/**
+ * Get the authorized payment by id
+ * @param  {Object} req The request object with payment id
+ * @param  {Object} res The response object
+ * @returns {Object} authorized payment
+ */
 exports.getPayment = async (req, res) => {
   try {
-    // ################# und authorized ###################
     const requestedPayment = await Payment.findById(req.params.id);
-    // ############### create response object ##################
-    res.status(201).send(requestedPayment);
+
+    // check if payment is created and authorized
+    if (requestedPayment && requestedPayment.status === 'CREATED') {
+      res.status(201).send(requestedPayment);
+    } else {
+      res.status(400).send('Payment not found.');
+    }
   } catch (err) {
     res.status(400).send('Payment not found.');
   }
 };
 
-/** **********************VOID PAYMENT HANDLER*********************** */
+/**
+ * Voids the authorized payment by id
+ * @param  {Object} req The request object with payment id
+ * @param  {Object} res The response object
+ * @returns {Object} voided payment
+ */
 exports.voidPayment = async (req, res) => {
   try {
     // get payment by id and check if the current payment status is valid
