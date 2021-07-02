@@ -35,17 +35,14 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    minLength: 4,
     max: 256,
   },
   img_url: {
     type: String,
-    minLength: 1,
     max: 2000,
   },
   home_url: {
     type: String,
-    minLength: 1,
     max: 2000,
   },
   create_time: {

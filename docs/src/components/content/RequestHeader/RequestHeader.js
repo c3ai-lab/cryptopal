@@ -8,10 +8,8 @@ class RequestHeader extends React.Component {
     render () {
         const descriptionAuth = (
             <div>
-                To make REST API calls, include the bearer token in the <span className="highlight-code">Authorization</span> 
-                header with the <span className="highlight-code">Bearer</span> authentication scheme. The value is 
-                <span className="highlight-code">Bearer &lt;Access-Token&gt;</span> or 
-                <span className="highlight-code">Basic &lt;client_id&gt;:&lt;secret&gt;</span>.
+                To make REST API calls, include the authorization token in the <span className="highlight-code">cp-auth-token</span> 
+                header. The value is a JSON webtoken which you get from login route with user credentials.
             </div>);
 
         const descriptionContent = (
@@ -23,7 +21,7 @@ class RequestHeader extends React.Component {
         return( 
         <Box>
             <Parameter 
-            name="Authorization" 
+            name="cp-auth-token" 
             type="string" 
             required={true}
             description={descriptionAuth}/>
