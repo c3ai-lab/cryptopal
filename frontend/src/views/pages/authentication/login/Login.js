@@ -29,8 +29,8 @@ import { clearErrors } from '../../../../redux/actions/errors/errorActions';
 class Login extends React.Component {
   // keep track of entered credentials
   state = {
-    email: '',
-    password: '',
+    email: 'lars.ra@web.de',
+    password: 'lololo',
     msg: null
   };
 

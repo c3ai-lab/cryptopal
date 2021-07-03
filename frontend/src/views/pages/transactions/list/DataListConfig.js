@@ -10,7 +10,8 @@ import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
-  DropdownItem
+  DropdownItem,
+  Spinner
 } from 'reactstrap';
 import DataTable from 'react-data-table-component';
 import ReactPaginate from 'react-paginate';
@@ -89,6 +90,7 @@ class DataListConfig extends Component {
     data: [],
     totalPages: 0,
     totalItems: 0,
+    loaded: false,
     parsedFilter: {
       page_size: 5,
       page: 1,
@@ -171,7 +173,7 @@ class DataListConfig extends Component {
         }
       ];
       const { totalPages, totalItems } = this.props.wallet;
-      this.setState({ columns, totalItems, totalPages });
+      this.setState({ columns, totalItems, totalPages, loaded: true });
     }
   }
 
@@ -204,55 +206,65 @@ class DataListConfig extends Component {
 
   // render table with given transactions and configured properties
   render() {
-    let { columns, data, parsedFilter, totalPages, totalItems } = this.state;
-    return (
-      <div className="data-list list-view">
-        <DataTable
-          onRowClicked={(data) => history.push('/transaction?tx=' + data.id)}
-          columns={columns}
-          data={data}
-          pagination
-          paginationServer
-          paginationComponent={() => (
-            <ReactPaginate
-              previousLabel={<ChevronLeft size={15} />}
-              nextLabel={<ChevronRight size={15} />}
-              breakLabel="..."
-              breakClassName="break-me"
-              pageCount={totalPages}
-              containerClassName="vx-pagination separated-pagination pagination-end pagination-sm mb-0 mt-2"
-              activeClassName="active"
-              onPageChange={(page) => this.handlePagination(page)}
-              forcePage={parsedFilter.page - 1}
-            />
-          )}
-          noHeader
-          subHeader
-          responsive
-          pointerOnHover
-          selectableRowsHighlight
-          onSelectedRowsChange={(data) =>
-            this.setState({ selected: data.selectedRows })
-          }
-          customStyles={selectedStyle}
-          subHeaderComponent={
-            <CustomHeader
-              handleSidebar={this.handleSidebar}
-              handleFilter={this.handleFilter}
-              handleRowsPerPage={this.handleRowsPerPage}
-              rowsPerPage={parsedFilter.page_size}
-              total={totalItems}
-              startIndex={(parsedFilter.page - 1) * parsedFilter.page_size + 1}
-              endIndex={
-                parsedFilter.page * parsedFilter.page_size <= totalItems
-                  ? parsedFilter.page * parsedFilter.page_size
-                  : totalItems
-              }
-            />
-          }
-        />
-      </div>
-    );
+    if (this.state.loaded) {
+      let { columns, data, parsedFilter, totalPages, totalItems } = this.state;
+      return (
+        <div className="data-list list-view">
+          <DataTable
+            onRowClicked={(data) => history.push('/transaction?tx=' + data.id)}
+            columns={columns}
+            data={data}
+            pagination
+            paginationServer
+            paginationComponent={() => (
+              <ReactPaginate
+                previousLabel={<ChevronLeft size={15} />}
+                nextLabel={<ChevronRight size={15} />}
+                breakLabel="..."
+                breakClassName="break-me"
+                pageCount={totalPages}
+                containerClassName="vx-pagination separated-pagination pagination-end pagination-sm mb-0 mt-2"
+                activeClassName="active"
+                onPageChange={(page) => this.handlePagination(page)}
+                forcePage={parsedFilter.page - 1}
+              />
+            )}
+            noHeader
+            subHeader
+            responsive
+            pointerOnHover
+            selectableRowsHighlight
+            onSelectedRowsChange={(data) =>
+              this.setState({ selected: data.selectedRows })
+            }
+            customStyles={selectedStyle}
+            subHeaderComponent={
+              <CustomHeader
+                handleSidebar={this.handleSidebar}
+                handleFilter={this.handleFilter}
+                handleRowsPerPage={this.handleRowsPerPage}
+                rowsPerPage={parsedFilter.page_size}
+                total={totalItems}
+                startIndex={
+                  (parsedFilter.page - 1) * parsedFilter.page_size + 1
+                }
+                endIndex={
+                  parsedFilter.page * parsedFilter.page_size <= totalItems
+                    ? parsedFilter.page * parsedFilter.page_size
+                    : totalItems
+                }
+              />
+            }
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="spinner-container">
+          <Spinner color="primary" size="lg" />
+        </div>
+      );
+    }
   }
 }
 

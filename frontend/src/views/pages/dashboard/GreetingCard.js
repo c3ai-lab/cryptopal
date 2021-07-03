@@ -27,7 +27,7 @@ class GreetingCard extends React.Component {
     return (
       <Card
         className="bg-greeting text-white greeting-card"
-        onClick={() => history.push('/transaction/tx=' + tx.id)}>
+        onClick={() => history.push('/transaction?tx=' + tx.id)}>
         <CardBody className="text-center">
           <div className="avatar avatar-xl bg-primary shadow avatar-dashboard mt-0">
             <div className="avatar-content">

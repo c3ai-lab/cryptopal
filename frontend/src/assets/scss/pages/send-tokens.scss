@@ -17,7 +17,6 @@
 
 // wrapper card for component
 .send-tokens-card {
-  position: absolute;
   text-align: center;
   width: 60%;
   margin-left: 20%;
@@ -43,19 +42,6 @@
   }
 }
 
-// loading spinner on send
-.spinner-container {
-  position: absolute;
-  z-index: 1;
-  background-color: $body-bg;
-  opacity: 80%;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 // dialog on send
 .modal-dialog-centered {
   overflow-wrap: break-word;
@@ -72,8 +58,8 @@
 
 @media (max-width: 1200px) {
   .send-tokens-card {
-    width: 90%;
-    margin-left: calc(-30px + 5%);
+    width: 100%;
+    margin: 0;
   }
 
   .send-input {

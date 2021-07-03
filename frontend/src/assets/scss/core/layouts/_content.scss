@@ -89,6 +89,19 @@ html {
             padding: 0.8rem;
           }
         }
+
+        // loading spinner on send
+        .spinner-container {
+          position: absolute;
+          z-index: 1;
+          background-color: $body-bg;
+          opacity: 80%;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
     //for navbar hidden
