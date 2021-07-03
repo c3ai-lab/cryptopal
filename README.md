@@ -84,11 +84,13 @@ The Docs repository holds the documentation of the Cryptopal api. The API is ver
 
 ## Live demos
 
-As a live demonstration of the service we use the kovan network and Dai-ERC20 token for transferring value. To explore the functions of Cryptopal you can have a look at the live demos provided at the following urls:
+As a live demonstration of the service we use the sokol test network and Dai-ERC20 token for transferring value due to liquity. To explore the functions of Cryptopal you can have a look at the live demos provided at the following urls:
 
 live frontend demo: https://bluecryptopal.com
 
 live docs demo: https://docs.bluecryptopal.com
+
+WoCommerce shop with CryptoPal payment gateway integration: http://b9z69f6.myraidbox.de/
 
 G-drive with planning docs for the project:
 

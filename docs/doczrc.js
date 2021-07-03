@@ -6,7 +6,7 @@ export default {
     },
     menu: [
       'CryptoPal API',
-      { name: 'How To', menu: ['User', 'Merchant'] },
+      { name: 'How To', menu: ['How it works', 'User', 'Merchant'] },
       { name: 'Catalog Products', menu: ['Products'] },
       { name: 'Identity', menu: ['Userinfo'] },
       { name: 'Orders', menu: ['Orders', 'Custom Objects'] },
