@@ -28,7 +28,12 @@ exports.sendTransaction = async (
 ) => {
   // get current network parameters for function call
   const txCount = await web3.eth.getTransactionCount(from);
-  const gasPrice = await web3.eth.getGasPrice();
+  let gasPrice = await web3.eth.getGasPrice();
+
+  // sokol gas price sometimes returns 0 - set 1GWei manually
+  if (gasPrice === '0') {
+    gasPrice = '1000000000';
+  }
 
   // define transaction data
   const rawTx = {

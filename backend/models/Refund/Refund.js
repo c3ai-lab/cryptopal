@@ -80,4 +80,4 @@ const refundSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model('Payment', refundSchema);
+module.exports = mongoose.model('Refund', refundSchema);
