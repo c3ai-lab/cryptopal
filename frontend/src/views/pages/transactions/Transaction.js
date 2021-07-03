@@ -29,7 +29,8 @@ class Transaction extends React.Component {
     description: '',
     date: '',
     value: '',
-    items: null
+    items: null,
+    company: ''
   };
 
   // get transaction data by id from server
@@ -77,8 +78,10 @@ class Transaction extends React.Component {
     };
     Axios.get(process.env.REACT_APP_SERVER_API + '/orders/' + orderId, config)
       .then((res) => {
-        console.log('got items');
-        this.setState({ items: res.data.purchase_units[0].items });
+        this.setState({
+          items: res.data.purchase_units[0].items,
+          company: res.data.payee.company
+        });
       })
       .catch(() => {
         this.setState({ items: 'error' });
@@ -205,6 +208,9 @@ class Transaction extends React.Component {
                   <Col md="6" sm="12" className="text-right">
                     <h5>Recipient</h5>
                     <div className="recipient-info">
+                      {this.state.company !== '' ? (
+                        <p>{this.state.company}</p>
+                      ) : null}
                       <p>{this.state.receiver.name}</p>
                     </div>
                     <div className="recipient-contact pb-2">
@@ -265,7 +271,9 @@ class Transaction extends React.Component {
                           <tr>
                             <th>TOTAL AMOUNT</th>
                             <td>
-                              <strong>${this.state.value}</strong>
+                              <strong>
+                                ${parseFloat(this.state.value).toFixed(2)}
+                              </strong>
                             </td>
                           </tr>
                         </tbody>

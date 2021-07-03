@@ -90,7 +90,7 @@ class DataListConfig extends Component {
     totalPages: 0,
     totalItems: 0,
     parsedFilter: {
-      page_size: 2,
+      page_size: 5,
       page: 1,
       total_required: true
     },
