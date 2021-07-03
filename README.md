@@ -2,7 +2,7 @@
 
 Cryptopal is a provider for online cryptocurrency payments with stable coins. It makes payments on any network running the EVM (Ethereum virtual machine) with any ERC20 token possible. The service uses custodial wallets to make payments with cryptocurrency as easy as possible for the user. The user only needs to care about the logging in credentials to use the advantages of blockchain technologies.
 
-The project is splitted into three parts: Frontend, Backend and Documentation.
+The project is splitted into four parts: Frontend, Backend, WooCommerce plugin and Documentation.
 
 ## Frontend
 
@@ -81,6 +81,10 @@ The API can be used by merchants to provide cryptocurrency payment to the user.
 ## API Documentation
 
 The Docs repository holds the documentation of the Cryptopal api. The API is very similar to the PayPal API and easy to use straight away. It was created with React and Gatsby and serves only statical content. It is written with a mixture of HTML, Javascript and Markdown. A reference to the live demo can be found below.
+
+## WooCommerce Plugin
+
+The cryptopal-payment-gateway file hold the sourcecode for the WooCommerce plugin to integrate CryptoPal to a WooCommerce shop. It is the easiest way to integrate the described callflow of the CryptoPal API. The merchant has to get the merchant role on the CryptoPal website, install the plugin and configure the plugin settings with his credentials to enable CryptoPal payments on the shop.
 
 ## Live demos
 
